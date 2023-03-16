@@ -80,8 +80,8 @@ include('./controllers/login.php');
 				<div class="breadcrumb_nav clearfix" data-bg-color="#F2F2F2">
 					<div class="container">
 						<ul class="ul_li clearfix">
-							<li><a href="index.html">Home</a></li>
-							<li>Login</li>
+							<li><a href="index.php">Inicio</a></li>
+							<li>Iniciar Sesión</li>
 						</ul>
 					</div>
 				</div>

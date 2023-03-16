@@ -8,7 +8,7 @@
     //    session_start();
     //}
 
-    $hostname = "localhost";
+    $hostname = "50.87.151.191";
     $username = "rotary40_rental";
     $password = "HG&]170jsh]l";
     $dbname = "rotary40_car_rental_app";
