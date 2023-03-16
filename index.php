@@ -7,7 +7,7 @@ session_start();
 
 <!-- Head -->
 <?php 
-	$title = "Easy Rent Car Latinoamérica";
+	$title = "Easy Rent Car ";
 	include('./head.php'); 
 ?>
 
