@@ -98,7 +98,7 @@ session_start();
 											6.6L V8 32V DDI OHV Turbo Diesel, 5-Speed Automatic, Fuel Type: Diesel, Color: Black
 										</p>
 										<div class="abtn_wrap clearfix" data-animation="fadeInUp" data-delay=".7s">
-											<a class="custom_btn bg_default_red btn_width text-uppercase" href="#!">Book Now <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
+											<a class="custom_btn bg_default_red btn_width text-uppercase" href="#!">Reservar ahora <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
 										</div>
 									</div>
 								</div>

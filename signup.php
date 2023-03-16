@@ -106,7 +106,7 @@
 										</div>
 										
 										<div class="form_item">
-											<input type="password" name="password" id="password" placeholder="Password*" value="<?php echo $_POST['password']??''; ?>" class="form-control">
+											<input type="password" name="password" id="password" placeholder="Password*" class="form-control">
 											
 											<?php echo $_passwordErr; ?>
 											<?php echo $passwordEmptyErr; ?>
