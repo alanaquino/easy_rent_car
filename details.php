@@ -5,8 +5,27 @@ session_start();
 // Database connection
 include('config/db.php');
 
+// Waits for the given Car ID
+$view_car_id = $_REQUEST['id'];
 
-$sql = "SELECT * FROM `cars`";
+$sql = "SELECT 
+            cars.brand, 
+            cars.model, 
+            cars.level, 
+            cars.year, 
+            cars.type,
+            cars.foto_principal, 
+            cars.daily_price, 
+            car_details.passengers, 
+            car_details.suitcase, 
+            car_details.doors, 
+            car_details.engine, 
+            car_details.fuel_type, 
+            car_details.options
+        FROM cars
+        INNER JOIN car_details
+            ON cars.id = car_details.car_id
+        WHERE cars.id = '{$view_car_id}'";
 $result = $connection->query($sql);
 
 if ($result->num_rows > 0) {
@@ -19,8 +38,12 @@ if ($result->num_rows > 0) {
         $type=$row["type"];
         $foto_principal=$row["foto_principal"];
         $daily_price=$row["daily_price"];
-        $created_at=$row["created_at"];
-        $updated_at=$row["updated_at"];
+        $passengers=$row["passengers"];
+        $suitcase=$row["suitcase"];
+        $doors=$row["doors"];
+        $engine=$row["engine"];
+        $fuel_type=$row["fuel_type"];
+        $options=$row["options"];
     }
 } else {
     echo "falla en el query para buscar los datos";
@@ -164,12 +187,12 @@ if ($result->num_rows > 0) {
 
 							<div class="car_choose_content">
 								<ul class="info_list ul_li_block mb_15 clearfix" data-aos="fade-up" data-aos-delay="100">
-									<li><strong>Passengers:</strong> 4</li>
-									<li><strong>Suitcase:</strong> 1 Large, 2 Small</li>
-									<li><strong>Doors:</strong> 2</li>
-									<li><strong>Engine:</strong> 3.9L V8 32V GDI DOHC Twin Turbo</li>
-									<li><strong>Fuel Type:</strong> Gasoline, Premium unleaded</li>
-									<li><strong>Options:</strong> Cruise Control, MP3 player, Automatic air conditioning, Wifi, GPS Navigation</li>
+									<li><strong>Passengers:</strong> <?php echo $passengers; ?></li>
+									<li><strong>Suitcase:</strong> <?php echo $suitcase; ?></li>
+									<li><strong>Doors:</strong> <?php echo $doors; ?></li>
+									<li><strong>Engine:</strong> <?php echo $engine; ?></li>
+									<li><strong>Fuel Type:</strong> <?php echo $fuel_type; ?></li>
+									<li><strong>Options:</strong> <?php echo $options; ?></li>
 								</ul>
 								<div data-aos="fade-up" data-aos-delay="200">
 									<a class="terms_condition" href="#!"><i class="fas fa-info-circle mr-1"></i> Terms and conditions</a>
