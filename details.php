@@ -1,5 +1,30 @@
 <?php
+
 session_start();
+
+// Database connection
+include('config/db.php');
+
+
+$sql = "SELECT * FROM `cars`";
+$result = $connection->query($sql);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        $brand=$row["brand"];
+        $model=$row["model"];
+        $level=$row["level"];
+        $year=$row["year"];
+        $type=$row["type"];
+        $foto_principal=$row["foto_principal"];
+        $daily_price=$row["daily_price"];
+        $created_at=$row["created_at"];
+        $updated_at=$row["updated_at"];
+    }
+} else {
+    echo "falla en el query para buscar los datos";
+}
 
 ?>
 <!DOCTYPE html>
@@ -94,7 +119,7 @@ session_start();
 								<div class="thumbnail_carousel" data-aos="fade-up" data-aos-delay="100">
 									<div class="item">
 										<div class="item_head">
-											<h4 class="item_title mb-0">Infiniti Q50 2018</h4>
+											<h4 class="item_title mb-0"><?php echo "".$brand." ".$model." ".$level." ".$year." "; ?></h4>
 											<ul class="review_text ul_li_right clearfix">
 												<li class="text-right">
 													<strong>Super</strong>
@@ -103,127 +128,18 @@ session_start();
 												<li><span class="bg_default_blue">4.8/5</span></li>
 											</ul>
 										</div>
-										<img src="assets/images/gallery/img_07.jpg" alt="image_not_found">
+										<img src="uploads/<?php echo $foto_principal; ?>" alt="image_not_found">
 										<ul class="btns_group ul_li_center clearfix">
 											<li>
-												<span class="custom_btn btn_width bg_default_blue"><del>$800/Day</del> $400/Day</span>
+												<span class="custom_btn btn_width bg_default_blue"><del><?php echo $daily_price+20; ?>/día</del> $<?php echo $daily_price; ?>/día</span>
 											</li>
 											<li>
-												<a href="details.php" class="custom_btn btn_width bg_default_red text-uppercase">Book A Car <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
-											</li>
-										</ul>
-									</div>
-
-									<div class="item">
-										<div class="item_head">
-											<h4 class="item_title mb-0">Infiniti Q50 2018</h4>
-											<ul class="review_text ul_li_right clearfix">
-												<li class="text-right">
-													<strong>Super</strong>
-													<small>24+ Reviews</small>
-												</li>
-												<li><span class="bg_default_blue">4.8/5</span></li>
-											</ul>
-										</div>
-										<img src="assets/images/gallery/img_07.jpg" alt="image_not_found">
-										<ul class="btns_group ul_li_center clearfix">
-											<li>
-												<span class="custom_btn btn_width bg_default_blue"><del>$800/Day</del> $400/Day</span>
-											</li>
-											<li>
-												<a href="details.php" class="custom_btn btn_width bg_default_red text-uppercase">Book A Car <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
-											</li>
-										</ul>
-									</div>
-
-									<div class="item">
-										<div class="item_head">
-											<h4 class="item_title mb-0">Infiniti Q50 2018</h4>
-											<ul class="review_text ul_li_right clearfix">
-												<li class="text-right">
-													<strong>Super</strong>
-													<small>24+ Reviews</small>
-												</li>
-												<li><span class="bg_default_blue">4.8/5</span></li>
-											</ul>
-										</div>
-										<img src="assets/images/gallery/img_07.jpg" alt="image_not_found">
-										<ul class="btns_group ul_li_center clearfix">
-											<li>
-												<span class="custom_btn btn_width bg_default_blue"><del>$800/Day</del> $400/Day</span>
-											</li>
-											<li>
-												<a href="details.php" class="custom_btn btn_width bg_default_red text-uppercase">Book A Car <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
-											</li>
-										</ul>
-									</div>
-
-									<div class="item">
-										<div class="item_head">
-											<h4 class="item_title mb-0">Infiniti Q50 2018</h4>
-											<ul class="review_text ul_li_right clearfix">
-												<li class="text-right">
-													<strong>Super</strong>
-													<small>24+ Reviews</small>
-												</li>
-												<li><span class="bg_default_blue">4.8/5</span></li>
-											</ul>
-										</div>
-										<img src="assets/images/gallery/img_07.jpg" alt="image_not_found">
-										<ul class="btns_group ul_li_center clearfix">
-											<li>
-												<span class="custom_btn btn_width bg_default_blue"><del>$800/Day</del> $400/Day</span>
-											</li>
-											<li>
-												<a href="details.php" class="custom_btn btn_width bg_default_red text-uppercase">Book A Car <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
-											</li>
-										</ul>
-									</div>
-
-									<div class="item">
-										<div class="item_head">
-											<h4 class="item_title mb-0">Infiniti Q50 2018</h4>
-											<ul class="review_text ul_li_right clearfix">
-												<li class="text-right">
-													<strong>Super</strong>
-													<small>24+ Reviews</small>
-												</li>
-												<li><span class="bg_default_blue">4.8/5</span></li>
-											</ul>
-										</div>
-										<img src="assets/images/gallery/img_07.jpg" alt="image_not_found">
-										<ul class="btns_group ul_li_center clearfix">
-											<li>
-												<span class="custom_btn btn_width bg_default_blue"><del>$800/Day</del> $400/Day</span>
-											</li>
-											<li>
-												<a href="details.php" class="custom_btn btn_width bg_default_red text-uppercase">Book A Car <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
-											</li>
-										</ul>
-									</div>
-
-									<div class="item">
-										<div class="item_head">
-											<h4 class="item_title mb-0">Infiniti Q50 2018</h4>
-											<ul class="review_text ul_li_right clearfix">
-												<li class="text-right">
-													<strong>Super</strong>
-													<small>24+ Reviews</small>
-												</li>
-												<li><span class="bg_default_blue">4.8/5</span></li>
-											</ul>
-										</div>
-										<img src="assets/images/gallery/img_07.jpg" alt="image_not_found">
-										<ul class="btns_group ul_li_center clearfix">
-											<li>
-												<span class="custom_btn btn_width bg_default_blue"><del>$800/Day</del> $400/Day</span>
-											</li>
-											<li>
-												<a href="details.php" class="custom_btn btn_width bg_default_red text-uppercase">Book A Car <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
+												<a href="details.php" class="custom_btn btn_width bg_default_red text-uppercase">Rentar este vehículo <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
 											</li>
 										</ul>
 									</div>
 								</div>
+
 								<div class="thumbnail_carousel_nav" data-aos="fade-up" data-aos-delay="100">
 									<div class="item">
 										<img src="assets/images/gallery/child_01.jpg" alt="image_not_found">
