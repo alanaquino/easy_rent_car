@@ -13,6 +13,8 @@
     $password = "HG&]170jsh]l";
     $dbname = "rotary40_car_rental_app";
     
-    $connection = mysqli_connect($hostname, $username, $password, $dbname) or die("Database connection not established.")
+    $connection = mysqli_connect($hostname, $username, $password, $dbname) or die("Database connection not established.");
 
+
+    
 ?>
