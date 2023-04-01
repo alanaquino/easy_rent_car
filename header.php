@@ -1,3 +1,10 @@
+        <?php
+            $directoryURI = $_SERVER['REQUEST_URI'];
+            $path = parse_url($directoryURI, PHP_URL_PATH);
+            $components = explode('/', $path);
+            $first_part = $components[1];
+        ?>
+
 		<!-- header_section - start
 		================================================== -->
 		<header class="header_section secondary_header sticky text-white clearfix">
@@ -81,22 +88,21 @@
 							<nav class="main_menu clearfix">
 								<ul class="ul_li_center clearfix">
 								
-									<li class="active">
+									<li class="<?php if ($first_part=="") {echo "active"; } else  {echo "noactive";}?>">
 										<a href="index.php">Inicio</a>
 									</li>
-									<li>
+									<li class="<?php if ($first_part=="cars.php") {echo "active"; } else  {echo "noactive";}?>">
 										<a href="cars.php">Vehículos</a>
 									</li>
-									<li>
-										<a href="review.php">Reviews</a>
-									</li>
-									<li>
-										<a href="about.php">About</a>
+									<li class="<?php if ($first_part=="about.php") {echo "active"; } else  {echo "noactive";}?>">
+										<a href="about.php">Nosotros</a>
 									</li>
 									
-									<li>
+									<li class="<?php if ($first_part=="contact.php") {echo "active"; } else  {echo "noactive";}?>">
 										<a href="contact.php">Contacto</a>
 									</li>
+
+
 								</ul>
 							</nav>
 						</div>

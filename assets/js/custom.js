@@ -235,7 +235,7 @@
     type: 'image',
     closeOnContentClick: false,
     closeBtnInside: false,
-    mainClass: 'mfp-with-zoom mfp-img-mobile',
+    mainClass: 'mfp-with-zoom mfp-assets-mobile',
     image: {
       verticalFit: true,
       titleSrc: function(item) {

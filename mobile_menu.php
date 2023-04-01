@@ -6,7 +6,7 @@
 
 					<div class="about_content mb_60">
 						<div class="brand_logo mb_15">
-							<a href="index.html">
+							<a href="index.php">
 								<img src="assets/images/logo/logo_01_1x.png" srcset="assets/images/logo/logo_01_2x.png 2x" alt="logo_not_found">
 							</a>
 						</div>
@@ -17,14 +17,17 @@
 
 					<div class="menu_list mb_60 clearfix">
 						<ul class="ul_li_block clearfix">
-							<li class="active">
+							<li class="<?php if ($first_part=="") {echo "active"; } else  {echo "noactive";}?>">
 								<a href="index.php">Inicio</a>
 							</li>
-							<li><a href="gallery.html">Our Cars</a></li>
-							<li><a href="review.html">Reviews</a></li>
-							<li><a href="about.html">About</a></li>
-							<li>
-								<a href="contact.php">Contact</a>
+							<li class="<?php if ($first_part=="cars.php") {echo "active"; } else  {echo "noactive";}?>">
+                                <a href="cars.php">Vehículos</a>
+                            </li>
+							<li class="<?php if ($first_part=="about.php") {echo "active"; } else  {echo "noactive";}?>">
+                                <a href="about.php">Nosotros</a>
+                            </li>
+							<li class="<?php if ($first_part=="contact.php") {echo "active"; } else  {echo "noactive";}?>">
+								<a href="contact.php">Contacto</a>
 							</li>
 						</ul>
 					</div>
