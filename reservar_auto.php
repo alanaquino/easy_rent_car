@@ -72,9 +72,9 @@ include('./head.php');
         <div class="breadcrumb_nav clearfix" data-bg-color="#F2F2F2">
             <div class="container">
                 <ul class="ul_li clearfix">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="car.html">Our Cars</a></li>
-                    <li>Reservation</li>
+                    <li><a href="index.php">Inicio</a></li>
+                    <li><a href="cars.php">Vehículos</a></li>
+                    <li>Reservar</li>
                 </ul>
             </div>
         </div>
@@ -116,9 +116,9 @@ include('./head.php');
                             <div class="row">
                                 <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="100">
-                                        <h4 class="input_title">Pick Up Location</h4>
+                                        <h4 class="input_title">Sucursal de recogida</h4>
                                         <div class="position-relative">
-                                            <input id="location_two" type="text" name="location" placeholder="86 Albert Road, London, N51 4VK">
+                                            <input id="location_two" type="text" name="location" placeholder="Arroyo Hondo">
                                             <label for="location_two" class="input_icon"><i class="fas fa-map-marker-alt"></i></label>
                                         </div>
                                     </div>
@@ -126,23 +126,23 @@ include('./head.php');
 
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="200">
-                                        <h4 class="input_title">Pick A Date</h4>
+                                        <h4 class="input_title">Fecha de recogida</h4>
                                         <input type="date" name="date">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="300">
-                                        <h4 class="input_title">Time</h4>
+                                        <h4 class="input_title">Hora</h4>
                                         <input type="time" name="time">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="400">
-                                        <h4 class="input_title">Pick Up Location</h4>
+                                        <h4 class="input_title">Sucursal de entrega</h4>
                                         <div class="position-relative">
-                                            <input id="location_three" type="text" name="location" placeholder="86 Albert Road, London, N51 4VK">
+                                            <input id="location_three" type="text" name="location" placeholder="Arroyo Hondo">
                                             <label for="location_three" class="input_icon"><i class="fas fa-map-marker-alt"></i></label>
                                         </div>
                                     </div>
@@ -150,14 +150,14 @@ include('./head.php');
 
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="500">
-                                        <h4 class="input_title">Pick A Date</h4>
+                                        <h4 class="input_title">Fecha de entrega</h4>
                                         <input type="date" name="date">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="600">
-                                        <h4 class="input_title">Time</h4>
+                                        <h4 class="input_title">Hora</h4>
                                         <input type="time" name="time">
                                     </div>
                                 </div>
@@ -166,29 +166,29 @@ include('./head.php');
                             <hr class="mt-0" data-aos="fade-up" data-aos-delay="700">
 
                             <div class="reservation_offer_checkbox">
-                                <h4 class="input_title" data-aos="fade-up" data-aos-delay="800">Your Offer Includes:</h4>
+                                <h4 class="input_title" data-aos="fade-up" data-aos-delay="800">Elija opciones adicionales</h4>
                                 <div class="row">
                                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
                                         <div class="checkbox_input">
-                                            <label for="offer1"><input type="checkbox" id="offer1" checked> Registration Free/ Road Tax</label>
+                                            <label for="offer1"><input type="checkbox" id="offer1" checked> Seguro de responsabilidad civil (ALI): $23/día</label>
                                         </div>
                                         <div class="checkbox_input">
-                                            <label for="offer2"><input type="checkbox" id="offer2" checked> Fully Comprehensive Insurance</label>
+                                            <label for="offer2"><input type="checkbox" id="offer2" checked> Exoneración En Caso De Daños Por Colisión (CDW): $23/día</label>
                                         </div>
                                         <div class="checkbox_input">
-                                            <label for="offer3"><input type="checkbox" id="offer3" checked> Unlimited Mileage</label>
+                                            <label for="offer3"><input type="checkbox" id="offer3" checked> Cobertura a daños propios (LDW): $23/día</label>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
                                         <div class="checkbox_input">
-                                            <label for="offer4"><input type="checkbox" id="offer4" checked> Excess/Security Deposit</label>
+                                            <label for="offer4"><input type="checkbox" id="offer4" checked> WI-FI móvil: $23/día</label>
                                         </div>
                                         <div class="checkbox_input">
-                                            <label for="offer5"><input type="checkbox" id="offer5"> Baby Seat: $23/Day</label>
+                                            <label for="offer5"><input type="checkbox" id="offer5"> Asientos de seguridad para niños: $23/día</label>
                                         </div>
                                         <div class="checkbox_input">
-                                            <label for="offer6"><input type="checkbox" id="offer6"> Breakdown Assistance</label>
+                                            <label for="offer6"><input type="checkbox" id="offer6"> Conductor Adicional (ADR): $23/día</label>
                                         </div>
                                     </div>
                                 </div>
