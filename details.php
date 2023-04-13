@@ -50,6 +50,8 @@ if ($result->num_rows > 0) {
 }
 
 ?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -114,15 +116,15 @@ if ($result->num_rows > 0) {
 				<div class="page_title_area has_overlay d-flex align-items-center clearfix" data-bg-image="assets/images/breadcrumb/bg_02.jpg">
 					<div class="overlay"></div>
 					<div class="container" data-aos="fade-up" data-aos-delay="100">
-						<h1 class="page_title text-white mb-0">Choose Your Car Options</h1>
+						<h1 class="page_title text-white mb-0">Detalles del vehículo</h1>
 					</div>
 				</div>
 				<div class="breadcrumb_nav clearfix" data-bg-color="#F2F2F2">
 					<div class="container">
 						<ul class="ul_li clearfix">
-							<li><a href="index.php">Home</a></li>
-							<li><a href="cars.php">Our Cars</a></li>
-							<li>Car Details</li>
+							<li><a href="index.php">Inicio</a></li>
+							<li><a href="cars.php">Vehículos</a></li>
+							<li>Detalle</li>
 						</ul>
 					</div>
 				</div>
@@ -187,35 +189,35 @@ if ($result->num_rows > 0) {
 
 							<div class="car_choose_content">
 								<ul class="info_list ul_li_block mb_15 clearfix" data-aos="fade-up" data-aos-delay="100">
-									<li><strong>Passengers:</strong> <?php echo $passengers; ?></li>
-									<li><strong>Suitcase:</strong> <?php echo $suitcase; ?></li>
-									<li><strong>Doors:</strong> <?php echo $doors; ?></li>
-									<li><strong>Engine:</strong> <?php echo $engine; ?></li>
-									<li><strong>Fuel Type:</strong> <?php echo $fuel_type; ?></li>
-									<li><strong>Options:</strong> <?php echo $options; ?></li>
+									<li><strong>Pasajeros:</strong> <?php echo $passengers; ?></li>
+									<li><strong>Maletas:</strong> <?php echo $suitcase; ?></li>
+									<li><strong>Puertas:</strong> <?php echo $doors; ?></li>
+									<li><strong>Motor:</strong> <?php echo $engine; ?></li>
+									<li><strong>Tipo de combustible:</strong> <?php echo $fuel_type; ?></li>
+									<li><strong>Opciones:</strong> <?php echo $options; ?></li>
 								</ul>
 								<div data-aos="fade-up" data-aos-delay="200">
-									<a class="terms_condition" href="#!"><i class="fas fa-info-circle mr-1"></i> Terms and conditions</a>
+									<a class="terms_condition" href="#!"><i class="fas fa-info-circle mr-1"></i> Términos y condiciones</a>
 								</div>
 
 								<hr data-aos="fade-up" data-aos-delay="300">
 
 								<div class="rent_details_info">
-									<h4 class="list_title" data-aos="fade-up" data-aos-delay="100">Rent Details:</h4>
+									<h4 class="list_title" data-aos="fade-up" data-aos-delay="100">Detalles del alquiler:</h4>
 									<div class="row">
 										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 											<ul class="info_list ul_li_block mb_15 clearfix" data-aos="fade-up" data-aos-delay="200">
-												<li><i class="fas fa-id-card"></i> Payment Guarantee</li>
-												<li><i class="fas fa-business-time"></i> Protect Your Rental</li>
-												<li><i class="fas fa-business-time"></i> Receipt by Email</li>
+												<li><i class="fas fa-id-card"></i> Pago garantizado</li>
+												<li><i class="fas fa-business-time"></i> Pólisa de seguros de ley</li>
+												<li><i class="fas fa-business-time"></i> Recibo por correo electrónico</li>
 											</ul>
 										</div>
 
 										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 											<ul class="info_list ul_li_block mb_15 clearfix" data-aos="fade-up" data-aos-delay="300">
-												<li><i class="fas fa-user-friends"></i> Car Sharing</li>
-												<li><i class="fas fa-language"></i> Multilanguage Support</li>
-												<li><i class="fas fa-money-bill"></i> Payment Options</li>
+												<li><i class="fas fa-user-friends"></i> Auto compartido</li>
+												<li><i class="fas fa-language"></i> Soporte en varios idiomas</li>
+												<li><i class="fas fa-money-bill"></i> Multiples opciones de pago</li>
 											</ul>
 										</div>
 									</div>

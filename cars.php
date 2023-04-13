@@ -102,14 +102,14 @@ if ($result->num_rows > 0) {
 				<div class="page_title_area has_overlay d-flex align-items-center clearfix" data-bg-image="assets/images/breadcrumb/bg_01.jpg">
 					<div class="overlay"></div>
 					<div class="container" data-aos="fade-up" data-aos-delay="100">
-						<h1 class="page_title text-white mb-0">Our cars</h1>
+						<h1 class="page_title text-white mb-0">Vehículos disponibles</h1>
 					</div>
 				</div>
 				<div class="breadcrumb_nav clearfix" data-bg-color="#F2F2F2">
 					<div class="container">
 						<ul class="ul_li clearfix">
-							<li><a href="index.html">Home</a></li>
-							<li>Our Cars</li>
+							<li><a href="index.php">Inicio</a></li>
+							<li>Vehículos</li>
 						</ul>
 					</div>
 				</div>
@@ -127,39 +127,39 @@ if ($result->num_rows > 0) {
                         <div class="col-lg-4 col-md-6 col-sm-8 col-xs-12">
                             <aside class="filter_sidebar sidebar_section" data-bg-color="#F2F2F2">
                                 <div class="sidebar_header" data-bg-gradient="linear-gradient(90deg, #0C0C0F, #292D45)">
-                                    <h3 class="text-white mb-0">Filters</h3>
+                                    <h3 class="text-white mb-0">Filtros</h3>
                                 </div>
                                 <div class="sb_widget">
                                     <form action="#">
                                         <div class="sb_widget price-range-area clearfix" data-aos="fade-up" data-aos-delay="100">
-                                            <h4 class="input_title">Price</h4>
+                                            <h4 class="input_title">Precio</h4>
                                             <div id="slider-range" class="slider-range clearfix"></div>
                                             <input class="price-text" type="text" id="amount" readonly>
                                         </div>
 
                                         <div class="sb_widget car_picking" data-aos="fade-up" data-aos-delay="100">
                                             <div class="form_item">
-                                                <h4 class="input_title">Pick Up Location</h4>
+                                                <h4 class="input_title">Sucursal de recogida</h4>
                                                 <div class="position-relative">
-                                                    <input id="location_two" type="text" name="location" placeholder="City, State or Airport Code">
+                                                    <input id="location_two" type="text" name="location" placeholder="Arroyo Hondo">
                                                     <label for="location_two" class="input_icon"><i class="fas fa-map-marker-alt"></i></label>
                                                 </div>
                                             </div>
 
                                             <div class="form_item">
-                                                <h4 class="input_title">Pick A Date</h4>
+                                                <h4 class="input_title">Fecha de recogida</h4>
                                                 <input type="date" name="date">
                                             </div>
                                         </div>
 
                                         <div class="sb_widget" data-aos="fade-up" data-aos-delay="100">
                                             <div class="checkbox_input">
-                                                <label for="return_checkbox"><input type="checkbox" id="return_checkbox"> Return car to a different location</label>
+                                                <label for="return_checkbox"><input type="checkbox" id="return_checkbox"> Entregar vehículo en una ubicación diferente</label>
                                             </div>
                                         </div>
 
                                         <div class="sb_widget" data-aos="fade-up" data-aos-delay="100">
-                                            <h4 class="input_title">Number of passengers:</h4>
+                                            <h4 class="input_title">Número de pasajeros:</h4>
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <div class="checkbox_input">
@@ -178,7 +178,7 @@ if ($result->num_rows > 0) {
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="checkbox_input">
-                                                        <label for="passengers_radio4"><input type="radio" id="passengers_radio4" name="passengers"> 7 or more</label>
+                                                        <label for="passengers_radio4"><input type="radio" id="passengers_radio4" name="passengers"> 7 o más</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -187,7 +187,7 @@ if ($result->num_rows > 0) {
                                         <div class="sb_widget" data-aos="fade-up" data-aos-delay="100">
                                             <div class="form_item">
                                                 <select>
-                                                    <option data-display="Gearbox type">Select A Option</option>
+                                                    <option data-display="Transmisión">Seleccione una opción</option>
                                                     <option value="1">Option 1</option>
                                                     <option value="2">Option 2</option>
                                                     <option value="3" disabled>Option 3</option>
@@ -197,7 +197,7 @@ if ($result->num_rows > 0) {
 
                                             <div class="form_item">
                                                 <select>
-                                                    <option data-display="Fuel type">Select A Option</option>
+                                                    <option data-display="Tipo de combustible">Seleccione una opción</option>
                                                     <option value="1">Option 1</option>
                                                     <option value="2">Option 2</option>
                                                     <option value="3" disabled>Option 3</option>
@@ -207,7 +207,7 @@ if ($result->num_rows > 0) {
 
                                             <div class="form_item">
                                                 <select>
-                                                    <option data-display="Luggage space options">Select A Option</option>
+                                                    <option data-display="Espacio de equipaje">Seleccione una opción</option>
                                                     <option value="1">Option 1</option>
                                                     <option value="2">Option 2</option>
                                                     <option value="3" disabled>Option 3</option>
@@ -217,7 +217,7 @@ if ($result->num_rows > 0) {
 
                                             <div class="form_item">
                                                 <select>
-                                                    <option data-display="Model Type">Select A Option</option>
+                                                    <option data-display="Tipo de modelo">Seleccione una opción</option>
                                                     <option value="1">Option 1</option>
                                                     <option value="2">Option 2</option>
                                                     <option value="3" disabled>Option 3</option>
@@ -226,33 +226,9 @@ if ($result->num_rows > 0) {
                                             </div>
                                         </div>
 
-                                        <div class="sb_widget sb_additional_options" data-aos="fade-up" data-aos-delay="100">
-                                            <h4 class="input_title">Additional Options:</h4>
-                                            <div class="checkbox_input">
-                                                <label for="child_seat"><input type="checkbox" id="child_seat"> Child seat</label>
-                                            </div>
-
-                                            <div class="checkbox_input">
-                                                <label for="air_conditioning"><input type="checkbox" id="air_conditioning"> Air conditioning</label>
-                                            </div>
-
-                                            <div class="checkbox_input">
-                                                <label for="chauffeur_services"><input type="checkbox" id="chauffeur_services"> Chauffeur services</label>
-                                            </div>
-
-                                            <div class="checkbox_input">
-                                                <label for="winter_equipment"><input type="checkbox" id="winter_equipment"> Winter Equipment</label>
-                                            </div>
-
-                                            <div class="checkbox_input">
-                                                <label for="premium_sound_system"><input type="checkbox" id="premium_sound_system"> Premium Sound System</label>
-                                            </div>
-                                        </div>
-
-                                        <hr data-aos="fade-up" data-aos-delay="100">
 
                                         <div data-aos="fade-up" data-aos-delay="100">
-                                            <button type="submit" class="custom_btn bg_default_red text-uppercase">Apply Filters <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+                                            <button type="submit" class="custom_btn bg_default_red text-uppercase">Aplicar filtros <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
                                         </div>
                                     </form>
                                 </div>
@@ -270,8 +246,8 @@ if ($result->num_rows > 0) {
                                         <form action="#">
                                             <div class="form_item mb-0">
                                                 <select>
-                                                    <option data-display="Short By">Select A Option</option>
-                                                    <option value="1" selected>Default Sorthing</option>
+                                                    <option data-display="Short By">Seleccione una opción</option>
+                                                    <option value="1" selected>Orden predeterminado</option>
                                                     <option value="2">Another option</option>
                                                     <option value="3" disabled>A disabled option</option>
                                                     <option value="4">Potato</option>
@@ -403,7 +379,7 @@ if ($result->num_rows > 0) {
                             <div class="pagination_wrap clearfix" data-aos="fade-up" data-aos-delay="100">
                                 <div class="row align-items-center justify-content-lg-between">
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <span class="page_number">Page 1 of 3</span>
+                                        <span class="page_number">Página 1 de 3</span>
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">

@@ -1,7 +1,66 @@
 <?php
+
 session_start();
 
+// Database connection
+include('config/db.php');
+
+// Waits for the given Car ID
+$view_car_id = $_REQUEST['id'];
+
+$sql = "SELECT 
+            cars.brand, 
+            cars.model, 
+            cars.level, 
+            cars.year, 
+            cars.type,
+            cars.foto_principal, 
+            cars.daily_price, 
+            car_details.passengers, 
+            car_details.suitcase, 
+            car_details.doors, 
+            car_details.engine, 
+            car_details.fuel_type, 
+            car_details.options,
+            locations.name,
+            locations.address
+        FROM cars
+        INNER JOIN car_details
+            ON cars.id = car_details.car_id
+        INNER JOIN car_locations
+            ON cars.id = car_locations.car_id
+        INNER JOIN locations
+            ON car_locations.location_id = locations.id
+        WHERE cars.id = '{$view_car_id}'";
+$result = $connection->query($sql);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        $brand=$row["brand"];
+        $model=$row["model"];
+        $level=$row["level"];
+        $year=$row["year"];
+        $type=$row["type"];
+        $foto_principal=$row["foto_principal"];
+        $daily_price=$row["daily_price"];
+        $passengers=$row["passengers"];
+        $suitcase=$row["suitcase"];
+        $doors=$row["doors"];
+        $engine=$row["engine"];
+        $fuel_type=$row["fuel_type"];
+        $options=$row["options"];
+        $location_name=$row["name"];
+    }
+} else {
+    echo "falla en el query para buscar los datos";
+}
+
+
+
+
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -66,7 +125,7 @@ include('./head.php');
         <div class="page_title_area has_overlay d-flex align-items-center clearfix" data-bg-image="assets/images/breadcrumb/bg_03.jpg">
             <div class="overlay"></div>
             <div class="container" data-aos="fade-up" data-aos-delay="100">
-                <h1 class="page_title text-white mb-0">Reservation</h1>
+                <h1 class="page_title text-white mb-0">Reservar auto</h1>
             </div>
         </div>
         <div class="breadcrumb_nav clearfix" data-bg-color="#F2F2F2">
@@ -88,40 +147,59 @@ include('./head.php');
         <div class="container">
             <div class="row justify-content-lg-between justify-content-md-center justify-content-sm-center">
 
+
+
                 <div class="col-lg-4 col-md-8 col-sm-10 col-xs-12">
+
                     <div class="feature_vehicle_item mt-0 ml-0" data-aos="fade-up" data-aos-delay="100">
                         <h3 class="item_title mb-0">
-                            <a href="#!">
-                                2020 Audi New Generation P00234
-                            </a>
+                            <?php echo "".$brand." ".$model." ".$level." ".$year." "; ?>
                         </h3>
                         <div class="item_image position-relative">
                             <a class="image_wrap" href="#!">
-                                <img src="assets/images/feature/img_03.jpg" alt="image_not_found">
+                                <img src="uploads/<?php echo $foto_principal; ?>" alt="image_not_found">
                             </a>
-                            <span class="item_price bg_default_blue">$230/Day</span>
+                            <span class="item_price bg_default_blue">$<?php echo $daily_price; ?>/día</span>
                         </div>
-                        <ul class="info_list ul_li_center clearfix">
-                            <li>Sports</li>
-                            <li>Auto</li>
-                            <li>2 Passengers</li>
-                            <li>Electro</li>
+
+                        <ul class="ul_li_block mb_15 clearfix" data-aos="fade-up" data-aos-delay="100" style="margin-top: 22px; margin-left: 22px; margin-right: 22px; margin-bottom: 0px;">
+                            <li><strong>Pasajeros:</strong> <?php echo $passengers; ?></li>
+                            <li><strong>Maletas:</strong> <?php echo $suitcase; ?></li>
+                            <li><strong>Puertas:</strong> <?php echo $doors; ?></li>
+                            <li><strong>Motor:</strong> <?php echo $engine; ?></li>
+                            <li><strong>Combustible:</strong> <?php echo $fuel_type; ?></li>
+                            <li><strong>Opciones:</strong> <?php echo $options; ?></li>
+                            <li><strong>Disponible en:</strong> <?php echo $location_name; ?></li>
                         </ul>
+                        <br>
                     </div>
+
+
+
                 </div>
+
+
 
                 <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
                     <div class="reservation_form">
                         <form action="#">
                             <div class="row">
                                 <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
+
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="100">
                                         <h4 class="input_title">Sucursal de recogida</h4>
                                         <div class="position-relative">
-                                            <input id="location_two" type="text" name="location" placeholder="Arroyo Hondo">
+
+                                            <select id="location_two"  name="location" aria-label="Default select example">
+                                                <option selected>Open this select menu</option>
+                                                <option value="1">One</option>
+                                                <option value="2">Two</option>
+                                                <option value="3">Three</option>
+                                            </select>
                                             <label for="location_two" class="input_icon"><i class="fas fa-map-marker-alt"></i></label>
                                         </div>
                                     </div>
+
                                 </div>
 
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
