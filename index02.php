@@ -107,6 +107,8 @@ $res1 = $sentenciaSQL->fetch_all(MYSQLI_ASSOC);
 
 ?>
 
+
+
 <div class="container">
     <br>
     <div class="row">
