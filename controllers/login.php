@@ -53,7 +53,7 @@
                 // Allow only verified user
                 if($is_active == '1') {
                     if($email_signin == $email && $password_signin == $password) {
-                       header("Location: ./dashboard.php");
+                       header("Location: ./cars.php");
                        
                        $_SESSION['id'] = $id;
                        $_SESSION['firstname'] = $firstname;

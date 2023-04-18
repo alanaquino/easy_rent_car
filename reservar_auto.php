@@ -2,6 +2,10 @@
 
 session_start();
 
+if(!isset($_SESSION['email'])){ //if login in session is not set
+    header("Location: login.php");
+}
+
 // Database connection
 include('config/db.php');
 
@@ -56,6 +60,32 @@ if ($result->num_rows > 0) {
     echo "falla en el query para buscar los datos";
 }
 
+
+$sql = "SELECT * FROM locations";
+$result2 = $connection->query($sql);
+
+if ($result2->num_rows > 0) {
+    // output data of each row
+    $locations_name = array();
+    while($row = $result2->fetch_array()) {
+        $locations_name[] = $row;
+    }
+} else {
+    echo "falla en el query para buscar las ubicaciones";
+}
+
+$sql = "SELECT * FROM `extra_services` ORDER BY `extra_services`.`tipo` ASC";
+$result3 = $connection->query($sql);
+
+if ($result3->num_rows > 0) {
+    // output data of each row
+    $extra_services = array();
+    while($row = $result3->fetch_array()) {
+        $extra_services[] = $row;
+    }
+} else {
+    echo "falla en el query para buscar extra_services";
+}
 
 
 
@@ -184,20 +214,13 @@ include('./head.php');
                     <div class="reservation_form">
                         <form action="#">
                             <div class="row">
-                                <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12" style="z-index: 500;">
 
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="100">
                                         <h4 class="input_title">Sucursal de recogida</h4>
-                                        <div class="position-relative">
-
-                                            <select id="location_two"  name="location" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
+                                            <select class="form_item" disabled id="location_two"  name="location" aria-label="Default select example">
+                                                <option selected><?php echo $location_name; ?></option>
                                             </select>
-                                            <label for="location_two" class="input_icon"><i class="fas fa-map-marker-alt"></i></label>
-                                        </div>
                                     </div>
 
                                 </div>
@@ -216,13 +239,16 @@ include('./head.php');
                                     </div>
                                 </div>
 
-                                <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="form_item" data-aos="fade-up" data-aos-delay="400">
-                                        <h4 class="input_title">Sucursal de entrega</h4>
-                                        <div class="position-relative">
-                                            <input id="location_three" type="text" name="location" placeholder="Arroyo Hondo">
-                                            <label for="location_three" class="input_icon"><i class="fas fa-map-marker-alt"></i></label>
-                                        </div>
+                                <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12" style="z-index: 500;">
+                                    <div class="form_item" data-aos="fade-up" data-aos-delay="100">
+                                        <h4 class="input_title">Sucursal de enrega</h4>
+                                        <select id="location_two"  name="location" aria-label="Default select example">
+
+                                            <?php foreach($locations_name as $row){ ?>
+                                                <option selected><?php echo $row['name']; ?></option>
+                                            <?php } ?>
+
+                                        </select>
                                     </div>
                                 </div>
 
@@ -246,29 +272,16 @@ include('./head.php');
                             <div class="reservation_offer_checkbox">
                                 <h4 class="input_title" data-aos="fade-up" data-aos-delay="800">Elija opciones adicionales</h4>
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
+                                    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
+
+                                        <?php foreach($extra_services as $row){ ?>
                                         <div class="checkbox_input">
-                                            <label for="offer1"><input type="checkbox" id="offer1" checked> Seguro de responsabilidad civil (ALI): $23/día</label>
+                                            <label for="offer1"><input type="checkbox" id="offer1" <?php if($row['obligatorio'] ==1){ echo "checked";}; ?>> <?php echo $row['detalles']; ?> <?php echo $row['precio']; ?>/día</label>
                                         </div>
-                                        <div class="checkbox_input">
-                                            <label for="offer2"><input type="checkbox" id="offer2" checked> Exoneración En Caso De Daños Por Colisión (CDW): $23/día</label>
-                                        </div>
-                                        <div class="checkbox_input">
-                                            <label for="offer3"><input type="checkbox" id="offer3" checked> Cobertura a daños propios (LDW): $23/día</label>
-                                        </div>
+                                        <?php } ?>
+
                                     </div>
 
-                                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
-                                        <div class="checkbox_input">
-                                            <label for="offer4"><input type="checkbox" id="offer4" checked> WI-FI móvil: $23/día</label>
-                                        </div>
-                                        <div class="checkbox_input">
-                                            <label for="offer5"><input type="checkbox" id="offer5"> Asientos de seguridad para niños: $23/día</label>
-                                        </div>
-                                        <div class="checkbox_input">
-                                            <label for="offer6"><input type="checkbox" id="offer6"> Conductor Adicional (ADR): $23/día</label>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 

@@ -9,6 +9,7 @@ include('config/db.php');
 $view_car_id = $_REQUEST['id'];
 
 $sql = "SELECT 
+    		cars.id,
             cars.brand, 
             cars.model, 
             cars.level, 
@@ -31,6 +32,7 @@ $result = $connection->query($sql);
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
+		$id=$row["id"];
         $brand=$row["brand"];
         $model=$row["model"];
         $level=$row["level"];
@@ -159,30 +161,9 @@ if ($result->num_rows > 0) {
 												<span class="custom_btn btn_width bg_default_blue"><del><?php echo $daily_price+20; ?>/día</del> $<?php echo $daily_price; ?>/día</span>
 											</li>
 											<li>
-												<a href="reservar_auto.php" class="custom_btn btn_width bg_default_red text-uppercase">Rentar este vehículo <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
+												<a href="reservar_auto.php?id=<?php echo $id; ?>" class="custom_btn btn_width bg_default_red text-uppercase">Rentar este vehículo <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
 											</li>
 										</ul>
-									</div>
-								</div>
-
-								<div class="thumbnail_carousel_nav" data-aos="fade-up" data-aos-delay="100">
-									<div class="item">
-										<img src="assets/images/gallery/child_01.jpg" alt="image_not_found">
-									</div>
-									<div class="item">
-										<img src="assets/images/gallery/child_02.jpg" alt="image_not_found">
-									</div>
-									<div class="item">
-										<img src="assets/images/gallery/child_03.jpg" alt="image_not_found">
-									</div>
-									<div class="item">
-										<img src="assets/images/gallery/child_04.jpg" alt="image_not_found">
-									</div>
-									<div class="item">
-										<img src="assets/images/gallery/child_01.jpg" alt="image_not_found">
-									</div>
-									<div class="item">
-										<img src="assets/images/gallery/child_02.jpg" alt="image_not_found">
 									</div>
 								</div>
 							</div>
