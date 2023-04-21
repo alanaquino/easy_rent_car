@@ -52,7 +52,7 @@
 										<ul class="ul_li_block clearfix">
 											<li><a href="#!"><i class="fal fa-user-circle"></i> Profile</a></li>
 											<li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
-											<li><a href="#!"><i class="fal fa-sign-out"></i> Logout</a></li>
+											<li><a href="logout.php"><i class="fal fa-sign-out"></i> Logout</a></li>
 										</ul>
 									</div>
 									<?php } else { ?>

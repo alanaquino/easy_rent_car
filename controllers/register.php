@@ -20,7 +20,7 @@
         $password      = $_POST["password"];
 
         // check if email already exist
-        $email_check_query = mysqli_query($connection, "SELECT * FROM users WHERE email = '{$email}' ");
+        $email_check_query = mysqli_query($connection, "SELECT * FROM customers WHERE email = '{$email}' ");
         $rowCount = mysqli_num_rows($email_check_query);
 
 
@@ -76,7 +76,7 @@
                     $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
                     // Query
-                    $sql = "INSERT INTO users (firstname, lastname, email, password, token, is_active) VALUES ('{$firstname}', '{$lastname}', '{$email}', '{$password_hash}', '{$token}', '0')";
+                    $sql = "INSERT INTO customers (firstname, lastname, email, password, token, is_active) VALUES ('{$firstname}', '{$lastname}', '{$email}', '{$password_hash}', '{$token}', '0')";
                     
                     // Create mysql query
                     $sqlQuery = mysqli_query($connection, $sql);

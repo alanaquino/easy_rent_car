@@ -1,12 +1,25 @@
+<?php
+session_start();
+
+// Login script
+include('controllers/login.php');
+
+//if (isset($_SESSION['id']) != "") {
+//    header("Location: dashboard.php");
+//}
+
+?>
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Login - SB Admin</title>
+        <title>Iniciar sesión - ERC Admin</title>
         <link href="css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
@@ -18,29 +31,33 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-5">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Iniciar sesión</h3></div>
                                     <div class="card-body">
-                                        <form>
+                                        <form action="" method="post">
+
+                                            <?php echo $accountNotExistErr; ?>
+                                            <?php echo $emailPwdErr; ?>
+                                            <?php echo $verificationRequiredErr; ?>
+                                            <?php echo $email_empty_err; ?>
+                                            <?php echo $pass_empty_err; ?>
+
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
-                                                <label for="inputEmail">Email address</label>
+                                                <input class="form-control"  name="email_signin" type="email" placeholder="name@example.com" />
+                                                <label for="inputEmail">Correo electrónico</label>
                                             </div>
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
-                                                <label for="inputPassword">Password</label>
+                                                <input class="form-control" name="password_signin" type="password" placeholder="Password" />
+                                                <label for="inputPassword">Contraseña</label>
                                             </div>
                                             <div class="form-check mb-3">
                                                 <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
-                                                <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
+                                                <label class="form-check-label" for="inputRememberPassword">Reecordar contraseña</label>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                <a class="small" href="password.html">Forgot Password?</a>
-                                                <a class="btn btn-primary" href="index.html">Login</a>
+                                                <a class="small" href="recovery.php">¿Olvidaste tu contraseña?</a>
+                                                <button type="submit" name="login" id="sign_in" class="btn btn-primary">Iniciar sesión</button>
                                             </div>
                                         </form>
-                                    </div>
-                                    <div class="card-footer text-center py-3">
-                                        <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +69,7 @@
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div class="text-muted">Copyright &copy; ERC 2023</div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;
