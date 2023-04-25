@@ -10,7 +10,15 @@ if(isset($_SESSION['id']) =="") {
 require_once "config/db.php";
 
 
-$sql = "SELECT * FROM `extra_services`";
+$sql = "SELECT 
+        extra_services.id, 
+        extra_services_tipo.detalle_tipo,
+        extra_services.detalles, 
+        extra_services.obligatorio,
+        extra_services.precio
+        FROM `extra_services`
+        INNER JOIN extra_services_tipo
+            ON extra_services.tipo = extra_services_tipo.id";
 $result = $connection->query($sql);
 
 if ($result->num_rows > 0) {
@@ -62,7 +70,7 @@ if ($result->num_rows > 0) {
                         <?php foreach($data as $row){ ?>
                             <tr>
                                 <td><?php echo $row['id']; ?></td>
-                                <td><?php echo $row['tipo']; ?></td>
+                                <td><?php echo $row['detalle_tipo']; ?></td>
                                 <td><?php echo $row['detalles']; ?></td>
                                 <td><?php echo $row['precio']; ?></td>
                                 <td><?php echo $row['obligatorio']; ?></td>

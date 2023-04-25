@@ -64,46 +64,42 @@ if ($result->num_rows > 0) {
                     DataTable Example
                 </div>
                 <div class="card-body">
-                    <table id="datatablesSimple">
+                    <table id="datatablesSimple" class="row-border">
                         <thead>
                         <tr>
                             <th>id</th>
                             <th>vehicle_type</th>
-                            <th>brand</th>
-                            <th>model</th>
-                            <th>level</th>
+                            <th>vehicle</th>
                             <th>year</th>
-                            <th>type</th>
-                            <th>foto_principal</th>
-                            <th>daily_price</th>
-                            <th>passengers</th>
-                            <th>suitcase</th>
-                            <th>doors</th>
+                            <th>Tipo</th>
                             <th>engine</th>
                             <th>fuel_type</th>
                             <th>options</th>
+                            <th>Acciones</th>
+
                         </tr>
                         </thead>
                         <tbody>
 
                         <?php foreach($data as $row){ ?>
+
                             <tr>
                                 <td><?php echo $row['id']; ?></td>
                                 <td><?php echo $row['vehicle_type']; ?></td>
-                                <td><?php echo $row['brand']; ?></td>
-                                <td><?php echo $row['model']; ?></td>
-                                <td><?php echo $row['level']; ?></td>
+                                <td><?php echo $row['brand'], " ", $row['model'], " ", $row['level']; ?></td>
                                 <td><?php echo $row['year']; ?></td>
                                 <td><?php echo $row['type']; ?></td>
-                                <td><?php echo $row['foto_principal']; ?></td>
-                                <td><?php echo $row['daily_price']; ?></td>
-                                <td><?php echo $row['passengers']; ?></td>
-                                <td><?php echo $row['suitcase']; ?></td>
-                                <td><?php echo $row['doors']; ?></td>
                                 <td><?php echo $row['engine']; ?></td>
                                 <td><?php echo $row['fuel_type']; ?></td>
                                 <td><?php echo $row['options']; ?></td>
+                                <td>
+                                    <div class="d-grid gap-2">
+                                        <a class="btn btn-primary btn-sm" href="vehiculo.php?id=<?php echo $row['id']; ?>" role="button">Ver</a>
+                                        <a class="btn btn-warning btn-sm" href="editar_vehiculo.php?id=<?php echo $row['id']; ?>" role="button">Editar</a>
+                                    </div>
+                                </td>
                             </tr>
+
                         <?php } ?>
 
                         </tbody>

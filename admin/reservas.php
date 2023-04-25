@@ -12,11 +12,15 @@ require_once "config/db.php";
 
 $sql = "SELECT rentals.id,
                rentals.created_at, 
+               customers.id as id_cliente,
                customers.firstname,
                customers.lastname,
-               cars.vehicle_type,
+               cars.id as id_vehiculo,
                cars.brand,
                cars.model,
+               cars.level,
+               cars.year,
+               cars.foto_principal, 
                rentals.rental_start, 
                rentals.rental_end, 
                rentals.rental_start_time,	
@@ -48,33 +52,32 @@ if ($result->num_rows > 0) {
 function TimeAgo ($oldTime, $newTime) {
     $timeCalc = strtotime($newTime) - strtotime($oldTime);
     if ($timeCalc >= (60*60*24*30*12*2)){
-        $timeCalc = intval($timeCalc/60/60/24/30/12) . " years ago";
+        $timeCalc = intval($timeCalc/60/60/24/30/12) . " años";
     }else if ($timeCalc >= (60*60*24*30*12)){
-        $timeCalc = intval($timeCalc/60/60/24/30/12) . " year ago";
+        $timeCalc = intval($timeCalc/60/60/24/30/12) . " año";
     }else if ($timeCalc >= (60*60*24*30*2)){
-        $timeCalc = intval($timeCalc/60/60/24/30) . " months ago";
+        $timeCalc = intval($timeCalc/60/60/24/30) . " meses";
     }else if ($timeCalc >= (60*60*24*30)){
-        $timeCalc = intval($timeCalc/60/60/24/30) . " month ago";
+        $timeCalc = intval($timeCalc/60/60/24/30) . " mes";
     }else if ($timeCalc >= (60*60*24*2)){
-        $timeCalc = intval($timeCalc/60/60/24) . " days ago";
+        $timeCalc = intval($timeCalc/60/60/24) . " días";
     }else if ($timeCalc >= (60*60*24)){
-        $timeCalc = " Yesterday";
+        $timeCalc = " 1 día";
     }else if ($timeCalc >= (60*60*2)){
         $timeCalc = intval($timeCalc/60/60) . " horas";
     }else if ($timeCalc >= (60*60)){
-        $timeCalc = intval($timeCalc/60/60) . " hour ago";
+        $timeCalc = intval($timeCalc/60/60) . " hora";
     }else if ($timeCalc >= 60*2){
-        $timeCalc = intval($timeCalc/60) . " minutes ago";
+        $timeCalc = intval($timeCalc/60) . " minutos";
     }else if ($timeCalc >= 60){
-        $timeCalc = intval($timeCalc/60) . " minute ago";
+        $timeCalc = intval($timeCalc/60) . " minuto";
     }else if ($timeCalc > 0){
-        $timeCalc .= " seconds ago";
+        $timeCalc .= " segundos";
     }
     return $timeCalc;
 }
 
 ?>
-
 
 
 <!-- header_section -->
@@ -96,22 +99,17 @@ function TimeAgo ($oldTime, $newTime) {
                     DataTable Example
                 </div>
                 <div class="card-body">
-                    <table id="datatablesSimple">
+                    <table id="datatablesSimple" class="hover">
                         <thead>
                         <tr>
                             <th>ID</th>
                             <th>Estado</th>
-                            <th>Creado</th>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Tipo de vehículo</th>
-                            <th>Marca</th>
-                            <th>Modelo</th>
+                            <th>Cliente</th>
+                            <th>Vehículo</th>
                             <th>rental_start</th>
-                            <th>rental_start_time</th>
                             <th>rental_end</th>
-                            <th>rental_end_time</th>
-                            <th>updated_at</th>
+                            <th>Creado</th>
+                            <th>Acción</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -119,18 +117,40 @@ function TimeAgo ($oldTime, $newTime) {
                         <?php foreach($data as $row){ ?>
                             <tr>
                                 <td><?php echo $row['id']; ?></td>
-                                <td><?php echo $row['status']; ?></td>
+                                <td>
+                                    <span class="badge bg-primary"><?php echo $row['status']; ?></span><br>
+                                    Hace <?php echo TimeAgo($row['updated_at'], date("Y-m-d H:i:s")); ?>
+                                </td>
+                                <td>
+                                    <i class="fas fa-user-circle"></i>
+                                    <a href="cliente.php?id=<?php echo $row['id_cliente']; ?>" role="button">
+                                        <?php echo $row['firstname'], " ", $row['lastname']; ?>
+                                    </a>
+
+                                </td>
+                                <td>
+                                    <i class="fas fa-car"></i>
+                                    <a href="vehiculo.php?id=<?php echo $row['id_vehiculo']; ?>" role="button">
+                                        <?php echo $row['brand'], " ",$row['model'], " ",$row['level'], " ",$row['year']; ?>
+                                    </a>
+                                </td>
+                                <td>
+                                    <i class="fas fa-calendar-week"></i> <?php echo date("d-m-Y", strtotime($row['rental_start'])); ?><br>
+                                    <i class="fas fa-clock"></i> <?php echo $row['rental_start_time']; ?>
+                                </td>
+
+                                <td>
+                                    <i class="fas fa-calendar-week"></i> <?php echo date("d-m-Y", strtotime($row['rental_end'])); ?><br>
+                                    <i class="fas fa-clock"></i> <?php echo $row['rental_end_time']; ?>
+                                </td>
                                 <td>Hace <?php echo TimeAgo($row['created_at'], date("Y-m-d H:i:s")); ?></td>
-                                <td><?php echo $row['firstname']; ?></td>
-                                <td><?php echo $row['lastname']; ?></td>
-                                <td><?php echo $row['vehicle_type']; ?></td>
-                                <td><?php echo $row['brand']; ?></td>
-                                <td><?php echo $row['model']; ?></td>
-                                <td><?php echo $row['rental_start']; ?></td>
-                                <td><?php echo $row['rental_start_time']; ?></td>
-                                <td><?php echo $row['rental_end']; ?></td>
-                                <td><?php echo $row['rental_end_time']; ?></td>
-                                <td><?php echo $row['updated_at']; ?></td>
+                                <td>
+
+                                    <div class="d-grid gap-2">
+                                        <a class="btn btn-primary btn-sm" href="reserva.php?id=<?php echo $row['id']; ?>" role="button">Ver</a>
+                                        <a class="btn btn-warning btn-sm" href="editar_reservs.php?id=<?php echo $row['id']; ?>" role="button">Editar</a>
+                                    </div>
+                                </td>
                             </tr>
                         <?php } ?>
 

@@ -13,7 +13,7 @@
 </head>
 
 <body class="sb-nav-fixed">
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark d-print-none">
     <!-- Navbar Brand-->
     <a href="index.php" style="margin-right: 60px; margin-left: 10px;">
         <img src="../assets/images/logo/logo_01_1x.png" srcset="../assets/images/logo/logo_01_2x.png 2x" alt="logo_not_found" >
@@ -58,7 +58,7 @@
                     <div class="collapse" id="collapseReserva" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="reservas.php">Ver reservas</a>
-                            <a class="nav-link" href="reservas.php">Hacer reserva</a>
+                            <a class="nav-link" href="hacer_reserva.php">Hacer reserva</a>
                         </nav>
                     </div>
                     <a class="nav-link collapsed" href="vehiculos.php" data-bs-toggle="collapse" data-bs-target="#collapseVehiculos" aria-expanded="false" aria-controls="collapseLayouts">
@@ -69,7 +69,7 @@
                     <div class="collapse" id="collapseVehiculos" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="vehiculos.php">Ver vehículos</a>
-                            <a class="nav-link" href="vehiculos.php">Agregar vehículo</a>
+                            <a class="nav-link" href="agregar_vehiculo.php">Agregar vehículo</a>
                         </nav>
                     </div>
                     <a class="nav-link collapsed" href="clientes.php" data-bs-toggle="collapse" data-bs-target="#collapseClientes" aria-expanded="false" aria-controls="collapseLayouts">
@@ -107,7 +107,7 @@
                             <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" href="login.php">Login</a>
-                                    <a class="nav-link" href="register.html">Register</a>
+                                    <a class="nav-link" href="register.php">Register</a>
                                     <a class="nav-link" href="recovery.php">Forgot Password</a>
                                 </nav>
                             </div>
