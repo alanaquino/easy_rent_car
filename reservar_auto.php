@@ -87,7 +87,38 @@ if ($result3->num_rows > 0) {
     echo "falla en el query para buscar extra_services";
 }
 
+$availability_allert = "";
 
+// Check if the car is available
+if(isset($_POST['check_availability'])) {
+    $pickup_date = $_POST['pickup_date'];
+    $return_date = $_POST['return_date'];
+
+    $sql = "SELECT * FROM rentals WHERE car_id = '{$view_car_id}' AND (
+            (rental_start BETWEEN '{$pickup_date}' AND '{$return_date}')
+            OR (rental_end BETWEEN '{$pickup_date}' AND '{$return_date}')
+            OR (rental_start  <= '{$pickup_date}' AND rental_end >= '{$return_date}'))";
+
+    $result = $connection->query($sql);
+
+    if($result->num_rows > 0) {
+        $availability_status = "not_available";
+    } else {
+        $availability_status = "available";
+    }
+
+
+    if ($availability_status == 'not_available') {
+        $availability_allert = "<div class='alert alert-danger' role='alert'>
+                                         Vehículo no disponible para la fecha seleccionada. Por favor, seleccione otra fecha
+                                      </div>";
+    } else {
+        $availability_allert = "<div class='alert alert-success' role='alert'>
+                                         Vehículo disponible para la fecha seleccionada. ¡Procede a reservar!
+                                      </div>";
+    }
+
+}
 
 ?>
 
@@ -212,7 +243,10 @@ include('./head.php');
 
                 <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
                     <div class="reservation_form">
-                        <form action="#">
+                        <form action="" method="POST">
+
+                            <?php echo $availability_allert; ?>
+
                             <div class="row">
                                 <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12" style="z-index: 500;">
 
@@ -228,14 +262,14 @@ include('./head.php');
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="200">
                                         <h4 class="input_title">Fecha de recogida</h4>
-                                        <input type="date" name="date">
+                                        <input type="date" name="pickup_date" value="<?php echo $_POST['pickup_date']; ?>">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="300">
                                         <h4 class="input_title">Hora</h4>
-                                        <input type="time" name="time">
+                                        <input type="time" name="pickup_time" value="<?php echo $_POST['pickup_time']; ?>">
                                     </div>
                                 </div>
 
@@ -255,100 +289,112 @@ include('./head.php');
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="500">
                                         <h4 class="input_title">Fecha de entrega</h4>
-                                        <input type="date" name="date">
+                                        <input type="date" name="return_date" value="<?php echo $_POST['return_date']; ?>">
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="600">
                                         <h4 class="input_title">Hora</h4>
-                                        <input type="time" name="time">
+                                        <input type="time" name="return_time" value="<?php echo $_POST['return_time']; ?>">
                                     </div>
                                 </div>
                             </div>
+
+
+
+                            <div class="mb-4 <?php if ($availability_status == 'available') { echo "d-none"; } ?>" data-aos="fade-up" data-aos-delay="300">
+                                <button type="submit" name="check_availability" id="check_availability" class="custom_btn bg_default_red text-uppercase">Verificar disponibilidad <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+                            </div>
+
+
 
                             <hr class="mt-0" data-aos="fade-up" data-aos-delay="700">
 
-                            <div class="reservation_offer_checkbox">
-                                <h4 class="input_title" data-aos="fade-up" data-aos-delay="800">Elija opciones adicionales</h4>
-                                <div class="row">
-                                    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
+                            <div class="<?php if ($availability_status == 'not_available') { echo "d-none"; } ?>">
+                                <div class="reservation_offer_checkbox">
+                                    <h4 class="input_title" data-aos="fade-up" data-aos-delay="800">Elija opciones adicionales</h4>
+                                    <div class="row">
+                                        <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
 
-                                        <?php foreach($extra_services as $row){ ?>
-                                        <div class="checkbox_input">
-                                            <label for="offer1"><input type="checkbox" id="offer1" <?php if($row['obligatorio'] ==1){ echo "checked";}; ?>> <?php echo $row['detalles']; ?> <?php echo $row['precio']; ?>/día</label>
+                                            <?php foreach($extra_services as $row){ ?>
+                                            <div class="checkbox_input">
+                                                <label for="offer1"><input type="checkbox" id="offer1" <?php if($row['obligatorio'] ==1){ echo "checked";}; ?>> <?php echo $row['detalles']; ?> <?php echo $row['precio']; ?>/día</label>
+                                            </div>
+                                            <?php } ?>
+
                                         </div>
-                                        <?php } ?>
 
                                     </div>
+                                </div>
 
+                                <hr class="mt-0" data-aos="fade-up" data-aos-delay="100">
+
+                                <div class="reservation_customer_details">
+                                    <h4 class="input_title" data-aos="fade-up" data-aos-delay="100">Customer Details:</h4>
+                                    <ul class="customer_gender ul_li clearfix" data-aos="fade-up" data-aos-delay="300">
+                                        <li>
+                                            <div class="checkbox_input">
+                                                <label for="mr"><input type="radio" id="mr" name="gender"> Mr.</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="checkbox_input">
+                                                <label for="ms"><input type="radio" id="ms" name="gender"> Ms.</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
+                                            <div class="form_item" data-aos="fade-up" data-aos-delay="400">
+                                                <input type="text" name="firstname" placeholder="First Name">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
+                                            <div class="form_item" data-aos="fade-up" data-aos-delay="500">
+                                                <input type="text" name="lastname" placeholder="Last Name">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
+                                            <div class="form_item" data-aos="fade-up" data-aos-delay="600">
+                                                <input type="text" name="email" placeholder="E-mail adress">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
+                                            <div class="form_item" data-aos="fade-up" data-aos-delay="700">
+                                                <input type="text" name="tel" placeholder="Phone Number">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form_item" data-aos="fade-up" data-aos-delay="800">
+                                        <textarea name="information" placeholder="Additional information (Optional)"></textarea>
+                                    </div>
+
+                                    <div data-aos="fade-up" data-aos-delay="100">
+                                        <a class="terms_condition" href="#!"><i class="fas fa-info-circle mr-1"></i> You must be at least 21 years old to rent this car. Collision Damage Waiver (CDW)</a>
+                                    </div>
+
+                                    <hr data-aos="fade-up" data-aos-delay="200">
+
+                                    <div class="row align-items-center justify-content-lg-between">
+                                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
+                                            <a class="bonus_program" href="#!"><i class="far fa-angle-left mr-1"></i> Bonus Program</a>
+                                            <div class="checkbox_input mb-0">
+                                                <label for="accept"><input type="checkbox" id="accept"> I accept all information and Payments etc</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="300">
+                                            <button type="submit" class="custom_btn bg_default_red text-uppercase">Reservation Now <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <hr class="mt-0" data-aos="fade-up" data-aos-delay="100">
 
-                            <div class="reservation_customer_details">
-                                <h4 class="input_title" data-aos="fade-up" data-aos-delay="100">Customer Details:</h4>
-                                <ul class="customer_gender ul_li clearfix" data-aos="fade-up" data-aos-delay="300">
-                                    <li>
-                                        <div class="checkbox_input">
-                                            <label for="mr"><input type="radio" id="mr" name="gender"> Mr.</label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="checkbox_input">
-                                            <label for="ms"><input type="radio" id="ms" name="gender"> Ms.</label>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
-                                        <div class="form_item" data-aos="fade-up" data-aos-delay="400">
-                                            <input type="text" name="firstname" placeholder="First Name">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
-                                        <div class="form_item" data-aos="fade-up" data-aos-delay="500">
-                                            <input type="text" name="lastname" placeholder="Last Name">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
-                                        <div class="form_item" data-aos="fade-up" data-aos-delay="600">
-                                            <input type="text" name="email" placeholder="E-mail adress">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-12 col-xs-12 col-xs-12">
-                                        <div class="form_item" data-aos="fade-up" data-aos-delay="700">
-                                            <input type="text" name="tel" placeholder="Phone Number">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form_item" data-aos="fade-up" data-aos-delay="800">
-                                    <textarea name="information" placeholder="Additional information (Optional)"></textarea>
-                                </div>
-
-                                <div data-aos="fade-up" data-aos-delay="100">
-                                    <a class="terms_condition" href="#!"><i class="fas fa-info-circle mr-1"></i> You must be at least 21 years old to rent this car. Collision Damage Waiver (CDW)</a>
-                                </div>
-
-                                <hr data-aos="fade-up" data-aos-delay="200">
-
-                                <div class="row align-items-center justify-content-lg-between">
-                                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
-                                        <a class="bonus_program" href="#!"><i class="far fa-angle-left mr-1"></i> Bonus Program</a>
-                                        <div class="checkbox_input mb-0">
-                                            <label for="accept"><input type="checkbox" id="accept"> I accept all information and Payments etc</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="300">
-                                        <button type="submit" class="custom_btn bg_default_red text-uppercase">Reservation Now <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
-                                    </div>
-                                </div>
-                            </div>
                         </form>
                     </div>
                 </div>
