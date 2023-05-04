@@ -74,53 +74,6 @@ if ($result2->num_rows > 0) {
     echo "falla en el query para buscar las ubicaciones";
 }
 
-$sql = "SELECT * FROM `extra_services` ORDER BY obligatorio DESC,  tipo ASC";
-$result3 = $connection->query($sql);
-
-if ($result3->num_rows > 0) {
-    // output data of each row
-    $extra_services = array();
-    while($row = $result3->fetch_array()) {
-        $extra_services[] = $row;
-    }
-} else {
-    echo "falla en el query para buscar extra_services";
-}
-
-
-$availability_allert = "";
-
-// Check if the car is available
-if (isset($_POST['check_availability'])) {
-    $pickup_date = $_POST['pickup_date'];
-    $return_date = $_POST['return_date'];
-
-    $sql = "SELECT * FROM rentals WHERE car_id = '{$view_car_id}' AND (
-            (rental_start BETWEEN '{$pickup_date}' AND '{$return_date}')
-            OR (rental_end BETWEEN '{$pickup_date}' AND '{$return_date}')
-            OR (rental_start  <= '{$pickup_date}' AND rental_end >= '{$return_date}'))";
-
-    $result = $connection->query($sql);
-
-    if($result->num_rows > 0) {
-        $availability_status = "not_available";
-    } else {
-        $availability_status = "available";
-    }
-
-
-    if ($availability_status == 'not_available') {
-        $availability_allert = "<div class='alert alert-danger' role='alert'>
-                                         Vehículo no disponible para la fecha seleccionada. Por favor, seleccione otra fecha
-                                      </div>";
-    } else {
-        $availability_allert = "<div class='alert alert-success' role='alert'>
-                                         Vehículo disponible para la fecha seleccionada. ¡Procede a reservar!
-                                      </div>";
-    }
-
-}
-
 
 $connection->close();
 
@@ -249,20 +202,16 @@ include('./head.php');
                 <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
                     <div class="reservation_form">
 
-                        <form action="validar_reserva.php" method="POST">
-
-                                <?php echo $availability_allert; ?>
-
-                            <input type="text" name="car_selected" class="d-none" value="<?php echo $view_car_id; ?>" readonly>
+                        <form action="reservar_auto.php?id=<?php echo $view_car_id; ?>" method="POST">
 
                             <div class="row">
                                 <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12" style="z-index: 500;">
 
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="100">
                                         <h4 class="input_title">Sucursal de recogida</h4>
-                                            <select class="form-select is-valid" name="res_pickup_location" readonly="">
-                                                <option selected><?php echo $location_name; ?></option>
-                                            </select>
+                                        <select class="form-select is-valid" id="pickup_location" name="pickup_location" disabled>
+                                            <option selected><?php echo $location_name; ?></option>
+                                        </select>
                                     </div>
 
                                 </div>
@@ -270,21 +219,21 @@ include('./head.php');
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="200">
                                         <h4 class="input_title">Fecha de recogida</h4>
-                                        <input type="date" name="res_pickup_date" value="<?php echo $_POST['pickup_date']; ?>" class="form-control <?php if (!empty($_POST['pickup_date'])) { echo "is-valid"; } ?>" min="<?php echo date("Y-m-d"); ?>" required>
+                                        <input class="form-control <?php if (!empty($_POST['pickup_date'])) { echo "is-valid"; } ?>" type="date" name="pickup_date" value="<?php echo $_POST['pickup_date']; ?>" min="<?php echo date("Y-m-d"); ?>" <?php if (!empty($_POST['pickup_date'])) { echo "disabled"; } ?> required>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="300">
                                         <h4 class="input_title">Hora</h4>
-                                        <input type="time" name="res_pickup_time" class="form-control" value="<?php echo $_POST['pickup_time']; ?>" required>
+                                        <input type="time" name="pickup_time" class="form-control <?php if (!empty($_POST['pickup_time'])) { echo "is-valid"; } ?>" value="<?php echo $_POST['pickup_time']; ?>" <?php if (!empty($_POST['pickup_time'])) { echo "disabled"; } ?> required>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12" style="z-index: 500;">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="100">
                                         <h4 class="input_title">Sucursal de entrega</h4>
-                                        <select id="return_location"  name="res_dropoff_location" aria-label="Default select example">
+                                        <select id="return_location"  name="dropoff_location" aria-label="Default select example">
 
                                             <?php foreach($locations_name as $row){ ?>
                                                 <option selected><?php echo $row['name']; ?></option>
@@ -297,74 +246,27 @@ include('./head.php');
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="500">
                                         <h4 class="input_title">Fecha de entrega</h4>
-                                        <input class="form-control <?php if (!empty($_POST['return_date'])) { echo "is-valid"; } ?>" type="date" name="res_return_date" value="<?php echo $_POST['return_date']; ?>" min="<?php echo date("Y-m-d"); ?>" required>
+                                        <input class="form-control <?php if (!empty($_POST['return_date'])) { echo "is-valid"; } ?>" type="date" name="return_date" value="<?php echo $_POST['return_date']; ?>" min="<?php echo date("Y-m-d"); ?>" <?php if (!empty($_POST['return_date'])) { echo "disabled"; } ?> required>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="600">
                                         <h4 class="input_title">Hora</h4>
-                                        <input type="time" name="res_return_time" class="form-control" value="<?php echo $_POST['return_time']; ?>" required>
+                                        <input type="time" name="return_time" class="form-control <?php if (!empty($_POST['return_time'])) { echo "is-valid"; } ?>" value="<?php echo $_POST['return_time']; ?>" <?php if (!empty($_POST['return_time'])) { echo "disabled"; } ?> required>
                                     </div>
                                 </div>
                             </div>
 
+
+                            <div class="mb-4" data-aos="fade-up" data-aos-delay="300">
+                                <button type="submit" name="check_availability" id="check_availability" class="custom_btn bg_default_red text-uppercase">Verificar disponibilidad <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+                            </div>
 
 
                             <hr class="mt-0" data-aos="fade-up" data-aos-delay="700">
 
-                            <div class="<?php if ($availability_status == 'available') { echo ""; } else { echo "d-none"; } ?>">
 
-                                <div class="reservation_offer_checkbox">
-                                    <h4 class="input_title" data-aos="fade-up" data-aos-delay="800">Elija opciones adicionales</h4>
-                                    <div class="row">
-                                        <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
-
-                                            <?php foreach($extra_services as $row){ ?>
-                                            <div class="checkbox_input">
-                                                <label for="extra_<?php echo $row['id']; ?>">
-                                                    <input type="checkbox" id="extra_<?php echo $row['id']; ?>" name="res_extra_srv[]" <?php if($row['obligatorio'] == 1){ echo "checked";}; ?> value="<?php echo $row['id'].'|'.$row['detalles'].'|'.$row['precio']; ?>">
-                                                        <?php echo $row['detalles']; ?>
-                                                        <?php echo $row['precio']; ?>/día
-                                                </label>
-                                            </div>
-                                            <?php } ?>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-
-
-
-                                <div class="reservation_customer_details">
-
-                                    <div data-aos="fade-up" data-aos-delay="100">
-                                        <a class="terms_condition" href="#!"><i class="fas fa-info-circle mr-1"></i> Debe tener al menos 18 años para alquilar este vehículo</a>
-                                    </div>
-
-                                    <hr data-aos="fade-up" data-aos-delay="200">
-
-                                    <div class="row align-items-center justify-content-lg-between">
-
-                                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
-                                            <div class="checkbox_input mb-0">
-                                                <label for="accept"><input type="checkbox" id="accept"> Acepto toda la información.</label>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="300">
-                                            <button type="submit" value="submit" name="submit_form" id="submit_form" class="custom_btn bg_default_red text-uppercase">Continuar <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
-                                        </div>
-
-
-                                    </div>
-                                </div>
-
-
-                            </div>
                         </form>
 
                     </div>

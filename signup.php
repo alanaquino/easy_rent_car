@@ -1,4 +1,28 @@
-<?php include('./controllers/register.php'); ?>
+<?php
+
+include('./controllers/register.php');
+
+// Función para obtener la lista de nacionalidades desde la API de REST Countries en español
+function getNacionalidades() {
+	$url = 'https://restcountries.com/v3.1/all?fields=name;translations';
+	$response = file_get_contents($url);
+	$data = json_decode($response, true);
+	$nacionalidades = array();
+	foreach ($data as $country) {
+		if (isset($country['translations']['es'])) { // Solo incluir si hay una traducción en español
+			$nacionalidades[] = array(
+				'code' => $country['cca2'], // Usar el código ISO de dos letras del país
+				'name' => $country['translations']['es'],
+			);
+		}
+	}
+	return $nacionalidades;
+}
+
+// Obtener la lista de nacionalidades en español
+$nacionalidades = getNacionalidades();
+
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -46,7 +70,7 @@
 				<div class="breadcrumb_nav clearfix" data-bg-color="#F2F2F2">
 					<div class="container">
 						<ul class="ul_li clearfix">
-							<li><a href="index.html">Home</a></li>
+							<li><a href="index.php">Home</a></li>
 							<li>Registro</li>
 						</ul>
 					</div>
@@ -70,29 +94,31 @@
 						
 							<div class="row justify-content-lg-between">
 							
-								<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+								<div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
 									<div class="reg_image" data-aos="fade-up" data-aos-delay="300">
-										<img src="assets/images/about/img_03.jpg" alt="image_not_found">
+										<img src="assets/images/about/img_04.jpg" alt="image_not_found">
 									</div>
 								</div>
 								
-								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="500">
+								<div class="col-lg-8 col-md-6 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="500">
+
 									<form action="" method="post">
 										<?php echo $success_msg; ?>
 										<?php echo $email_exist; ?>
 
 										<?php echo $email_verify_err; ?>
 										<?php echo $email_verify_success; ?>
-													
+
+
 										<div class="form_item">
-											<input type="text" name="firstname" id="firstname" placeholder="Name*" value="<?php echo $_POST['firstname']??''; ?>"class="form-control">
-											
+											<input type="text" name="firstname" id="firstname" placeholder="Nombre*" value="<?php echo $_POST['firstname']??''; ?>"class="form-control">
+
 											<?php echo $fNameEmptyErr; ?>
 											<?php echo $f_NameErr; ?>
 										</div>
 										
 										<div class="form_item">
-											<input type="text" name="lastname" id="lastname" placeholder="Last name*" value="<?php echo $_POST['lastname']??''; ?>" class="form-control">
+											<input type="text" name="lastname" id="lastname" placeholder="Apellidos*" value="<?php echo $_POST['lastname']??''; ?>" class="form-control">
 											
 											<?php echo $l_NameErr; ?>
 											<?php echo $lNameEmptyErr; ?>
@@ -103,6 +129,32 @@
 											
 											<?php echo $_emailErr; ?>
 											<?php echo $emailEmptyErr; ?>
+										</div>
+
+										<div class="form_item">
+											<input type="text" name="licencia_id" id="licencia_id" placeholder="Licencia de conducir*" value="<?php echo $_POST['firstname']??''; ?>"class="form-control">
+
+											<?php echo $fNameEmptyErr; ?>
+											<?php echo $f_NameErr; ?>
+										</div>
+
+										<div class="form_item">
+											<input type="tel" name="phone" id="phone" placeholder="Celular*" value="<?php echo $_POST['firstname']??''; ?>"class="form-control">
+
+											<?php echo $fNameEmptyErr; ?>
+											<?php echo $f_NameErr; ?>
+										</div>
+
+										<div class="form_item">
+											<select class="form-select" name="nacionalidad" id="nacionalidad" aria-label="Default select example">
+												<option disabled selected>Nacionalidad</option>
+												<?php foreach ($nacionalidades as $nacionalidad): ?>
+													<option value="<?php echo $nacionalidad['code']; ?>"><?php echo $nacionalidad['name']; ?></option>
+												<?php endforeach; ?>
+											</select>
+
+											<?php echo $fNameEmptyErr; ?>
+											<?php echo $f_NameErr; ?>
 										</div>
 										
 										<div class="form_item">

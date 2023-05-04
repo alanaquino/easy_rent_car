@@ -1,7 +1,14 @@
 <?php
 
+
 // Database connection
-require_once "config/db.php";
+include('config/db.php');
+
+
+// Error & success messages
+global $success_msg, $email_exist, $f_NameErr, $Upload_Err, $_emailErr, $_mobileErr, $_passwordErr;
+global $fNameEmptyErr, $lNameEmptyErr, $emailEmptyErr, $passwordEmptyErr, $email_verify_err, $email_verify_success;
+
 
 if(isset($_POST['submit'])) {
     $vehicle_type = $_POST['vehicle_type'];
@@ -17,6 +24,7 @@ if(isset($_POST['submit'])) {
     $engine = $_POST['engine'];
     $fuel_type = $_POST['fuel_type'];
     $options = $_POST['options'];
+    $car_location = $_POST['car_location'];
 
     $foto_principal = "";
 
@@ -32,6 +40,9 @@ if(isset($_POST['submit'])) {
             $uploadOk = 1;
         } else {
             $uploadOk = 0;
+            $Upload_Err = '<div class="alert alert-danger">
+                            Solo se permiten letras y espacios en blanco.
+                        </div>';
         }
         // Check file size
         if ($_FILES["foto_principal"]["size"] > 500000) {
@@ -61,8 +72,18 @@ if(isset($_POST['submit'])) {
         $sql = "INSERT INTO car_details (car_id, passengers, suitcase, doors, engine, fuel_type, options) VALUES ('{$car_id}', '{$passengers}', '{$suitcase}', '{$doors}', '{$engine}', '{$fuel_type}', '{$options}')";
 
         if ($connection->query($sql) === TRUE) {
-            header("Location: vehiculos.php");
-            exit();
+
+            $sql2 = "INSERT INTO car_locations (car_id, location_id) VALUES ('{$car_id}', '{$car_location}')";
+
+            if ($connection->query($sql2) === TRUE) {
+
+                // header("Location: vehiculo.php?id=$car_id");
+                exit();
+
+            } else {
+                echo "Error: " . $sql . "<br>" . $connection->error;
+            }
+
         } else {
             echo "Error: " . $sql . "<br>" . $connection->error;
         }

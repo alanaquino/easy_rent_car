@@ -161,7 +161,7 @@ if ($result->num_rows > 0) {
 												<span class="custom_btn btn_width bg_default_blue"><del><?php echo $daily_price+20; ?>/día</del> $<?php echo $daily_price; ?>/día</span>
 											</li>
 											<li>
-												<a href="reservar_auto.php?id=<?php echo $id; ?>" class="custom_btn btn_width bg_default_red text-uppercase">Rentar este vehículo <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
+												<a href="verificar_disponibilidad.php?id=<?php echo $id; ?>" class="custom_btn btn_width bg_default_red text-uppercase">Rentar este vehículo <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
 											</li>
 										</ul>
 									</div>
@@ -212,7 +212,7 @@ if ($result->num_rows > 0) {
 					
 					<div class="mb_30" data-aos="fade-up" data-aos-delay="500">
 
-						<a class="custom_btn bg_default_red text-uppercase mb-0" href="reservar_auto.php">Rentar este vehículo <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
+						<a class="custom_btn bg_default_red text-uppercase mb-0" href="verificar_disponibilidad.php?id=<?php echo $id; ?>">Rentar este vehículo <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>
 						<!--<span class="custom_btn btn_width bg_default_blue"><del>$800/Day</del> $400/Day</span> -->			
 					</div>
 					

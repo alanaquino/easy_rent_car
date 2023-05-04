@@ -10,7 +10,7 @@ if(!isset($_SESSION['email'])){ //if login in session is not set
 include('config/db.php');
 
 // Waits for the given Car ID
-$view_car_id = $_REQUEST['id'];
+$view_car_id = $_POST['car_selected'];
 
 $sql = "SELECT 
             cars.brand, 
@@ -60,18 +60,35 @@ if ($result->num_rows > 0) {
     echo "falla en el query para buscar los datos";
 }
 
+$id_client = $_SESSION['id'];
 
-$sql = "SELECT * FROM locations";
-$result2 = $connection->query($sql);
 
-if ($result2->num_rows > 0) {
+$sql = "SELECT 
+            customers.firstname,
+            customers.lastname, 
+            customers.email, 
+            customers.phone, 
+            customers.nacionalidad, 
+            customers.licencia_id, 
+            customers.address
+        FROM customers
+        WHERE customers.id = '{$id_client}'";
+
+$result4 = $connection->query($sql);
+
+if ($result4->num_rows > 0) {
     // output data of each row
-    $locations_name = array();
-    while($row = $result2->fetch_array()) {
-        $locations_name[] = $row;
+    while($row = $result4->fetch_assoc()) {
+        $firstname     = $row['firstname'];
+        $lastname      = $row['lastname'];
+        $email         = $row['email'];
+        $phone         = $row['phone'];
+        $nacionalidad  = $row['nacionalidad'];
+        $licencia_id   = $row['licencia_id'];
+        $address       = $row['address'];
     }
 } else {
-    echo "falla en el query para buscar las ubicaciones";
+    echo "falla en el query para buscar los datos del cliente";
 }
 
 $sql = "SELECT * FROM `extra_services` ORDER BY obligatorio DESC,  tipo ASC";
@@ -87,43 +104,45 @@ if ($result3->num_rows > 0) {
     echo "falla en el query para buscar extra_services";
 }
 
-
-$availability_allert = "";
-
-// Check if the car is available
-if (isset($_POST['check_availability'])) {
-    $pickup_date = $_POST['pickup_date'];
-    $return_date = $_POST['return_date'];
-
-    $sql = "SELECT * FROM rentals WHERE car_id = '{$view_car_id}' AND (
-            (rental_start BETWEEN '{$pickup_date}' AND '{$return_date}')
-            OR (rental_end BETWEEN '{$pickup_date}' AND '{$return_date}')
-            OR (rental_start  <= '{$pickup_date}' AND rental_end >= '{$return_date}'))";
-
-    $result = $connection->query($sql);
-
-    if($result->num_rows > 0) {
-        $availability_status = "not_available";
-    } else {
-        $availability_status = "available";
-    }
-
-
-    if ($availability_status == 'not_available') {
-        $availability_allert = "<div class='alert alert-danger' role='alert'>
-                                         Vehículo no disponible para la fecha seleccionada. Por favor, seleccione otra fecha
-                                      </div>";
-    } else {
-        $availability_allert = "<div class='alert alert-success' role='alert'>
-                                         Vehículo disponible para la fecha seleccionada. ¡Procede a reservar!
-                                      </div>";
-    }
-
-}
-
-
 $connection->close();
 
+
+//Creating Function
+function TimeAgo ($oldTime, $newTime) {
+    $timeCalc = strtotime($newTime) - strtotime($oldTime);
+    if ($timeCalc >= (60*60*24*30*12*2)){
+        $timeCalc = intval($timeCalc/60/60/24/30/12) . " años";
+    }else if ($timeCalc >= (60*60*24*30*12)){
+        $timeCalc = intval($timeCalc/60/60/24/30/12) . " año";
+    }else if ($timeCalc >= (60*60*24*30*2)){
+        $timeCalc = intval($timeCalc/60/60/24/30) . " meses";
+    }else if ($timeCalc >= (60*60*24*30)){
+        $timeCalc = intval($timeCalc/60/60/24/30) . " mes";
+    }else if ($timeCalc >= (60*60*24*2)){
+        $timeCalc = intval($timeCalc/60/60/24) . " días";
+    }else if ($timeCalc >= (60*60*24)){
+        $timeCalc = " 1 día";
+    }else if ($timeCalc >= (60*60*2)){
+        $timeCalc = intval($timeCalc/60/60) . " horas";
+    }else if ($timeCalc >= (60*60)){
+        $timeCalc = intval($timeCalc/60/60) . " hora";
+    }else if ($timeCalc >= 60*2){
+        $timeCalc = intval($timeCalc/60) . " minutos";
+    }else if ($timeCalc >= 60){
+        $timeCalc = intval($timeCalc/60) . " minuto";
+    }else if ($timeCalc > 0){
+        $timeCalc .= " segundos";
+    }
+    return $timeCalc;
+}
+
+function dateDiff($rental_start, $rental_end)
+{
+    $date1_ts = strtotime($rental_start);
+    $date2_ts = strtotime($rental_end);
+    $diff = $date2_ts - $date1_ts;
+    return round($diff / 86400);
+}
 
 ?>
 
@@ -239,30 +258,35 @@ include('./head.php');
                         </ul>
                         <br>
                     </div>
+\
+                </div>
+
+                <div class="col-lg-4 col-md-8 col-sm-10 col-xs-12">
 
 
 
                 </div>
 
-
-
                 <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
                     <div class="reservation_form">
 
-                        <form action="validar_reserva.php" method="POST">
+                        <form action="" method="post">
 
-                                <?php echo $availability_allert; ?>
+                            <input type="text" name="val_car_selected" class="d-none" value="<?php echo $_POST['car_selected']; ?>" readonly>
 
-                            <input type="text" name="car_selected" class="d-none" value="<?php echo $view_car_id; ?>" readonly>
+
+
+
+
+
+
 
                             <div class="row">
                                 <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12" style="z-index: 500;">
 
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="100">
                                         <h4 class="input_title">Sucursal de recogida</h4>
-                                            <select class="form-select is-valid" name="res_pickup_location" readonly="">
-                                                <option selected><?php echo $location_name; ?></option>
-                                            </select>
+                                        <input class="form-control-plaintext" type="text" value="<?php echo $_POST['res_pickup_location']; ?>" readonly>
                                     </div>
 
                                 </div>
@@ -270,64 +294,67 @@ include('./head.php');
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="200">
                                         <h4 class="input_title">Fecha de recogida</h4>
-                                        <input type="date" name="res_pickup_date" value="<?php echo $_POST['pickup_date']; ?>" class="form-control <?php if (!empty($_POST['pickup_date'])) { echo "is-valid"; } ?>" min="<?php echo date("Y-m-d"); ?>" required>
+                                        <input class="form-control-plaintext" type="text"  value="<?php echo $_POST['res_pickup_date']; ?>" aria-label="Disabled input example"  readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="300">
                                         <h4 class="input_title">Hora</h4>
-                                        <input type="time" name="res_pickup_time" class="form-control" value="<?php echo $_POST['pickup_time']; ?>" required>
+                                        <input class="form-control-plaintext" type="text" value="<?php echo $_POST['res_pickup_time']; ?>" aria-label="Disabled input example"  readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12" style="z-index: 500;">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="100">
                                         <h4 class="input_title">Sucursal de entrega</h4>
-                                        <select id="return_location"  name="res_dropoff_location" aria-label="Default select example">
+                                        <input class="form-control-plaintext" type="text" value="<?php echo $_POST['res_dropoff_location']; ?>" aria-label="Disabled input example"  readonly>
 
-                                            <?php foreach($locations_name as $row){ ?>
-                                                <option selected><?php echo $row['name']; ?></option>
-                                            <?php } ?>
-
-                                        </select>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="500">
                                         <h4 class="input_title">Fecha de entrega</h4>
-                                        <input class="form-control <?php if (!empty($_POST['return_date'])) { echo "is-valid"; } ?>" type="date" name="res_return_date" value="<?php echo $_POST['return_date']; ?>" min="<?php echo date("Y-m-d"); ?>" required>
+                                        <input class="form-control-plaintext" type="text" value="<?php echo $_POST['res_return_date']; ?>" aria-label="Disabled input example"  readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="600">
                                         <h4 class="input_title">Hora</h4>
-                                        <input type="time" name="res_return_time" class="form-control" value="<?php echo $_POST['return_time']; ?>" required>
+                                        <input class="form-control-plaintext" type="text" value="<?php echo $_POST['res_return_time']; ?>" aria-label="Disabled input example"  readonly>
                                     </div>
                                 </div>
                             </div>
 
 
-
                             <hr class="mt-0" data-aos="fade-up" data-aos-delay="700">
 
-                            <div class="<?php if ($availability_status == 'available') { echo ""; } else { echo "d-none"; } ?>">
-
+                            <div>
                                 <div class="reservation_offer_checkbox">
-                                    <h4 class="input_title" data-aos="fade-up" data-aos-delay="800">Elija opciones adicionales</h4>
+                                    <h4 class="input_title" data-aos="fade-up" data-aos-delay="800">Opciones adicionales</h4>
                                     <div class="row">
                                         <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
 
-                                            <?php foreach($extra_services as $row){ ?>
-                                            <div class="checkbox_input">
-                                                <label for="extra_<?php echo $row['id']; ?>">
-                                                    <input type="checkbox" id="extra_<?php echo $row['id']; ?>" name="res_extra_srv[]" <?php if($row['obligatorio'] == 1){ echo "checked";}; ?> value="<?php echo $row['id'].'|'.$row['detalles'].'|'.$row['precio']; ?>">
-                                                        <?php echo $row['detalles']; ?>
-                                                        <?php echo $row['precio']; ?>/día
-                                                </label>
-                                            </div>
+
+
+                                            <?php
+                                            // Función para mostrar datos del checkbox en el preview
+                                                foreach($_POST['res_extra_srv'] as $extra_srv) {
+
+                                                    $service_values = explode('|', $extra_srv);
+                                                    $service_id = $service_values[0];
+                                                    $service_details = $service_values[1];
+                                                    $service_price = $service_values[2];
+                                            ?>
+
+                                                <div class="checkbox_input">
+                                                    <label for="extra_srv">
+                                                        <input type="checkbox" id="extra_srv_<?php echo $service_id ?>" name="extra_srv[]" checked readonly value="<?php echo $service_id; ?>" disabled> <?php echo $service_details; ?>
+                                                    </label>
+                                                </div>
+
                                             <?php } ?>
 
                                         </div>
@@ -335,10 +362,14 @@ include('./head.php');
                                     </div>
                                 </div>
 
+                                
+                                <hr data-aos="fade-up" data-aos-delay="200">
+
 
 
 
                                 <div class="reservation_customer_details">
+
 
                                     <div data-aos="fade-up" data-aos-delay="100">
                                         <a class="terms_condition" href="#!"><i class="fas fa-info-circle mr-1"></i> Debe tener al menos 18 años para alquilar este vehículo</a>
@@ -353,19 +384,14 @@ include('./head.php');
                                                 <label for="accept"><input type="checkbox" id="accept"> Acepto toda la información.</label>
                                             </div>
                                         </div>
-
-
                                         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="300">
-                                            <button type="submit" value="submit" name="submit_form" id="submit_form" class="custom_btn bg_default_red text-uppercase">Continuar <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+                                            <button type="submit" class="custom_btn bg_default_red text-uppercase">Continuar <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
                                         </div>
-
-
                                     </div>
                                 </div>
-
-
                             </div>
                         </form>
+
 
                     </div>
                 </div>

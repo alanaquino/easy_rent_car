@@ -34,17 +34,15 @@ if ($result->num_rows > 0) {
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Clientes</h1>
-            <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item active"></li>
-            </ol>
+            <div class="card text-bg-dark mt-3 mb-3">
+                <img src="./assets/img/banner.jpg" class="card-img" alt="banner">
+                <div class="card-img-overlay">
+                    <h1 class="mt-5">Clientes</h1>
+                </div>
+            </div>
 
 
             <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-table me-1"></i>
-                    DataTable Example
-                </div>
                 <div class="card-body">
                     <table id="datatablesSimple">
                         <thead>
