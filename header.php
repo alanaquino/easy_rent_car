@@ -45,14 +45,14 @@
 												<img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
 											</a>
 											<div class="user_content">
-												<h4 class="user_name"><a href="#!"><?php echo $_SESSION['firstname']; ?> <?php echo $_SESSION['lastname']; ?></a></h4>
-												<span class="user_title">Seller</span>
+												<h4 class="user_name"><a href="account.php"><?php echo $_SESSION['firstname']; ?> <?php echo $_SESSION['lastname']; ?></a></h4>
+												<span class="user_title">Cliente</span>
 											</div>
 										</div>
 										<ul class="ul_li_block clearfix">
-											<li><a href="#!"><i class="fal fa-user-circle"></i> Profile</a></li>
-											<li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
-											<li><a href="logout.php"><i class="fal fa-sign-out"></i> Logout</a></li>
+											<li><a href="account.php"><i class="fal fa-user-circle"></i> Perfil</a></li>
+											<li><a href="settings.php"><i class="fal fa-user-cog"></i> Ajustes</a></li>
+											<li><a href="logout.php"><i class="fal fa-sign-out"></i> Salir</a></li>
 										</ul>
 									</div>
 									<?php } else { ?>

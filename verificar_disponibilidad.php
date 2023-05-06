@@ -12,6 +12,8 @@ include('config/db.php');
 // Waits for the given Car ID
 $view_car_id = $_REQUEST['id'];
 
+global $availability_allert;
+
 $sql = "SELECT 
             cars.brand, 
             cars.model, 
@@ -26,6 +28,7 @@ $sql = "SELECT
             car_details.engine, 
             car_details.fuel_type, 
             car_details.options,
+            locations.id as location_id,
             locations.name,
             locations.address
         FROM cars
@@ -54,6 +57,7 @@ if ($result->num_rows > 0) {
         $engine=$row["engine"];
         $fuel_type=$row["fuel_type"];
         $options=$row["options"];
+        $location_id=$row["location_id"];
         $location_name=$row["name"];
     }
 } else {
@@ -77,7 +81,6 @@ if ($result2->num_rows > 0) {
 
 $connection->close();
 
-
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +91,6 @@ $connection->close();
 $title = "Cars - Easy Rent Car Latinoamérica";
 include('./head.php');
 ?>
-
 
 <body>
 
@@ -204,13 +206,15 @@ include('./head.php');
 
                         <form action="reservar_auto.php?id=<?php echo $view_car_id; ?>" method="POST">
 
+                            <?php echo $availability_allert; ?>
+
                             <div class="row">
                                 <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12" style="z-index: 500;">
 
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="100">
                                         <h4 class="input_title">Sucursal de recogida</h4>
                                         <select class="form-select is-valid" id="pickup_location" name="pickup_location" disabled>
-                                            <option selected><?php echo $location_name; ?></option>
+                                            <option selected value="<?php echo $location_id; ?>"><?php echo $location_name; ?></option>
                                         </select>
                                     </div>
 
@@ -226,7 +230,7 @@ include('./head.php');
                                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="300">
                                         <h4 class="input_title">Hora</h4>
-                                        <input type="time" name="pickup_time" class="form-control <?php if (!empty($_POST['pickup_time'])) { echo "is-valid"; } ?>" value="<?php echo $_POST['pickup_time']; ?>" <?php if (!empty($_POST['pickup_time'])) { echo "disabled"; } ?> required>
+                                        <input type="time" name="pickup_time" class="form-control <?php if (!empty($_POST['pickup_time'])) { echo "is-valid"; } ?>" value="<?php echo $_POST['pickup_time']; ?>" <?php if (!empty($_POST['pickup_time'])) { echo "disabled"; } ?> min="08:00" max="18:00" required>
                                     </div>
                                 </div>
 
@@ -236,7 +240,7 @@ include('./head.php');
                                         <select id="return_location"  name="dropoff_location" aria-label="Default select example">
 
                                             <?php foreach($locations_name as $row){ ?>
-                                                <option selected><?php echo $row['name']; ?></option>
+                                                <option selected value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
                                             <?php } ?>
 
                                         </select>
@@ -246,14 +250,14 @@ include('./head.php');
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="500">
                                         <h4 class="input_title">Fecha de entrega</h4>
-                                        <input class="form-control <?php if (!empty($_POST['return_date'])) { echo "is-valid"; } ?>" type="date" name="return_date" value="<?php echo $_POST['return_date']; ?>" min="<?php echo date("Y-m-d"); ?>" <?php if (!empty($_POST['return_date'])) { echo "disabled"; } ?> required>
+                                        <input onchange="checkAvailability()" class="form-control <?php if (!empty($_POST['return_date'])) { echo "is-valid"; } ?>" type="date" name="return_date" value="<?php echo $_POST['return_date']; ?>" min="<?php echo date("Y-m-d"); ?>" <?php if (!empty($_POST['return_date'])) { echo "disabled"; } ?> required>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="600">
                                         <h4 class="input_title">Hora</h4>
-                                        <input type="time" name="return_time" class="form-control <?php if (!empty($_POST['return_time'])) { echo "is-valid"; } ?>" value="<?php echo $_POST['return_time']; ?>" <?php if (!empty($_POST['return_time'])) { echo "disabled"; } ?> required>
+                                        <input type="time" name="return_time" class="form-control <?php if (!empty($_POST['return_time'])) { echo "is-valid"; } ?>" value="<?php echo $_POST['return_time']; ?>" <?php if (!empty($_POST['return_time'])) { echo "disabled"; } ?> min="08:00" max="18:00" required>
                                     </div>
                                 </div>
                             </div>

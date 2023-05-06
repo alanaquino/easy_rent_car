@@ -10,7 +10,7 @@ if(!isset($_SESSION['email'])){ //if login in session is not set
 include('config/db.php');
 
 // Waits for the given Car ID
-$view_car_id = $_POST['car_selected'];
+$view_car_id = $_POST['val_car_selected'];
 
 $sql = "SELECT 
             cars.brand, 
@@ -26,6 +26,7 @@ $sql = "SELECT
             car_details.engine, 
             car_details.fuel_type, 
             car_details.options,
+            locations.id as location_id,
             locations.name,
             locations.address
         FROM cars
@@ -57,7 +58,7 @@ if ($result->num_rows > 0) {
         $location_name=$row["name"];
     }
 } else {
-    echo "falla en el query para buscar los datos";
+    echo "falla en el query para buscar los datos del vehículo";
 }
 
 $id_client = $_SESSION['id'];
@@ -104,8 +105,23 @@ if ($result3->num_rows > 0) {
     echo "falla en el query para buscar extra_services";
 }
 
+$sql = "SELECT * FROM locations";
+$result2 = $connection->query($sql);
+
+if ($result2->num_rows > 0) {
+    // output data of each row
+    $locations_name = array();
+    while($row = $result2->fetch_array()) {
+        $locations_name[] = $row;
+    }
+} else {
+    echo "falla en el query para buscar las ubicaciones";
+}
+
 $connection->close();
 
+// Get day from string in spanish PHP
+setlocale(LC_ALL,"es_ES");
 
 //Creating Function
 function TimeAgo ($oldTime, $newTime) {
@@ -258,72 +274,63 @@ include('./head.php');
                         </ul>
                         <br>
                     </div>
-\
                 </div>
 
-                <div class="col-lg-4 col-md-8 col-sm-10 col-xs-12">
-
-
-
-                </div>
 
                 <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
                     <div class="reservation_form">
 
-                        <form action="" method="post">
+                        <form action="account.php" method="post">
 
-                            <input type="text" name="val_car_selected" class="d-none" value="<?php echo $_POST['car_selected']; ?>" readonly>
-
-
-
-
-
+                            <input type="text" name="car_selected" class="d-none" value="<?php echo $_POST['val_car_selected']; ?>" readonly>
+                            <input type="text" name="customer_id" class="d-none" value="<?php echo $id_client; ?>" readonly>
 
 
 
                             <div class="row">
-                                <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12" style="z-index: 500;">
+                                <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12 d-none" style="z-index: 500;">
 
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="100">
                                         <h4 class="input_title">Sucursal de recogida</h4>
-                                        <input class="form-control-plaintext" type="text" value="<?php echo $_POST['res_pickup_location']; ?>" readonly>
+                                        <input class="form-control-plaintext" name="pickup_location" type="text" value="<?php echo $_POST['res_pickup_location']; ?>" readonly>
                                     </div>
+
 
                                 </div>
 
-                                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 d-none">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="200">
                                         <h4 class="input_title">Fecha de recogida</h4>
-                                        <input class="form-control-plaintext" type="text"  value="<?php echo $_POST['res_pickup_date']; ?>" aria-label="Disabled input example"  readonly>
+                                        <input class="form-control-plaintext" name="pickup_date" type="text"  value="<?php echo $_POST['res_pickup_date']; ?>" aria-label="Disabled input example"  readonly>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 d-none">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="300">
                                         <h4 class="input_title">Hora</h4>
-                                        <input class="form-control-plaintext" type="text" value="<?php echo $_POST['res_pickup_time']; ?>" aria-label="Disabled input example"  readonly>
+                                        <input class="form-control-plaintext" name="pickup_time" type="text" value="<?php echo $_POST['res_pickup_time']; ?>" aria-label="Disabled input example"  readonly>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12" style="z-index: 500;">
+                                <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12 d-none" style="z-index: 500;">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="100">
                                         <h4 class="input_title">Sucursal de entrega</h4>
-                                        <input class="form-control-plaintext" type="text" value="<?php echo $_POST['res_dropoff_location']; ?>" aria-label="Disabled input example"  readonly>
+                                        <input class="form-control-plaintext" name="return_location" type="text" value="<?php echo $_POST['res_dropoff_location']; ?>" aria-label="Disabled input example"  readonly>
 
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12 d-none">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="500">
                                         <h4 class="input_title">Fecha de entrega</h4>
-                                        <input class="form-control-plaintext" type="text" value="<?php echo $_POST['res_return_date']; ?>" aria-label="Disabled input example"  readonly>
+                                        <input class="form-control-plaintext" name="return_date" type="text" value="<?php echo $_POST['res_return_date']; ?>" aria-label="Disabled input example"  readonly>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 d-none">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="600">
                                         <h4 class="input_title">Hora</h4>
-                                        <input class="form-control-plaintext" type="text" value="<?php echo $_POST['res_return_time']; ?>" aria-label="Disabled input example"  readonly>
+                                        <input class="form-control-plaintext" name="return_time" type="text" value="<?php echo $_POST['res_return_time']; ?>" aria-label="Disabled input example"  readonly>
                                     </div>
                                 </div>
                             </div>
@@ -331,8 +338,37 @@ include('./head.php');
 
                             <hr class="mt-0" data-aos="fade-up" data-aos-delay="700">
 
+                            <!-- Información del cliente aquí -->
+
+                            <div class="container mb-5">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="text-gray-light">RESERVAR A:</div>
+                                        <h2 class="to"><?php echo $firstname, " ", $lastname; ?></h2>
+                                        <div class="address"><?php echo $address; ?></div>
+                                        <div class="email"><?php echo $email; ?></div>
+                                        <div class="email"><?php echo $licencia_id ?></div>
+                                        <div class="email"><?php echo $location_name ?></div>
+                                    </div>
+                                    <div class="col">
+                                        <a href="javascript:;" class="mb-3">
+                                            <img src="../assets/images/logo/logo_02_2x.png" width="200" alt="">
+                                        </a>
+                                        <div class="col">
+                                            <h2 class="name">
+                                                Easy Rent Car
+                                            </h2>
+                                            <div>455 Foggy Heights, AZ 85004, US</div>
+                                            <div>(123) 456-789</div>
+                                            <div>info@easyrentcar.com</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div>
-                                <div class="reservation_offer_checkbox">
+                                <div class="reservation_offer_checkbox d-none">
                                     <h4 class="input_title" data-aos="fade-up" data-aos-delay="800">Opciones adicionales</h4>
                                     <div class="row">
                                         <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
@@ -341,17 +377,18 @@ include('./head.php');
 
                                             <?php
                                             // Función para mostrar datos del checkbox en el preview
-                                                foreach($_POST['res_extra_srv'] as $extra_srv) {
-
-                                                    $service_values = explode('|', $extra_srv);
-                                                    $service_id = $service_values[0];
-                                                    $service_details = $service_values[1];
-                                                    $service_price = $service_values[2];
-                                            ?>
+                                            foreach($_POST['res_extra_srv'] as $extra_srv) {
+                                                // Extract the checkbox values
+                                                $service_values = explode('|', $extra_srv);
+                                                $service_id = $service_values[0];
+                                                $service_details = $service_values[1];
+                                                $service_price = $service_values[2];
+                                                ?>
 
                                                 <div class="checkbox_input">
+                                                    <!-- Create a label with a disabled checkbox -->
                                                     <label for="extra_srv">
-                                                        <input type="checkbox" id="extra_srv_<?php echo $service_id ?>" name="extra_srv[]" checked readonly value="<?php echo $service_id; ?>" disabled> <?php echo $service_details; ?>
+                                                        <input type="checkbox" id="extra_srv_<?php echo $service_id ?>" name="extra_srv[]" value="<?php echo $service_id; ?>" checked readonly> <?php echo $service_details; ?>
                                                     </label>
                                                 </div>
 
@@ -362,17 +399,107 @@ include('./head.php');
                                     </div>
                                 </div>
 
-                                
-                                <hr data-aos="fade-up" data-aos-delay="200">
+
+
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col" style="width: 50%">Descripción</th>
+                                        <th scope="col">Precio / día</th>
+                                        <th scope="col">Días</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr>
+                                        <th scope="row">01</th>
+                                        <td>
+                                            Alquiler en <?php echo $location_name; ?>
+                                            <a href="details.php?id=<?php echo $view_car_id; ?>" role="button" style="text-decoration: none;">
+                                                <?php echo "".$brand." ".$model." ".$level." ".$year." "; ?>
+                                            </a> <br>
+                                             Del <span class="badge badge-primary"><?php echo date("d F", strtotime($_POST['res_pickup_date'])); ?></span>
+                                              al <span class="badge badge-primary"><?php echo date("d F, Y", strtotime($_POST['res_return_date'])); ?></span>
+                                        </td>
+                                        <td>US $<?php echo intval($daily_price); ?></td>
+                                        <td><?php echo $dateDiff = dateDiff($_POST['res_pickup_date'], $_POST['res_return_date']); ?></td>
+                                        <td>US $<?php echo $daily_price*$dateDiff; ?></td>
+                                    </tr>
+
+                                    <?php  $precio_add = $daily_price; $num = 2; ?>
+
+                                    <?php foreach($_POST['res_extra_srv'] as $extra_srv) {
+
+                                        $service_values = explode('|', $extra_srv);
+                                        $service_id = $service_values[0];
+                                        $service_details = $service_values[1];
+                                        $service_price = $service_values[2];
+
+                                        ?>
+                                        <tr>
+                                            <th scope="row">0<?php echo $num++?></th>
+                                            <td class="text-left">
+                                                <p><?php echo $service_details; ?></p>
+                                            </td>
+                                            <td class="unit">US $<?php echo $service_price; ?></td>
+                                            <td class="qty"><?php echo $dateDiff ?></td>
+                                            <td class="total">US $<?php echo $service_price*$dateDiff; ?></td>
+                                        </tr>
+
+                                        <?php  $precio_add += $service_price; ?>
+
+                                    <?php } ?>
+
+
+                                    </tbody>
+
+
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td colspan="2">SUBTOTAL</td>
+                                        <td>US $<?php echo $precio_add*$dateDiff; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td colspan="2">TAX 18%</td>
+                                        <td>US $<?php echo ($precio_add*$dateDiff)*0.18; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td colspan="2">GRAND TOTAL</td>
+                                        <td>US $<?php echo ($precio_total = $precio_add * $dateDiff)*1.18; ?></td>
+                                        <input type="text" name="grand_total" class="d-none" value="<?php echo ($precio_total = $precio_add * $dateDiff)*1.18; ?>" readonly>
+                                    </tr>
+                                    </tfoot>
+
+
+                                </table>
 
 
 
 
-                                <div class="reservation_customer_details">
+                                <div class="reservation_customer_details mt-5">
+
+                                    <div class="alert alert-info" role="alert">
+                                        <i class="fas fa-info-circle mr-1"></i> PAGO EN OFICINA: Pagarás en el mostrador el día de la recogida.
+                                    </div>
+
+                                    <div class="alert alert-warning" role="alert">
+                                        <i class="fas fa-info-circle mr-1"></i> Se realizará un cargo por financiamiento del 1.5 % ssi paga después de 30 días.
+                                    </div>
+
+                                    <div class="alert alert-dark" role="alert">
+                                        <i class="fas fa-info-circle mr-1"></i> Debe tener al menos 18 años para alquilar este vehículo
+                                    </div>
 
 
-                                    <div data-aos="fade-up" data-aos-delay="100">
-                                        <a class="terms_condition" href="#!"><i class="fas fa-info-circle mr-1"></i> Debe tener al menos 18 años para alquilar este vehículo</a>
+
+                                    <div class="mt-5" data-aos="fade-up" data-aos-delay="100">
+                                        <a class="terms_condition" href="#!"></a>
                                     </div>
 
                                     <hr data-aos="fade-up" data-aos-delay="200">
@@ -385,7 +512,7 @@ include('./head.php');
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="300">
-                                            <button type="submit" class="custom_btn bg_default_red text-uppercase">Continuar <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+                                            <button type="submit" name="submit_form" id="submit_form" class="custom_btn bg_default_red text-uppercase">Reservar ahora <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
                                         </div>
                                     </div>
                                 </div>

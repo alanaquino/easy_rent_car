@@ -5,7 +5,7 @@ session_start();
 include('./controllers/login.php');
 
 //if (isset($_SESSION['id']) != "") {
-//    header("Location: dashboard.php");
+//    header("Location: account.php");
 //}
 
 ?>

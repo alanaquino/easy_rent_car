@@ -87,11 +87,11 @@ if ($result->num_rows > 0) {
 
 $sql = "SELECT extra_services.detalles,
                extra_services.precio
-        FROM rental_details
+        FROM rental_extra_services
         INNER JOIN rentals
-            ON rentals.id = rental_details.rental_id
+            ON rentals.id = rental_extra_services.rental_id
         INNER JOIN extra_services
-            ON extra_services.id = rental_details.services_id
+            ON extra_services.id = rental_extra_services.services_id
         WHERE rentals.id = '{$view_rental_id}'";
 $result2 = $connection->query($sql);
 
@@ -102,7 +102,7 @@ if ($result2->num_rows > 0) {
         $data[] = $row;
     }
 } else {
-    echo "falla en el query para buscar los datos";
+    echo "falla en el query para buscar los datos extra";
 }
 
 
@@ -237,20 +237,24 @@ function dateDiff($rental_start, $rental_end)
 
                                         <?php  $precio_add = $daily_price; $num = 2; ?>
 
-                                        <?php foreach($data as $row){ ?>
-                                            <tr>
-                                                <td class="no">0<?php echo $num++?></td>
-                                                <td class="text-left">
-                                                    <h3><?php echo $row['detalles']; ?></h3>
-                                                 </td>
-                                                <td class="unit">US $<?php echo $row['precio']; ?></td>
-                                                <td class="qty"><?php echo $dateDiff ?></td>
-                                                <td class="total">US $<?php echo $row['precio']*$dateDiff; ?></td>
-                                            </tr>
-
-                                            <?php  $precio_add+= $row['precio']; ?>
-
-                                        <?php } ?>
+                                            <?php
+                                            if(!empty($data)){
+                                                foreach($data as $row){
+                                                    ?>
+                                                    <tr>
+                                                        <td class="no">0<?php echo $num++; ?></td>
+                                                        <td class="text-left">
+                                                            <h3><?php echo $row['detalles']; ?></h3>
+                                                        </td>
+                                                        <td class="unit">US $<?php echo $row['precio']; ?></td>
+                                                        <td class="qty"><?php echo $dateDiff; ?></td>
+                                                        <td class="total">US $<?php echo $row['precio']*$dateDiff; ?></td>
+                                                    </tr>
+                                                    <?php $precio_add += $row['precio']; ?>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
 
 
                                             </tbody>

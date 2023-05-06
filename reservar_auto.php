@@ -12,6 +12,8 @@ include('config/db.php');
 // Waits for the given Car ID
 $view_car_id = $_REQUEST['id'];
 
+global $availability_allert;
+
 $sql = "SELECT 
             cars.brand, 
             cars.model, 
@@ -26,6 +28,7 @@ $sql = "SELECT
             car_details.engine, 
             car_details.fuel_type, 
             car_details.options,
+            locations.id as location_id,
             locations.name,
             locations.address
         FROM cars
@@ -54,6 +57,7 @@ if ($result->num_rows > 0) {
         $engine=$row["engine"];
         $fuel_type=$row["fuel_type"];
         $options=$row["options"];
+        $location_id=$row["location_id"];
         $location_name=$row["name"];
     }
 } else {
@@ -113,6 +117,8 @@ if (isset($_POST['check_availability'])) {
         $availability_allert = "<div class='alert alert-danger' role='alert'>
                                          Vehículo no disponible para la fecha seleccionada. Por favor, seleccione otra fecha
                                       </div>";
+        // header("Location: verificar_disponibilidad.php?id=".$view_car_id);
+
     } else {
         $availability_allert = "<div class='alert alert-success' role='alert'>
                                          Vehículo disponible para la fecha seleccionada. ¡Procede a reservar!
@@ -253,7 +259,7 @@ include('./head.php');
 
                                 <?php echo $availability_allert; ?>
 
-                            <input type="text" name="car_selected" class="d-none" value="<?php echo $view_car_id; ?>" readonly>
+                            <input type="text" name="val_car_selected" class="d-none" value="<?php echo $view_car_id; ?>" readonly>
 
                             <div class="row">
                                 <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12" style="z-index: 500;">
@@ -261,7 +267,7 @@ include('./head.php');
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="100">
                                         <h4 class="input_title">Sucursal de recogida</h4>
                                             <select class="form-select is-valid" name="res_pickup_location" readonly="">
-                                                <option selected><?php echo $location_name; ?></option>
+                                                <option selected value="<?php echo $location_id; ?>"><?php echo $location_name; ?></option>
                                             </select>
                                     </div>
 
@@ -270,7 +276,7 @@ include('./head.php');
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="200">
                                         <h4 class="input_title">Fecha de recogida</h4>
-                                        <input type="date" name="res_pickup_date" value="<?php echo $_POST['pickup_date']; ?>" class="form-control <?php if (!empty($_POST['pickup_date'])) { echo "is-valid"; } ?>" min="<?php echo date("Y-m-d"); ?>" required>
+                                        <input type="date" name="res_pickup_date" value="<?php echo $_POST['pickup_date']; ?>" class="form-control <?php if ($availability_status == 'available') { echo 'is-valid'; } ?>" min="<?php echo date("Y-m-d"); ?>" required>
                                     </div>
                                 </div>
 
@@ -287,7 +293,7 @@ include('./head.php');
                                         <select id="return_location"  name="res_dropoff_location" aria-label="Default select example">
 
                                             <?php foreach($locations_name as $row){ ?>
-                                                <option selected><?php echo $row['name']; ?></option>
+                                                <option selected value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
                                             <?php } ?>
 
                                         </select>
@@ -297,7 +303,7 @@ include('./head.php');
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="500">
                                         <h4 class="input_title">Fecha de entrega</h4>
-                                        <input class="form-control <?php if (!empty($_POST['return_date'])) { echo "is-valid"; } ?>" type="date" name="res_return_date" value="<?php echo $_POST['return_date']; ?>" min="<?php echo date("Y-m-d"); ?>" required>
+                                        <input class="form-control <?php if ($availability_status == 'available') { echo 'is-valid'; } ?>" type="date" name="res_return_date" value="<?php echo $_POST['return_date']; ?>" min="<?php echo date("Y-m-d"); ?>" required>
                                     </div>
                                 </div>
 
@@ -310,6 +316,10 @@ include('./head.php');
                             </div>
 
 
+                            <div class="mb-4 <?php if ($availability_status == 'available') { echo 'd-none'; } ?>" data-aos="fade-up" data-aos-delay="300">
+                                <button type="submit" name="check_availability" id="check_availability" class="custom_btn bg_default_red text-uppercase">Verificar disponibilidad <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+                            </div>
+
 
                             <hr class="mt-0" data-aos="fade-up" data-aos-delay="700">
 
@@ -320,15 +330,17 @@ include('./head.php');
                                     <div class="row">
                                         <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
 
-                                            <?php foreach($extra_services as $row){ ?>
-                                            <div class="checkbox_input">
-                                                <label for="extra_<?php echo $row['id']; ?>">
-                                                    <input type="checkbox" id="extra_<?php echo $row['id']; ?>" name="res_extra_srv[]" <?php if($row['obligatorio'] == 1){ echo "checked";}; ?> value="<?php echo $row['id'].'|'.$row['detalles'].'|'.$row['precio']; ?>">
-                                                        <?php echo $row['detalles']; ?>
-                                                        <?php echo $row['precio']; ?>/día
-                                                </label>
-                                            </div>
-                                            <?php } ?>
+                                            <?php if(!empty($extra_services)): ?>
+                                                <?php foreach($extra_services as $row): ?>
+                                                    <div class="checkbox_input">
+                                                        <label for="extra_srv_<?php echo $row['id']; ?>">
+                                                            <input type="checkbox" id="extra_srv_<?php echo $row['id']; ?>" name="res_extra_srv[]" <?php if($row['obligatorio'] == 1){ echo "checked";}; ?> value="<?php echo $row['id'].'|'.$row['detalles'].'|'.$row['precio']; ?>">
+                                                            <?php echo $row['detalles']; ?>
+                                                            <?php echo $row['precio']; ?>/día
+                                                        </label>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
 
                                         </div>
 
@@ -348,11 +360,6 @@ include('./head.php');
 
                                     <div class="row align-items-center justify-content-lg-between">
 
-                                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="200">
-                                            <div class="checkbox_input mb-0">
-                                                <label for="accept"><input type="checkbox" id="accept"> Acepto toda la información.</label>
-                                            </div>
-                                        </div>
 
 
                                         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="300">

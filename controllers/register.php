@@ -8,7 +8,7 @@
     
     // Error & success messages
     global $success_msg, $email_exist, $f_NameErr, $l_NameErr, $_emailErr, $_mobileErr, $_passwordErr;
-    global $fNameEmptyErr, $lNameEmptyErr, $emailEmptyErr, $passwordEmptyErr, $email_verify_err, $email_verify_success;
+    global $fNameEmptyErr, $lNameEmptyErr, $emailEmptyErr, $licenciaEmptyErr, $phoneEmptyErr, $nacionalidadEmptyErr, $passwordEmptyErr, $email_verify_err, $email_verify_success;
     
     // Set empty form vars for validation mapping
     $_first_name = $_last_name = $_email = $_mobile_number = $_password = "";
@@ -17,6 +17,9 @@
         $firstname     = $_POST["firstname"];
         $lastname      = $_POST["lastname"];
         $email         = $_POST["email"];
+        $licencia_id   = $_POST["licencia_id"];
+        $phone         = $_POST["phone"];
+        $nacionalidad  = $_POST["nacionalidad"];
         $password      = $_POST["password"];
 
         // check if email already exist
@@ -76,8 +79,9 @@
                     $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
                     // Query
-                    $sql = "INSERT INTO customers (firstname, lastname, email, password, token, is_active) VALUES ('{$firstname}', '{$lastname}', '{$email}', '{$password_hash}', '{$token}', '0')";
-                    
+                    $sql = "INSERT INTO customers (firstname, lastname, email, phone, nacionalidad, licencia_id, password, token, is_active) VALUES ('{$firstname}', '{$lastname}', '{$email}', '{$phone}', '{$nacionalidad}', '{$licencia_id}', '{$password_hash}', '{$token}', '0')";
+
+
                     // Create mysql query
                     $sqlQuery = mysqli_query($connection, $sql);
                     
@@ -164,6 +168,21 @@
             if(empty($email)){
                 $emailEmptyErr = '<div class="alert alert-danger">
                     El correo electrónico no puede estar en blanco.
+                </div>';
+            }
+            if(empty($licencia_id)){
+                $licenciaEmptyErr = '<div class="alert alert-danger">
+                    La licencia no puede estar en blanco.
+                </div>';
+            }
+            if(empty($phone)){
+                $phoneEmptyErr = '<div class="alert alert-danger">
+                    El campo telefono no puede estar en blanco.
+                </div>';
+            }
+            if(empty($nacionalidad)){
+                $nacionalidadEmptyErr = '<div class="alert alert-danger">
+                    El campo nacionalidad no puede estar en blanco.
                 </div>';
             }
             if(empty($password)){

@@ -48,7 +48,6 @@ if ($result->num_rows > 0) {
                         <thead>
                         <tr>
                             <th>id</th>
-                            <th>title</th>
                             <th>first_name</th>
                             <th>last_name</th>
                             <th>email</th>
@@ -65,7 +64,6 @@ if ($result->num_rows > 0) {
                         <?php foreach($data as $row){ ?>
                             <tr>
                                 <td><?php echo $row['id']; ?></td>
-                                <td><?php echo $row['title']; ?></td>
                                 <td><?php echo $row['firstname']; ?></td>
                                 <td><?php echo $row['lastname']; ?></td>
                                 <td><?php echo $row['email']; ?></td>

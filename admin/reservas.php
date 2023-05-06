@@ -33,7 +33,7 @@ $sql = "SELECT rentals.id,
         INNER JOIN cars
             ON rentals.car_id = cars.id
         INNER JOIN rental_statuses
-            ON rentals.id = rental_statuses.id";
+            ON rentals.rental_status_id = rental_statuses.id";
 $result = $connection->query($sql);
 
 if ($result->num_rows > 0) {

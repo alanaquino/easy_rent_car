@@ -2,25 +2,7 @@
 
 include('./controllers/register.php');
 
-// Función para obtener la lista de nacionalidades desde la API de REST Countries en español
-function getNacionalidades() {
-	$url = 'https://restcountries.com/v3.1/all?fields=name;translations';
-	$response = file_get_contents($url);
-	$data = json_decode($response, true);
-	$nacionalidades = array();
-	foreach ($data as $country) {
-		if (isset($country['translations']['es'])) { // Solo incluir si hay una traducción en español
-			$nacionalidades[] = array(
-				'code' => $country['cca2'], // Usar el código ISO de dos letras del país
-				'name' => $country['translations']['es'],
-			);
-		}
-	}
-	return $nacionalidades;
-}
 
-// Obtener la lista de nacionalidades en español
-$nacionalidades = getNacionalidades();
 
 ?>
 
@@ -111,7 +93,7 @@ $nacionalidades = getNacionalidades();
 
 
 										<div class="form_item">
-											<input type="text" name="firstname" id="firstname" placeholder="Nombre*" value="<?php echo $_POST['firstname']??''; ?>"class="form-control">
+											<input type="text" name="firstname" id="firstname" placeholder="Nombre*" value="<?php echo $_POST['firstname']??''; ?>" class="form-control">
 
 											<?php echo $fNameEmptyErr; ?>
 											<?php echo $f_NameErr; ?>
@@ -132,29 +114,55 @@ $nacionalidades = getNacionalidades();
 										</div>
 
 										<div class="form_item">
-											<input type="text" name="licencia_id" id="licencia_id" placeholder="Licencia de conducir*" value="<?php echo $_POST['firstname']??''; ?>"class="form-control">
+											<input type="text" name="licencia_id" id="licencia_id" placeholder="Licencia de conducir*" value="<?php echo $_POST['licencia_id']??''; ?>" class="form-control">
 
-											<?php echo $fNameEmptyErr; ?>
-											<?php echo $f_NameErr; ?>
+											<?php echo $licenciaEmptyErr; ?>
 										</div>
 
 										<div class="form_item">
-											<input type="tel" name="phone" id="phone" placeholder="Celular*" value="<?php echo $_POST['firstname']??''; ?>"class="form-control">
+											<input type="tel" name="phone" id="phone" placeholder="Celular*" value="<?php echo $_POST['phone']??''; ?>" class="form-control">
 
-											<?php echo $fNameEmptyErr; ?>
-											<?php echo $f_NameErr; ?>
+											<?php echo $phoneEmptyErr; ?>
 										</div>
 
 										<div class="form_item">
 											<select class="form-select" name="nacionalidad" id="nacionalidad" aria-label="Default select example">
 												<option disabled selected>Nacionalidad</option>
-												<?php foreach ($nacionalidades as $nacionalidad): ?>
-													<option value="<?php echo $nacionalidad['code']; ?>"><?php echo $nacionalidad['name']; ?></option>
-												<?php endforeach; ?>
+												<option value="Dominicana">Dominicana</option>
+												<option value="Mexicana">Mexicana</option>
+												<option value="Colombiana">Colombiana</option>
+												<option value="Argentina">Argentina</option>
+												<option value="Peruana">Peruana</option>
+												<option value="Ecuatoriana">Ecuatoriana</option>
+												<option value="Costarricense">Costarricense</option>
+												<option value="Chilena">Chilena</option>
+												<option value="Venezolana">Venezolana</option>
+												<option value="Uruguaya">Uruguaya</option>
+												<option value="Paraguaya">Paraguaya</option>
+												<option value="Brasileña">Brasileña</option>
+												<option value="Boliviana">Boliviana</option>
+												<option value="Española">Española</option>
+												<option value="Francesa">Francesa</option>
+												<option value="Portuguesa">Portuguesa</option>
+												<option value="Italiana">Italiana</option>
+												<option value="Alemana">Alemana</option>
+												<option value="Inglesa">Inglesa</option>
+												<option value="Estadounidense">Estadounidense</option>
+												<option value="Canadiense">Canadiense</option>
+												<option value="Japonesa">Japonesa</option>
+												<option value="China">China</option>
+												<option value="Coreana">Coreana</option>
+												<option value="Rusa">Rusa</option>
+												<option value="Noruega">Noruega</option>
+												<option value="Sueca">Sueca</option>
+												<option value="Suiza">Suiza</option>
+												<option value="Holandesa">Holandesa</option>
+												<option value="Belga">Belga</option>
+												<option value="Australiana">Australiana</option>
+												<option value="Neozelandesa">Neozelandesa</option>
 											</select>
 
-											<?php echo $fNameEmptyErr; ?>
-											<?php echo $f_NameErr; ?>
+											<?php echo $nacionalidadEmptyErr; ?>
 										</div>
 										
 										<div class="form_item">
