@@ -47,16 +47,11 @@ if ($result->num_rows > 0) {
                     <table id="datatablesSimple">
                         <thead>
                         <tr>
-                            <th>id</th>
-                            <th>first_name</th>
-                            <th>last_name</th>
-                            <th>email</th>
-                            <th>phone</th>
-                            <th>nacionalidad</th>
-                            <th>licencia_id</th>
-                            <th>address</th>
-                            <th>created_at</th>
-                            <th>updated_a</th>
+                            <th>#</th>
+                            <th>Cliente</th>
+                            <th>Correo electrónico</th>
+                            <th>Licencia de conducir</th>
+                            <th>Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -64,15 +59,19 @@ if ($result->num_rows > 0) {
                         <?php foreach($data as $row){ ?>
                             <tr>
                                 <td><?php echo $row['id']; ?></td>
-                                <td><?php echo $row['firstname']; ?></td>
-                                <td><?php echo $row['lastname']; ?></td>
-                                <td><?php echo $row['email']; ?></td>
-                                <td><?php echo $row['phone']; ?></td>
-                                <td><?php echo $row['nacionalidad']; ?></td>
-                                <td><?php echo $row['licencia_id']; ?></td>
-                                <td><?php echo $row['address']; ?></td>
-                                <td><?php echo $row['created_at']; ?></td>
-                                <td><?php echo $row['updated_at']; ?></td>
+                                <td>
+                                    <i class="fas fa-user-circle"></i>
+                                    <a href="cliente.php?id=<?php echo $row['id']; ?>" class="text-decoration-none" role="button">
+                                        <?php echo $row['firstname'], " ", $row['lastname']; ?>
+                                    </a>
+                                </td>
+                                <td><i class="fas fa-envelope"></i> <?php echo $row['email']; ?></td>
+                                <td><i class="fas fa-id-badge"></i> <?php echo $row['licencia_id']; ?></td>
+                                <td>
+                                    <div class="d-grid gap-2">
+                                        <a class="btn btn-primary btn-sm" href="cliente.php?id=<?php echo $row['id']; ?>" role="button">Ver</a>
+                                    </div>
+                                </td>
                             </tr>
                         <?php } ?>
 

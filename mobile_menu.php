@@ -11,7 +11,7 @@
 							</a>
 						</div>
 						<p class="mb-0">
-							Nullam id dolor auctor, dignissim magna eu, mattis ante. Pellentesque tincidunt, elit a facilisis efficitur, nunc nisi scelerisque enim, rhoncus malesuada
+							El Rent Car de confianza para su próximo viaje. Easy Rent Car, donde rentar un vehículo es más fácil
 						</p>
 					</div>
 
@@ -35,21 +35,18 @@
 					<div class="booking_car_form">
 						<h3 class="title_text text-white mb-2">Book A Car</h3>
 						<p class="mb_15">
-							Nullam id dolor auctor, dignissim magna eu, mattis ante. Pellentesque tincidunt, elit a facilisis efficitur.
+							¿Buscas un coche? Estás en el lugar adecuado
 						</p>
-						<form action="#">
+						<form autocomplete="off" action="cars.php">
 							<div class="form_item">
-								<h4 class="input_title text-white">Pick Up Location</h4>
-								<div class="position-relative">
-									<input id="location_one" type="text" name="location" placeholder="City, State or Airport Code">
-									<label for="location_one" class="input_icon"><i class="fas fa-map-marker-alt"></i></label>
-								</div>
+								<h4 class="input_title text-white">Fecha de recogida</h4>
+								<input type="date" name="pickup_date">
 							</div>
 							<div class="form_item">
-								<h4 class="input_title text-white">Pick A Date</h4>
-								<input type="date" name="date">
+								<h4 class="input_title text-white">Fecha de entrega</h4>
+								<input type="date" name="return_date">
 							</div>
-							<button type="submit" class="custom_btn bg_default_red btn_width text-uppercase">Book A Car <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
+							<button type="submit" class="custom_btn bg_default_red btn_width text-uppercase">Buscar <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
 						</form>
 					</div>
 

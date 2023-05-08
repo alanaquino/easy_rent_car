@@ -67,14 +67,14 @@ if ($result->num_rows > 0) {
                     <table id="datatablesSimple" class="row-border">
                         <thead>
                         <tr>
-                            <th>id</th>
-                            <th>vehicle_type</th>
-                            <th>vehicle</th>
-                            <th>year</th>
+                            <th>#</th>
                             <th>Tipo</th>
-                            <th>engine</th>
-                            <th>fuel_type</th>
-                            <th>options</th>
+                            <th>Vehículo</th>
+                            <th>Año</th>
+                            <th>Tipo</th>
+                            <th>Motor</th>
+                            <th>Combustible</th>
+                            <th>Características</th>
                             <th>Acciones</th>
 
                         </tr>
@@ -85,7 +85,7 @@ if ($result->num_rows > 0) {
 
                             <tr>
                                 <td><?php echo $row['id']; ?></td>
-                                <td><?php echo $row['vehicle_type']; ?></td>
+                                <td><span class="badge rounded-pill bg-primary"><?php echo $row['vehicle_type']; ?></span></td>
                                 <td><?php echo $row['brand'], " ", $row['model'], " ", $row['level']; ?></td>
                                 <td><?php echo $row['year']; ?></td>
                                 <td><?php echo $row['type']; ?></td>

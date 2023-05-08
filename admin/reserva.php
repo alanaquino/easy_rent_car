@@ -9,6 +9,7 @@ if(isset($_SESSION['id']) =="") {
 // Database connection
 require_once "config/db.php";
 
+
 // Waits for the given Car ID
 $view_rental_id = $_REQUEST['id'];
 
@@ -36,7 +37,6 @@ $sql = "SELECT rentals.id,
                rentals.rental_end, 
                rentals.rental_start_time,	
                rentals.rental_end_time,
-               rental_statuses.name as status,
                rentals.updated_at
         FROM `rentals`
         INNER JOIN customers
@@ -45,9 +45,8 @@ $sql = "SELECT rentals.id,
             ON rentals.car_id = cars.id
         INNER JOIN car_details
             ON rentals.car_id = car_details.car_id
-        INNER JOIN rental_statuses
-            ON rentals.id = rental_statuses.id
         WHERE rentals.id = '{$view_rental_id}'";
+
 $result = $connection->query($sql);
 
 if ($result->num_rows > 0) {
@@ -77,11 +76,29 @@ if ($result->num_rows > 0) {
         $rental_end=$row["rental_end"];
         $rental_start_time=$row["rental_start_time"];
         $rental_end_time=$row["rental_end_time"];
-        $status=$row["status"];
         $updated_at=$row["updated_at"];
     }
 } else {
     echo "falla en el query para buscar las reservas";
+}
+
+
+$sql = "SELECT id, tipo_pago, monto_pago, fecha_pago
+        FROM rental_pagos
+        WHERE rental_id = '{$view_rental_id}'";
+
+$result = $connection->query($sql);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        $pago_id=$row["id"];
+        $tipo_pago=$row["tipo_pago"];
+        $monto_pago=$row["monto_pago"];
+        $fecha_pago=$row["fecha_pago"];
+    }
+} else {
+    $error_msg = "No se ha registrado ningun pago para esta reserva";
 }
 
 
@@ -102,7 +119,7 @@ if ($result2->num_rows > 0) {
         $data[] = $row;
     }
 } else {
-    echo "falla en el query para buscar los datos extra";
+    $error_msg2 = "No se ha registrado ningun servicio extra para esta reserva";
 }
 
 
@@ -230,7 +247,7 @@ function dateDiff($rental_start, $rental_end)
 
                                                     </h3>
                                                 </td>
-                                                <td class="unit">US $<?php echo $daily_price; ?></td>
+                                                <td class="unit">US $<?php echo intval($daily_price); ?></td>
                                                 <td class="qty"><?php echo $dateDiff = dateDiff($rental_start, $rental_end); ?></td>
                                                 <td class="total">US $<?php echo $daily_price*$dateDiff; ?></td>
                                             </tr>
@@ -246,7 +263,7 @@ function dateDiff($rental_start, $rental_end)
                                                         <td class="text-left">
                                                             <h3><?php echo $row['detalles']; ?></h3>
                                                         </td>
-                                                        <td class="unit">US $<?php echo $row['precio']; ?></td>
+                                                        <td class="unit">US $<?php echo intval($row['precio']); ?></td>
                                                         <td class="qty"><?php echo $dateDiff; ?></td>
                                                         <td class="total">US $<?php echo $row['precio']*$dateDiff; ?></td>
                                                     </tr>
@@ -277,6 +294,15 @@ function dateDiff($rental_start, $rental_end)
                                             </tfoot>
                                         </table>
                                         <div class="thanks">Thank you!</div>
+
+                                        <?php if (isset($error_msg2)): ?>
+                                            <div class="alert alert-warning"><?php echo $error_msg2; ?></div>
+                                        <?php endif; ?>
+
+                                        <?php if (isset($error_msg)): ?>
+                                            <div class="alert alert-danger"><?php echo $error_msg; ?></div>
+                                        <?php endif; ?>
+
                                         <div class="notices">
                                             <div>NOTICE:</div>
                                             <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>

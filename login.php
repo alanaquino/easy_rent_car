@@ -105,11 +105,11 @@ include('./controllers/login.php');
 			
 							<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 								<div class="reg_form" data-aos="fade-up" data-aos-delay="500">
-									<h3 class="form_title">LogIn:</h3>
+									<h3 class="form_title">Iniciar sesión</h3>
 									<p>
-										Savings of up to 15% with our car rental solutions, global coverage and a dedicated customer team
+										Ahorros de hasta un 15 % con nuestras soluciones de alquiler de vehículos y un equipo de atención al cliente exclusivo
 									</p>
-									<span class="new_account mb_15">Inicia sesión o <a href="signup.php">crea una cuenta</a></span>
+									<span class="new_account mb_15 mt-5">Inicia sesión o <a href="signup.php">crea una cuenta</a></span>
 									<form action="" method="post">
 										
 										<?php echo $accountNotExistErr; ?>
@@ -125,9 +125,9 @@ include('./controllers/login.php');
 											<input type="password" name="password_signin" placeholder="Password">
 										</div>
 										<button type="submit" name="login" id="sign_in" class="custom_btn bg_default_red text-uppercase">Login <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
-										<span class="reset_pass mb_15"><a href="#!">Reset Your Password by e-mail?</a></span>
+										<span class="reset_pass mb_15"><a href="#!">Restablecer contraseña por correo electrónico</a></span>
 										<div class="checkbox_input mb-0">
-											<label for="input_save"><input id="input_save" type="checkbox"> Save my name, email, and website in this browser for the next time I comment</label>
+											<label for="input_save"><input id="input_save" type="checkbox"> Guardar mi nombre y correo electrónico en este navegador para la próxima vez que ingrese</label>
 										</div>
 									</form>
 								</div>

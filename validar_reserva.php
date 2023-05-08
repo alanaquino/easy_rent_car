@@ -280,7 +280,7 @@ include('./head.php');
                 <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
                     <div class="reservation_form">
 
-                        <form action="account.php" method="post">
+                        <form action="reservas.php" method="post">
 
                             <input type="text" name="car_selected" class="d-none" value="<?php echo $_POST['val_car_selected']; ?>" readonly>
                             <input type="text" name="customer_id" class="d-none" value="<?php echo $id_client; ?>" readonly>
@@ -407,7 +407,7 @@ include('./head.php');
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col" style="width: 50%">Descripción</th>
-                                        <th scope="col">Precio / día</th>
+                                        <th scope="col">Precio x día</th>
                                         <th scope="col">Días</th>
                                         <th scope="col">Total</th>
                                     </tr>

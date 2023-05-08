@@ -22,10 +22,10 @@ if ($result->num_rows > 0) {
     echo "falla en el query para buscar los datos";
 }
 
+include('./controllers/insert_car.php');
+
 ?>
 
-
-<?php include('./controllers/insert_car.php'); ?>
 
 <!-- header_section -->
 <?php include('./admin-head.php'); ?>
@@ -43,56 +43,21 @@ if ($result->num_rows > 0) {
                 </div>
             </div>
 
-
-
             <div class="row g-5 ">
                 <div class="col-md-5 col-lg-4 order-md-last">
-                    <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-primary">Your cart</span>
-                        <span class="badge bg-primary rounded-pill">3</span>
-                    </h4>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Product name</h6>
-                                <small class="text-muted">Brief description</small>
-                            </div>
-                            <span class="text-muted">$12</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Second product</h6>
-                                <small class="text-muted">Brief description</small>
-                            </div>
-                            <span class="text-muted">$8</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Third item</h6>
-                                <small class="text-muted">Brief description</small>
-                            </div>
-                            <span class="text-muted">$5</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between bg-light">
-                            <div class="text-success">
-                                <h6 class="my-0">Promo code</h6>
-                                <small>EXAMPLECODE</small>
-                            </div>
-                            <span class="text-success">−$5</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Total (USD)</span>
-                            <strong>$20</strong>
-                        </li>
-                    </ul>
 
-                    <form class="card p-2">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Promo code">
-                            <button type="submit" class="btn btn-secondary">Redeem</button>
+                    <div class="card mb-4 mt-4">
+                        <div class="card-body text-center">
+
+                            <img src="https://assets-global.website-files.com/607ee530dd59915d46108839/607ee530dd59919fd6108e14_1_spin-jeep.gif" alt="avatar"
+                                 class="img-fluid" class="w-100"  style="width: 300px; height: 300px; object-fit: cover;">
+
+                            <p class="text-muted mt-3"> Agrega vehículos nuevos fácilmente a tu flotilla, y gestiona los existentes, a través de esta sección.</p>
+
                         </div>
-                    </form>
+                    </div>
                 </div>
+
                     <div class="col-md-7 col-lg-8">
 
 
@@ -119,79 +84,111 @@ if ($result->num_rows > 0) {
 
 
                               <div class="col-12">
-                                  <label for="foto_principal" class="form-label">foto_principal</label>
-                                  <input type="file" class="form-control" id="foto_principal" name="foto_principal">
+                                  <label for="foto_principal" class="form-label">Foto principal</label>
+                                  <input type="file" class="form-control form-control-lg mb-1" id="foto_principal" name="foto_principal">
                                   <?php echo $Upload_Err; ?>
                               </div>
 
                               <div class="col-12">
-                                  <label for="brand" class="form-label">Brand</label>
-                                  <input type="text" class="form-control" id="brand" name="brand" required>
-                              </div>
-
-
-                            <div class="col-12">
-                                <label for="vehicle_type" class="form-label">Vehicle Type</label>
-                                <select class="form-select" id="vehicle_type" name="vehicle_type" required>
-                                    <option value="">Select Vehicle Type</option>
-                                    <option value="Sedan">Sedan</option>
-                                    <option value="SUV">SUV</option>
-                                    <option value="Sports Car">Sports Car</option>
-                                </select>
-                            </div>
-
-                              <div class="col-12">
-                                  <label for="model" class="form-label">Model</label>
-                                  <input type="text" class="form-control" id="model" name="model" required>
-                              </div>
-                              <div class="col-12">
-                                  <label for="level" class="form-label">Level</label>
-                                  <input type="text" class="form-control" id="level" name="level" required>
-                              </div>
-                              <div class="col-12">
-                                  <label for="year" class="form-label">Year</label>
-                                  <input type="number" class="form-control" id="year" name="year" required>
-                              </div>
-                              <div class="col-12">
-                                  <label for="type" class="form-label">Type</label>
-                                  <input type="text" class="form-control" id="type" name="type" required>
-                              </div>
-                              <div class="col-12">
-                                  <label for="daily_price" class="form-label">Daily Price</label>
-                                  <input type="number" class="form-control" id="daily_price" name="daily_price" required>
-                              </div>
-
-                              <div class="col-12">
-                                  <label for="passengers" class="form-label">Passengers</label>
-                                  <input type="number" class="form-control" id="passengers" name="passengers" required>
-                              </div>
-                              <div class="col-12">
-                                  <label for="suitcase" class="form-label">Suitcase</label>
-                                  <input type="number" class="form-control" id="suitcase" name="suitcase" required>
-                              </div>
-                              <div class="col-12">
-                                  <label for="doors" class="form-label">Doors</label>
-                                  <input type="number" class="form-control" id="doors" name="doors" required>
-                              </div>
-
-
-                              <div class="mb-3">
-                                  <label for="fuel_type" class="form-label">Fuel Type</label>
-                                  <select class="form-select" id="fuel_type" name="fuel_type" required>
-                                      <option value="">Select Fuel Type</option>
-                                      <option value="Gasolina">Gasolina</option>
-                                      <option value="Diesel">Diesel</option>
+                                  <label for="vehicle_type" class="form-label">Tipo de vehículo</label>
+                                  <select class="form-select" id="vehicle_type" name="vehicle_type" required>
+                                      <option data-display="Tipo de vehículo" selected disabled>Seleccione una opción</option>
+                                      <option value="Carro">Carro</option>
+                                      <option value="Camioneta">Camioneta</option>
+                                      <option value="Minivan">Minivan</option>
                                   </select>
                               </div>
 
                               <div class="col-12">
-                                  <label for="engine" class="form-label">Engine</label>
-                                  <input type="text" class="form-control" id="engine" name="engine" required>
+                                  <label for="brand" class="form-label">Marca del vehículo</label>
+                                  <select class="form-select" id="brand" name="brand" required>
+                                      <option data-display="Tipo de vehículo" selected disabled>Seleccione una opción</option>
+                                      <option value="Acura">Acura</option>
+                                      <option value="Audi">Audi</option>
+                                      <option value="BMW">BMW</option>
+                                      <option value="Chevrolet">Chevrolet</option>
+                                      <option value="Dodge">Dodge</option>
+                                      <option value="Ford">Ford</option>
+                                      <option value="Honda">Honda</option>
+                                      <option value="Hyundai">Hyundai</option>
+                                      <option value="Jeep">Jeep</option>
+                                      <option value="Kia">Kia</option>
+                                      <option value="Lexus">Lexus</option>
+                                      <option value="Mazda">Mazda</option>
+                                      <option value="Mercedes-Benz">Mercedes-Benz</option>
+                                      <option value="Nissan">Nissan</option>
+                                      <option value="Subaru">Subaru</option>
+                                      <option value="Toyota">Toyota</option>
+                                      <option value="Tesla">Tesla</option>
+                                      <option value="Volkswagen">Volkswagen</option>
+                                  </select>
+                              </div>
+
+                              <div class="col-12">
+                                  <label for="model" class="form-label">Modelo de vehículo</label>
+                                  <input type="text" class="form-control" id="model" name="model" placeholder="Cruze, Aveo, Trax, Orlando, Spark, Camaro..." required>
+                              </div>
+                              <div class="col-12">
+                                  <label for="level" class="form-label">Nivel de equipamiento</label>
+                                  <input type="text" class="form-control" id="level" name="level" placeholder="S, SV, SR, EX, SXT, SE, SX, SRT, GT..." required>
+                              </div>
+                              <div class="col-4">
+                                  <label for="year" class="form-label">Año</label>
+                                  <input type="text" class="form-control" id="datepicker" name="year" placeholder="2017, 2018, 2019..." required>
+                              </div>
+                              <div class="col-4">
+                                  <label for="type" class="form-label">Tipo</label>
+                                  <select class="form-select" id="type" name="type" required>
+                                      <option data-display="Tipo de vehículo" selected disabled>Seleccione una opción</option>
+                                      <option value="SUV">SUV</option>
+                                      <option value="Hatchback">Hatchback</option>
+                                      <option value="Sedan">Sedan</option>
+                                      <option value="Camioneta">Camioneta</option>
+                                      <option value="Minivan">Minivan</option>
+                                      <option value="Crossover">Crossover</option>
+                                      <option value="Coupe">Coupe</option>
+                                      <option value="Convertible">Convertible</option>
+                                      <option value="Deportivo">Deportivo</option>
+                                  </select>
+                              </div>
+                              <div class="col-4">
+                                  <label for="daily_price" class="form-label">Precio por día</label>
+                                  <input type="number" class="form-control" id="daily_price" name="daily_price" placeholder="US $79.99" required>
+                              </div>
+
+                              <div class="col-4">
+                                  <label for="passengers" class="form-label">Pasajeros</label>
+                                  <input type="number" class="form-control" id="passengers" name="passengers" placeholder="2, 4, 5, 6..." required>
+                              </div>
+                              <div class="col-4">
+                                  <label for="suitcase" class="form-label">Maletas</label>
+                                  <input type="text" class="form-control" id="suitcase" name="suitcase" placeholder="1 Large, 2 Small" required>
+                              </div>
+                              <div class="col-4">
+                                  <label for="doors" class="form-label">Puertas</label>
+                                  <input type="number" class="form-control" id="doors" name="doors" placeholder="2, 4, 5, 6..." required>
+                              </div>
+
+
+                              <div class="mb-3">
+                                  <label for="fuel_type" class="form-label">Tipo de combustible</label>
+                                  <select class="form-select" id="fuel_type" name="fuel_type" required>
+                                      <option value="">Seleccione tipo de combustible</option>
+                                      <option value="Diésel">Diésel</option>
+                                      <option value="Gasolina">Gasolina</option>
+                                      <option value="Eléctrico">Eléctrico</option>
+                                      <option value="Híbrido">Híbrido</option>
+                                  </select>
+                              </div>
+
+                              <div class="col-12">
+                                  <label for="engine" class="form-label">Características del motor</label>
+                                  <input type="text" class="form-control" id="engine" name="engine" placeholder="Motor DOHC de 4 cilindros y 1.8 litros, con 129 caballos de..."  required>
                               </div>
 
                               <div class="col-12 mb-3">
-                                  <label for="options" class="form-label">Options</label>
-                                  <textarea class="form-control" id="options" name="options" rows="2"></textarea>
+                                  <label for="options" class="form-label">Características adicionales del vehículo</label>
+                                  <textarea class="form-control" id="options" name="options" rows="2" placeholder="Cruise Control, MP3 player, Automatic air conditioning, Wifi, GPS Navigation..."></textarea>
                               </div>
 
 
@@ -200,7 +197,7 @@ if ($result->num_rows > 0) {
                             </p>
 
                             <button type="submit" name="submit" id="submit" class="w-100 btn btn-primary btn-lg">
-                                Registrate
+                                Registrar vehículo
                             </button>
 
                         </form>
@@ -235,6 +232,16 @@ if ($result->num_rows > 0) {
 <!-- header_section -->
 <?php include('./admin-script.php'); ?>
 
+<script>
+    $(document).ready(function(){
+        $("#datepicker").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            autoclose:true
+        });
+    })
+</script>
 
 </body>
 </html>

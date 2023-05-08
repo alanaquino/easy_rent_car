@@ -8,10 +8,9 @@ ob_start();
 //    session_start();
 //}
 
-//$hostname = "50.87.151.191";
-$hostname = "localhost";
-$username = "root";
-$password = "";
+$hostname = "50.87.151.191";
+$username = "rotary40_rental";
+$password = "HG&]170jsh]l";
 $dbname = "rotary40_car_rental_app";
 
 $connection = mysqli_connect($hostname, $username, $password, $dbname) or die("Database connection not established.");

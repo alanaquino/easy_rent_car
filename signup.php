@@ -173,7 +173,7 @@ include('./controllers/register.php');
 										</div>
 										
 										<p>
-											Your personal data will be used in mapping with the vehicles you added to the website, to manage access to your account, and for other purposes described in our 
+											Sus datos personales se utilizarán en el mapeo con los vehículos, para administrar el acceso a su cuenta y para otros fines descritos en nuestros términos y condiciones.
 										</p>
 										<button type="submit" name="submit" id="submit" class="custom_btn bg_default_red text-uppercase mb-0">Registrate <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
 								

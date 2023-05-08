@@ -11,6 +11,68 @@ include('config/db.php');
 
 $customer_id_s = $_SESSION['id'];
 
+
+$submit_allert = "";
+
+
+if(isset($_POST['submit_form'])) {
+
+    // Get the form data
+    $customer_id 	    = $_POST['customer_id'];
+    $car_selected_id 	= $_POST['car_selected'];
+    $pickup_location 	= $_POST['pickup_location'];
+    $pickup_date 		= $_POST['pickup_date'];
+    $pickup_time 		= $_POST['pickup_time'];
+    $return_location 	= $_POST['return_location'];
+    $return_date 		= $_POST['return_date'];
+    $return_time 		= $_POST['return_time'];
+    $grand_total 		= $_POST['grand_total'];
+
+    $extra_srvs 		    = $_POST['extra_srv'];
+
+
+    // Insert the rental data into the rentals table
+    $sql = "INSERT INTO rentals (customer_id, car_id, pickup_location_id, return_location_id, rental_start, rental_end, rental_start_time, rental_end_time, rental_status_id, total_price) 
+					VALUES ('$customer_id', '$car_selected_id', '$pickup_location', '$return_location', '$pickup_date', '$return_date', '$pickup_time', '$return_time', 1, '$grand_total')";
+
+    if ($connection->query($sql) === TRUE) {
+
+        $rental_id = $connection->insert_id;
+
+        // Insert the rental and service data into the customer_rentals and rental_extra_services tables
+        $sql = "INSERT INTO customer_rentals (customer_id, rental_id) VALUES ('$customer_id', '$rental_id')";
+
+        if ($connection->query($sql) === TRUE) {
+
+            if (!empty($extra_srvs)) {
+
+                foreach ($extra_srvs as $extra_srv) {
+
+                    $sql = "INSERT INTO rental_extra_services (rental_id, services_id) VALUES ('$rental_id', '$extra_srv')";
+
+                    if ($connection->query($sql) === TRUE) {
+
+                        $submit_allert = "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+											¡Hemos recibido su reserva exisosamente! <a href='ver_reserva.php?id=".$rental_id."' class='alert-link'>Ver reserva aquí</a>
+											<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+										  </div>";
+
+                    } else {
+
+                        echo "Error: " . $sql . "<br>" . $connection->error;
+                    }
+                }
+            }
+
+        } else {
+            echo "Error: " . $sql . "<br>" . $connection->error;
+        }
+
+    } else {
+        echo "Error: " . $sql . "<br>" . $connection->error;
+    }
+}
+
 // Get all the rentals
 $sql = "SELECT rentals.id,
 				   rentals.created_at, 
@@ -91,70 +153,8 @@ if ($result11->num_rows > 0) {
     $upc_reservations = "No reservations yet.";
 }
 
-
-$submit_allert = "";
-
-
-if(isset($_POST['submit_form'])) {
-
-    // Get the form data
-    $customer_id 	    = $_POST['customer_id'];
-    $car_selected_id 	= $_POST['car_selected'];
-    $pickup_location 	= $_POST['pickup_location'];
-    $pickup_date 		= $_POST['pickup_date'];
-    $pickup_time 		= $_POST['pickup_time'];
-    $return_location 	= $_POST['return_location'];
-    $return_date 		= $_POST['return_date'];
-    $return_time 		= $_POST['return_time'];
-    $grand_total 		= $_POST['grand_total'];
-
-    $extra_srvs 		    = $_POST['extra_srv'];
-
-
-    // Insert the rental data into the rentals table
-    $sql = "INSERT INTO rentals (customer_id, car_id, pickup_location_id, return_location_id, rental_start, rental_end, rental_start_time, rental_end_time, rental_status_id, total_price) 
-					VALUES ('$customer_id', '$car_selected_id', '$pickup_location', '$return_location', '$pickup_date', '$return_date', '$pickup_time', '$return_time', 1, '$grand_total')";
-
-    if ($connection->query($sql) === TRUE) {
-
-        $rental_id = $connection->insert_id;
-
-        // Insert the rental and service data into the customer_rentals and rental_extra_services tables
-        $sql = "INSERT INTO customer_rentals (customer_id, rental_id) VALUES ('$customer_id', '$rental_id')";
-
-        if ($connection->query($sql) === TRUE) {
-
-            if (!empty($extra_srvs)) {
-
-                foreach ($extra_srvs as $extra_srv) {
-
-                    $sql = "INSERT INTO rental_extra_services (rental_id, services_id) VALUES ('$rental_id', '$extra_srv')";
-
-                    if ($connection->query($sql) === TRUE) {
-
-                        $submit_allert = "<div class='alert alert-danger' role='alert'>
-												  Vehículo no disponible para la fecha seleccionada. Por favor, seleccione otra fecha
-											  </div>";
-
-                    } else {
-
-                        echo "Error: " . $sql . "<br>" . $connection->error;
-                    }
-                }
-            }
-
-        } else {
-            echo "Error: " . $sql . "<br>" . $connection->error;
-        }
-
-    } else {
-        echo "Error: " . $sql . "<br>" . $connection->error;
-    }
-
-    // Close the database connection
-    $connection->close();
-
-}
+// Close the database connection
+$connection->close();
 
 
 //Creating Function
@@ -298,6 +298,9 @@ include('./head.php');
 
                         <div id="history_tab" class="tab-pane active">
                             <div class="account_info_list" data-aos="fade-up" data-aos-delay="100">
+
+                                <?php echo $submit_allert; ?>
+
                                 <h3 class="list_title mb_30">Historial de reservas:</h3>
                                 <ul class="ul_li_block clearfix mb-5">
                                     <li><span>Próximas reservas:</span> <?php echo $upc_reservations; ?> </li>
@@ -322,8 +325,7 @@ include('./head.php');
 
                                         <tr>
                                             <td><?php echo $row['id']; ?></td>
-                                            <td>
-                                                <b><?php echo $row['status']; ?></b><br>
+                                            <td><span class="badge badge-pill <?php if ($row['status'] == "Reserva cancelada") { echo "bg-danger"; } else { echo "bg-primary"; } ?> text-light"><?php echo $row['status']; ?></span><br>
                                                 Hace <?php echo TimeAgo($row['updated_at'], date("Y-m-d H:i:s")); ?>
                                             </td>
                                             <td>

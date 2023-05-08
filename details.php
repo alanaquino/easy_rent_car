@@ -158,7 +158,7 @@ if ($result->num_rows > 0) {
 										<img src="uploads/<?php echo $foto_principal; ?>" alt="image_not_found">
 										<ul class="btns_group ul_li_center clearfix">
 											<li>
-												<span class="custom_btn btn_width bg_default_blue"><del><?php echo $daily_price+20; ?>/día</del> $<?php echo $daily_price; ?>/día</span>
+												<span class="custom_btn btn_width bg_default_blue"><del><?php echo $daily_price+20; ?> x día</del> $<?php echo intval($daily_price); ?> x día</span>
 											</li>
 											<li>
 												<a href="verificar_disponibilidad.php?id=<?php echo $id; ?>" class="custom_btn btn_width bg_default_red text-uppercase">Rentar este vehículo <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></a>

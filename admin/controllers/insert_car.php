@@ -41,7 +41,7 @@ if(isset($_POST['submit'])) {
         } else {
             $uploadOk = 0;
             $Upload_Err = '<div class="alert alert-danger">
-                            Solo se permiten letras y espacios en blanco.
+                            Error al subir la foto: Solo se permiten letras y espacios en blanco.
                         </div>';
         }
         // Check file size
@@ -77,9 +77,10 @@ if(isset($_POST['submit'])) {
 
             if ($connection->query($sql2) === TRUE) {
 
-                // header("Location: vehiculo.php?id=$car_id");
-                exit();
-
+                $success_msg = "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+											¡Hemos recibido su registro exisosamente! <a href='vehiculo.php?id=".$car_id."' class='alert-link'>Ver registro aquí</a>
+											<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+										  </div>";
             } else {
                 echo "Error: " . $sql . "<br>" . $connection->error;
             }
@@ -91,4 +92,3 @@ if(isset($_POST['submit'])) {
         echo "Error: " . $sql . "<br>" . $connection->error;
     }
 }
-?>

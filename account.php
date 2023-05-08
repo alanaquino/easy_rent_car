@@ -9,71 +9,35 @@
 	// Database connection
 	include('config/db.php');
 
+$customer_id = $_SESSION['id'];
 
-	$submit_allert = "";
+// Get all the rentals
+$sql = "SELECT 	firstname,
+				lastname,
+				email,
+				phone,
+				nacionalidad,
+				licencia_id,
+				address
+			FROM customers
+			WHERE customers.id = '{$customer_id}'";
 
+$result = $connection->query($sql);
 
-	if(isset($_POST['submit_form'])) {
-
-		// Get the form data
-		$customer_id 	    = $_POST['customer_id'];
-		$car_selected_id 	= $_POST['car_selected'];
-		$pickup_location 	= $_POST['pickup_location'];
-		$pickup_date 		= $_POST['pickup_date'];
-		$pickup_time 		= $_POST['pickup_time'];
-		$return_location 	= $_POST['return_location'];
-		$return_date 		= $_POST['return_date'];
-		$return_time 		= $_POST['return_time'];
-		$grand_total 		= $_POST['grand_total'];
-
-		$extra_srvs 		    = $_POST['extra_srv'];
-
-
-		// Insert the rental data into the rentals table
-		$sql = "INSERT INTO rentals (customer_id, car_id, pickup_location_id, return_location_id, rental_start, rental_end, rental_start_time, rental_end_time, rental_status_id, total_price) 
-						VALUES ('$customer_id', '$car_selected_id', '$pickup_location', '$return_location', '$pickup_date', '$return_date', '$pickup_time', '$return_time', 1, '$grand_total')";
-
-		if ($connection->query($sql) === TRUE) {
-
-			$rental_id = $connection->insert_id;
-
-			// Insert the rental and service data into the customer_rentals and rental_extra_services tables
-			$sql = "INSERT INTO customer_rentals (customer_id, rental_id) VALUES ('$customer_id', '$rental_id')";
-
-			if ($connection->query($sql) === TRUE) {
-
-				if (!empty($extra_srvs)) {
-
-					foreach ($extra_srvs as $extra_srv) {
-
-						$sql = "INSERT INTO rental_extra_services (rental_id, services_id) VALUES ('$rental_id', '$extra_srv')";
-
-						if ($connection->query($sql) === TRUE) {
-
-							$submit_allert = "<div class='alert alert-danger' role='alert'>
-													  Vehículo no disponible para la fecha seleccionada. Por favor, seleccione otra fecha
-												  </div>";
-
-						} else {
-
-							echo "Error: " . $sql . "<br>" . $connection->error;
-						}
-					}
-				}
-
-			} else {
-				echo "Error: " . $sql . "<br>" . $connection->error;
-			}
-
-		} else {
-			echo "Error: " . $sql . "<br>" . $connection->error;
+if ($result->num_rows > 0) {
+	// output data of each row
+	while($row = $result->fetch_assoc()) {
+		$firstname		=$row["firstname"];
+		$lastname		=$row["lastname"];
+		$email			=$row["email"];
+		$phone			=$row["phone"];
+		$nacionalidad	=$row["nacionalidad"];
+		$licencia_id	=$row["licencia_id"];
+		$address		=$row["address"];
 	}
-
-	// Close the database connection
-	$connection->close();
-
-	}
-
+} else {
+	echo "falla en el query para buscar los datos del usuario";
+}
 
 ?>
 
@@ -170,7 +134,7 @@
 								<h3 class="list_title mb_15">Cuenta:</h3>
 								<ul class="ul_li_block nav" role="tablist">
 									<li>
-										<a class="active" data-toggle="tab" href="#admin_tab"><i class="fas fa-user"></i> <?php echo $_SESSION['firstname']; ?> <?php echo $_SESSION['lastname']; ?></a>
+										<a class="active" data-toggle="tab" href="#admin_tab"><i class="fas fa-user"></i> <?php echo $firstname." ".$lastname; ?></a>
 									</li>
 									<li>
 										<a href="reservas.php"><i class="fas fa-file-alt"></i> Historial de Reservas</a>
@@ -187,15 +151,16 @@
 								<div id="admin_tab" class="tab-pane active">
 									<div class="account_info_list" data-aos="fade-up" data-aos-delay="100">
 
-										<?php echo $submit_allert; ?>
+
 
 										<h3 class="list_title mb_30">Información de la cuenta:</h3>
 										<ul class="ul_li_block clearfix">
-											<li><span>Name:</span> <?php echo $_SESSION['firstname']; ?> <?php echo $_SESSION['lastname']; ?></li>
-											<li><span>E-mail:</span> <?php echo $_SESSION['email']; ?></li>
-											<li><span>Phone Number:</span> +1-202-555-0104</li>
-											<li><span>Country:</span> United States</li>
-											<li><span>Address:</span> 60 Stonybrook Lane Atlanta, GA 30303</li>
+											<li><span>Nombre:</span> <?php echo $firstname." ".$lastname; ?></li>
+											<li><span>E-mail:</span> <?php echo $email; ?></li>
+											<li><span>Celular:</span> <?php echo $phone; ?></li>
+											<li><span>Licencia:</span> <?php echo $licencia_id; ?></li>
+											<li><span>Nacionalidad:</span> <?php echo $nacionalidad; ?></li>
+											<li><span>Dirección:</span> <?php echo $address; ?></li>
 										</ul>
 										<a class="text_btn text-uppercase" href="#!"><span>Cambiar la información de la cuenta</span> <img src="assets/images/icons/icon_02.png" alt="icon_not_found"></a>
 									</div>

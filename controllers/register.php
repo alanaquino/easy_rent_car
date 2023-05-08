@@ -11,7 +11,7 @@
     global $fNameEmptyErr, $lNameEmptyErr, $emailEmptyErr, $licenciaEmptyErr, $phoneEmptyErr, $nacionalidadEmptyErr, $passwordEmptyErr, $email_verify_err, $email_verify_success;
     
     // Set empty form vars for validation mapping
-    $_first_name = $_last_name = $_email = $_mobile_number = $_password = "";
+    $_first_name = $_last_name = $_email = $_mobile_number = $_password = $_phone = $_nacionalidad = $_licencia = "";
 
     if(isset($_POST["submit"])) {
         $firstname     = $_POST["firstname"];
@@ -44,6 +44,9 @@
                 $_last_name = mysqli_real_escape_string($connection, $lastname);
                 $_email = mysqli_real_escape_string($connection, $email);
                 $_password = mysqli_real_escape_string($connection, $password);
+                $_phone = mysqli_real_escape_string($connection, $phone);
+                $_nacionalidad = mysqli_real_escape_string($connection, $nacionalidad);
+                $_licencia = mysqli_real_escape_string($connection, $licencia_id);
 
                 // perform validation
                 if(!preg_match("/^[a-zA-Z ]*$/", $_first_name)) {

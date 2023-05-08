@@ -21,7 +21,7 @@
 									</a>
 								</div>
 								<p class="mb_15">
-									Cras sit amet mi non orci pretium consectetur. Donec iaculis ante ac sollicitudin luctus. Phasellus ut lacus lacus. Phasellus sagittis ex id tortor tincidunt luctus. Donec consectetur consequat bibendum
+									Easy Rent Car, donde rentar un vehículo es más fácil<br>El rent car de confianza para su próximo viaje.
 								</p>
 								
 							</div>
