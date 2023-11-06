@@ -4,7 +4,7 @@ session_start();
 
 // Database connection
 include('config/db.php');
-
+// Hola, Soy Miguel
 //Find all cars in the database
 $sql = "SELECT 
             cars.id,
