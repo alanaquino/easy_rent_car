@@ -38,21 +38,21 @@
 										<i class="fal fa-user"></i>
 									</button>
 									
-									<?php if(isset($_SESSION['id']) !="") { ?>
+									<?php if(isset($_SESSION['admin_id']) !="") { ?>
 									<div class="user_dropdown rotors_dropdown dropdown-menu clearfix" aria-labelledby="user_dropdown">
 										<div class="profile_info clearfix">
 											<a href="#!" class="user_thumbnail">
 												<img src="assets/images/meta/img_01.png" alt="thumbnail_not_found">
 											</a>
 											<div class="user_content">
-												<h4 class="user_name"><a href="#!"><?php echo $_SESSION['firstname']; ?> <?php echo $_SESSION['lastname']; ?></a></h4>
+												<h4 class="user_name"><a href="#!"><?php echo $_SESSION['admin_firstname']; ?> <?php echo $_SESSION['admin_lastname']; ?></a></h4>
 												<span class="user_title">Seller</span>
 											</div>
 										</div>
 										<ul class="ul_li_block clearfix">
-											<li><a href="#!"><i class="fal fa-user-circle"></i> Profile</a></li>
-											<li><a href="#!"><i class="fal fa-user-cog"></i> Settings</a></li>
-											<li><a href="logout.php"><i class="fal fa-sign-out"></i> Logout</a></li>
+											<li><a href="#!"><i class="fal fa-user-circle"></i> Perfil</a></li>
+											<li><a href="#!"><i class="fal fa-user-cog"></i> Ajustes</a></li>
+											<li><a href="logout.php"><i class="fal fa-sign-out"></i> Salir</a></li>
 										</ul>
 									</div>
 									<?php } else { ?>

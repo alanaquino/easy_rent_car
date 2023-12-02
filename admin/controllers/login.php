@@ -55,10 +55,10 @@ if(isset($_POST['login'])) {
                 if($email_signin == $email && $password_signin == $password) {
                     header("Location: ./index.php");
 
-                    $_SESSION['id'] = $id;
-                    $_SESSION['firstname'] = $firstname;
-                    $_SESSION['lastname'] = $lastname;
-                    $_SESSION['email'] = $email;
+                    $_SESSION['admin_id'] = $id;
+                    $_SESSION['admin_firstname'] = $firstname;
+                    $_SESSION['admin_lastname'] = $lastname;
+                    $_SESSION['admin_email'] = $email;
                     $_SESSION['token'] = $token;
                     $_SESSION['created_at'] = $created_at;
 

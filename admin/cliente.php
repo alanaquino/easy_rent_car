@@ -2,7 +2,7 @@
 
 session_start();
 
-if(isset($_SESSION['id']) =="") {
+if(isset($_SESSION['admin_id']) =="") {
     header("Location: login.php");
 }
 
@@ -33,7 +33,6 @@ if ($result->num_rows > 0) {
 } else {
     echo "falla en el query para buscar los CLIENTES";
 }
-
 
 // Get all the rentals
 $sql = "SELECT rentals.id,
