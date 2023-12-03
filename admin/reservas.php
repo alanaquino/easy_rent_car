@@ -74,7 +74,8 @@ $sql = "SELECT rentals.id,
         INNER JOIN cars
             ON rentals.car_id = cars.id
         INNER JOIN rental_statuses
-            ON rentals.rental_status_id = rental_statuses.id";
+            ON rentals.rental_status_id = rental_statuses.id
+        ORDER BY rentals.id DESC";
 $result = $connection->query($sql);
 
 if ($result->num_rows > 0) {

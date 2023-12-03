@@ -74,7 +74,7 @@ include('./controllers/login.php');
 				<div class="page_title_area has_overlay d-flex align-items-center clearfix" data-bg-image="assets/images/breadcrumb/bg_09.jpg">
 					<div class="overlay"></div>
 					<div class="container" data-aos="fade-up" data-aos-delay="100">
-						<h1 class="page_title text-white mb-0">Login</h1>
+						<h1 class="page_title text-white mb-0">Iniciar sesión</h1>
 					</div>
 				</div>
 				<div class="breadcrumb_nav clearfix" data-bg-color="#F2F2F2">
@@ -119,10 +119,10 @@ include('./controllers/login.php');
 										<?php echo $pass_empty_err; ?>
 										
 										<div class="form_item">
-											<input type="email" name="email_signin" placeholder="Your email">
+											<input type="email" name="email_signin" placeholder="Correo electrónico">
 										</div>
 										<div class="form_item">
-											<input type="password" name="password_signin" placeholder="Password">
+											<input type="password" name="password_signin" placeholder="Contraseña">
 										</div>
 										<button type="submit" name="login" id="sign_in" class="custom_btn bg_default_red text-uppercase">Login <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
 										<span class="reset_pass mb_15"><a href="#!">Restablecer contraseña por correo electrónico</a></span>

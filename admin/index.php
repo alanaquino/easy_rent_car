@@ -1,15 +1,17 @@
 <?php
 
+// Iniciar una nueva sesión
 session_start();
 
+// Verificar si el administrador no ha iniciado sesión, redirigir a la página de inicio de sesión
 if(isset($_SESSION['admin_id']) =="") {
     header("Location: login.php");
 }
 
-// Database connection
+// Conexión a la base de datos
 require_once "config/db.php";
 
-
+// Consulta para obtener el recuento de reservas para cada estado de reserva
 $sql = "SELECT rental_statuses.name as label, COUNT(`rental_status_id`) as cant
         FROM `rentals` 
         INNER JOIN rental_statuses
@@ -17,6 +19,7 @@ $sql = "SELECT rental_statuses.name as label, COUNT(`rental_status_id`) as cant
         GROUP BY 1";
 $result = $connection->query($sql);
 
+// Procesar el resultado de la primera consulta
 if ($result->num_rows > 0) {
     // output data of each row
     $estatus_reserva = array();
@@ -27,18 +30,7 @@ if ($result->num_rows > 0) {
     echo "falla en el query para buscar los datos";
 }
 
-/*
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        $label[]=$row["label"];
-        $cant[]=$row["cant"];
-    }
-} else {
-    echo "falla en el query para buscar Monto Donaciones";
-}
-*/
-
+// Consulta para obtener varios recuentos relacionados con clientes, autos y reservas
 $sql2 = "SELECT
             COUNT(DISTINCT customers.id) AS total_customers,
             COUNT(DISTINCT cars.id) AS total_cars,
@@ -52,6 +44,7 @@ $sql2 = "SELECT
             cars ON rentals.car_id = cars.id;";
 $result2 = $connection->query($sql2);
 
+// Procesar el resultado de la segunda consulta
 if ($result2->num_rows > 0) {
     // output data of each row
     while($row = $result2->fetch_assoc()) {
@@ -64,6 +57,7 @@ if ($result2->num_rows > 0) {
     echo "falla en el query para buscar los total_reservas";
 }
 
+// Consulta para obtener el recuento de reservas para cada mes
 $sql3 = "SELECT
             YEAR(rental_start) AS year,
             CONVERT(MONTHNAME(rental_start) USING utf8) AS month,
@@ -90,7 +84,7 @@ if ($result3->num_rows > 0) {
     echo "falla en el query para buscar los datos";
 }
 
-
+// Consulta para obtener detalles de las últimas 10 reservas activas
 $sql3 = "SELECT rentals.id,
                rentals.created_at, 
                customers.id as id_cliente,
@@ -116,6 +110,7 @@ $sql3 = "SELECT rentals.id,
             ON rentals.car_id = cars.id
         INNER JOIN rental_statuses
             ON rentals.rental_status_id = rental_statuses.id
+        WHERE rentals.rental_status_id = 1
         ORDER BY rentals.id DESC   
         LIMIT 10";
 $result3 = $connection->query($sql3);
@@ -130,11 +125,11 @@ if ($result3->num_rows > 0) {
     echo "falla en el query para buscar los datos";
 }
 
-// Close the database connection
+// Cerrar la conexión a la base de datos
 $connection->close();
 
 
-//Creating Function
+// Función para calcular la diferencia de tiempo en un formato legible
 function TimeAgo ($oldTime, $newTime) {
     $timeCalc = strtotime($newTime) - strtotime($oldTime);
     if ($timeCalc >= (60*60*24*30*12*2)){
@@ -162,7 +157,7 @@ function TimeAgo ($oldTime, $newTime) {
     }
     return $timeCalc;
 }
-//Creating Function
+// Función para formatear números en un formato legible (por ejemplo, 1k, 1m)
 function thousandsCurrencyFormat($num) {
 
     if($num>1000) {
@@ -189,19 +184,20 @@ function thousandsCurrencyFormat($num) {
 <?php include('./admin-head.php'); ?>
 
 
-<!-- Step 1 - Include the fusioncharts core library -->
+<!-- Include the fusioncharts core library -->
 <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
-<!-- Step 2 - Include the fusion theme -->
+<!-- Include the fusion theme -->
 <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
 
 <script type="text/javascript">
     const dataSource_status = {
         chart: {
             plottooltext: "$label: <b>$percentValue</b>",
-            showlegend: "0",
+            showvalues: "1",
+            showlegend: "1",
             showpercentvalues: "1",
             legendposition: "bottom",
-            usedataplotcolorforlabels: "0",
+            usedataplotcolorforlabels: "1",
             theme: "fusion",
             use3DLighting: "0",
             decimals: "1"
@@ -268,7 +264,7 @@ function thousandsCurrencyFormat($num) {
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Dashboard</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Dashboard</li>
+
                         </ol>
 
                         <div class="row">

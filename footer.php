@@ -16,7 +16,7 @@
 								</div>
 							
 								<div class="brand_logo mb_30">
-									<a href="index.html">
+									<a href="index.php">
 										<img src="assets/images/logo/logo_02_1x.png" srcset="assets/images/logo/logo_02_2x.png 2x" alt="logo_not_found">
 									</a>
 								</div>
@@ -38,15 +38,13 @@
 				<div class="container">
 					<div class="row align-items-center justify-content-lg-between">
 						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-							<p class="copyright_text mb-0">Copyright © 2023. Easy Rent by <a class="author_links text-white" href="#!">Grupo 2</a></p>
+							<p class="copyright_text mb-0">Copyright © 2023. Easy Rent by <a class="author_links text-white" href="#!">Grupo 3</a></p>
 						</div>
 
 						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 							<ul class="primary_social_links ul_li_right clearfix">
 								<li><a href="#!"><i class="fab fa-facebook-f"></i></a></li>
 								<li><a href="#!"><i class="fab fa-instagram"></i></a></li>
-								<li><a href="#!"><i class="fab fa-twitter"></i></a></li>
-								<li><a href="#!"><i class="fab fa-youtube"></i></a></li>
 							</ul>
 						</div>
 					</div>

@@ -99,7 +99,8 @@ if ($result === false) {
             $data[] = $row;
         }
     } else {
-        echo "No data found";
+        // No rows returned
+        $mensaje = "No hay información de alquileres disponible con esos filtros.";
     }
 }
 
@@ -309,18 +310,16 @@ if ($result === false) {
                             <div class="item_shorting clearfix" data-aos="fade-up" data-aos-delay="100">
                                 <div class="row align-items-center justify-content-lg-between">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                        <span class="item_available">Vehículos disponible <?php echo count($data); ?></span>
+                                        <span class="item_available">Vehículos disponible <?php if (!empty($data)) { echo count($data); } ?></span>
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                         <form action="#">
                                             <div class="form_item mb-0">
                                                 <select>
-                                                    <option data-display="Short By">Seleccione una opción</option>
+                                                    <option data-display="Ordenar por">Seleccione una opción</option>
                                                     <option value="1" selected>Orden predeterminado</option>
                                                     <option value="2">Another option</option>
-                                                    <option value="3" disabled>A disabled option</option>
-                                                    <option value="4">Potato</option>
                                                 </select>
                                             </div>
                                         </form>
@@ -330,7 +329,11 @@ if ($result === false) {
 
                             <div class="row">
 
-                                <?php foreach($data as $row){ ?>
+                                <?php
+                                // Check if $rentals is not empty before entering the loop
+                                if (!empty($data)) {
+                                    foreach($data as $row){
+                                    ?>
                                     <div class="col-lg-6 col-md-6">
                                         <div class="feature_vehicle_item" data-aos="fade-up" data-aos-delay="100">
                                             <h3 class="item_title mb-0">
@@ -352,7 +355,17 @@ if ($result === false) {
                                             </ul>
                                         </div>
                                     </div>
-                                <?php } ?>
+                                        <?php
+                                    }
+                                } else {
+                                    // Display a message or take some other action if $rentals is empty
+                                    echo '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="feature_vehicle_item" data-aos="fade-up" data-aos-delay="100">
+                                                <div class="alert alert-warning" role="alert">'.$mensaje.'</div>
+                                            </div>
+                                          </div>';
+                                }
+                                ?>
 
 
 

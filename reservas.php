@@ -150,7 +150,7 @@ if ($result11->num_rows > 0) {
         $upc_reservations = "<a href='ver_reserva.php?id=". $row["id"] ."' role='button'>". $row["brand"]. " ".$row["model"]." ".$row["level"]." ". $row["year"] ."</a>";
     }
 } else {
-    $upc_reservations = "No reservations yet.";
+    $upc_reservations = "Aún no tiene reservas próximas";
 }
 
 // Close the database connection
@@ -198,6 +198,11 @@ $title = "Account - Easy Rent Car Latinoamérica";
 include('./head.php');
 ?>
 
+<style>
+    .modal-content {
+        z-index: 1000; /* Adjust the z-index to bring it in front */
+    }
+</style>
 
 <body>
 
@@ -321,7 +326,11 @@ include('./head.php');
                                     </thead>
                                     <tbody>
 
-                                    <?php foreach($rentals as $row){ ?>
+                                    <?php
+                                    // Check if $rentals is not empty before entering the loop
+                                    if (!empty($rentals)) {
+                                    foreach($rentals as $row){
+                                        ?>
 
                                         <tr>
                                             <td><?php echo $row['id']; ?></td>
@@ -347,19 +356,61 @@ include('./head.php');
                                             <td>
 
                                                 <div class="d-grid gap-2">
-                                                    <a class="btn btn-primary btn-sm  btn-block" href="ver_reserva.php?id=<?php echo $row['id']; ?>" role="button">Ver</a>
-                                                    <?php
+                                                    <a class="btn btn-primary btn-sm btn-block" href="ver_reserva.php?id=<?php echo $row['id']; ?>" role="button">Ver</a>
 
-                                                    if ($row['status'] == "Reservado via web") {
-                                                        echo "<a class='btn btn-danger btn-sm  btn-block' href='ver_reserva.php?id=". $row['id'] ."' role='button'>Cancelar</a>";
-                                                    }
+                                                    <?php if ($row['status'] == "Reservado via web") { ?>
 
-                                                    ?>
+                                                        <?php if ($row['status'] != "Reserva cancelada"): ?>
+                                                            <!-- Button trigger modal -->
+                                                            <br>
+                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal<?php echo $row['id']; ?>">
+                                                                Cancelar
+                                                            </button>
+                                                        <?php endif; ?>
+
+                                                    <?php } ?>
 
                                                 </div>
                                             </td>
                                         </tr>
-                                    <?php } ?>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal<?php echo $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="false">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Cancelar reserva</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <h5>¿Estás seguro de que quieres cancelar esta reserva?</h5>
+                                                        <form method="POST" action="">
+                                                            <input type="hidden" name="status" value="7">
+                                                            <input type="hidden" name="rental_id" value="<?php echo $row['id']; ?>">
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">No</button>
+                                                                <button type="submit" class="btn btn-danger" name="update_status">Cancelar reserva</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <?php
+                                        }
+                                    } else {
+                                        // Display a message or take some other action if $rentals is empty
+                                        echo '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                            <div class="feature_vehicle_item" data-aos="fade-up" data-aos-delay="100">
+                                                <div class="alert alert-warning" role="alert">Aún no ha realizado reservas</div>
+                                            </div>
+                                          </div>';
+                                    }
+                                    ?>
 
                                     </tbody>
                                 </table>
@@ -389,6 +440,7 @@ include('./head.php');
 
 <!-- include_section -->
 <?php include('./include.php'); ?>
+
 
 </body>
 </html>
