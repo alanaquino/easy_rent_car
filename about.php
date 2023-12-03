@@ -90,7 +90,7 @@ session_start();
 
 					<div class="section_title mb_30 text-center" data-aos="fade-up" data-aos-delay="100">
 						<h2 class="title_text mb-0">
-							<span>Nosotros</span>
+							<span>Nosotrossssssssss</span>
 						</h2>
 					</div>
 
