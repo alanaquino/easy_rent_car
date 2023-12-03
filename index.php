@@ -173,7 +173,7 @@ if ($result->num_rows > 0) {
 
 								<div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
 									<div class="price-range-area clearfix">
-										<h4 class="input_title text-white">Price</h4>
+										<h4 class="input_title text-white">Precio</h4>
 										<div id="slider-range" class="slider-range clearfix"></div>
 										<input class="price-text" type="text" id="amount" name="price_range" readonly>
 									</div>

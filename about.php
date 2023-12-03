@@ -67,14 +67,14 @@ session_start();
 				<div class="page_title_area has_overlay d-flex align-items-center clearfix" data-bg-image="assets/images/breadcrumb/bg_05.jpg">
 					<div class="overlay"></div>
 					<div class="container" data-aos="fade-up" data-aos-delay="100">
-						<h1 class="page_title text-white mb-0">About Us</h1>
+						<h1 class="page_title text-white mb-0">Sobre Nosotros</h1>
 					</div>
 				</div>
 				<div class="breadcrumb_nav clearfix" data-bg-color="#F2F2F2">
 					<div class="container">
 						<ul class="ul_li clearfix">
 							<li><a href="index.php">Inicio</a></li>
-							<li>About</li>
+							<li>Nosotros</li>
 						</ul>
 					</div>
 				</div>
@@ -90,8 +90,15 @@ session_start();
 
 					<div class="section_title mb_30 text-center" data-aos="fade-up" data-aos-delay="100">
 						<h2 class="title_text mb-0">
-							<span>Nosotrossssssssss</span>
+							<span>Easy Rent Car</span>
 						</h2>
+
+						<h3 class="mb-0">
+							El equipo de Easy Rent Car esta dedicado a brindarte la mejor experiencia de usuario y facilitarte
+							la vida para que puedas rentar el vehiculo de tus sueños de manera mas facil, somos el rent car de
+							confianza para su proximo viaje.
+						</h3>
+
 					</div>
 
 					<div class="row justify-content-center">
@@ -100,9 +107,9 @@ session_start();
 								<div class="item_icon">
 									<i class="far fa-shield-alt"></i>
 								</div>
-								<h3 class="item_title">Secured Payment Guaranteeeeeed</h3>
+								<h3 class="item_title">Garantia de Seguridad en Pagos</h3>
 								<p class="mb-0">
-									Vestibulum at ultrices elit. Maecenas faucibus vulputate vestibulum
+									Plataforma de pagos segura y confiable.
 								</p>
 							</div>
 						</div>
@@ -112,9 +119,9 @@ session_start();
 								<div class="item_icon">
 									<i class="fal fa-headset"></i>
 								</div>
-								<h3 class="item_title">Help Center & Support 24/7</h3>
+								<h3 class="item_title">Ayuda y Soporte 24/7</h3>
 								<p class="mb-0">
-									Vestibulum at ultrices elit. Maecenas faucibus vulputate vestibulum
+									El equipo de ayuda y soporte esta disponible para asistir las 24 horas los 7 dias de la semana.
 								</p>
 							</div>
 						</div>
@@ -122,16 +129,16 @@ session_start();
 						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 							<div class="service_primary text-center" data-aos="fade-up" data-aos-delay="500">
 								<div class="item_icon">
-									<i class="far fa-shield-alt"></i>
+									<i class="fas fa-gem"></i>
 								</div>
-								<h3 class="item_title">Booking any Class Vehicles</h3>
+								<h3 class="item_title">Reserva de Vehiculos de cualquier clase</h3>
 								<p class="mb-0">
-									Vestibulum at ultrices elit. Maecenas faucibus vulputate vestibulum
+									Ya sea un vehiculo de baja gama o alta gama, puedes reservar el vehiculo que desees.
 								</p>
 							</div>
 						</div>
 
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+						<!-- <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 							<div class="service_primary text-center" data-aos="fade-up" data-aos-delay="100">
 								<div class="item_icon">
 									<i class="fas fa-briefcase"></i>
@@ -166,7 +173,7 @@ session_start();
 								</p>
 							</div>
 						</div>
-					</div>
+					</div> -->
 
 				</div>
 			</section>
@@ -183,11 +190,11 @@ session_start();
 						<div class="gallery_fullimage" data-aos="fade-up" data-aos-delay="100">
 							<img src="assets/images/backgrounds/bg_02.jpg" alt="image_not_found">
 							<div class="item_content text-white">
-								<h3 class="item_title text-white">Phasellus porta pulvinar metus</h3>
+								<h3 class="item_title text-white">Has realidad tus sueños</h3>
 								<p>
-									Phasellus porta pulvinar metus, sit amet bibendum lectus hendrerit vel. Duis ullamcorper, justo quis hendrerit venenatis, purus mi volutpat dui, vel commodo urna eros eget sapien
+									Es el tiempo de que hagas ese viaje que tanto has planeado, reserva tu vehiculo con nosotros
 								</p>
-								<a class="text_btn text-uppercase mb-5" href="#!"><span>Find A Car</span> <img src="assets/images/icons/icon_02.png" alt="icon_not_found"></a>
+								<a class="text_btn text-uppercase mb-5" href="cars.php"><span>Reservar Ahora</span> <img src="assets/images/icons/icon_02.png" alt="icon_not_found"></a>
 							</div>
 						</div>
 					</div>

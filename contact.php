@@ -67,15 +67,15 @@ session_start();
 				<div class="page_title_area has_overlay d-flex align-items-center clearfix" data-bg-image="assets/images/breadcrumb/bg_06.jpg">
 					<div class="overlay"></div>
 					<div class="container" data-aos="fade-up" data-aos-delay="100">
-						<h1 class="page_title text-white mb-0">Contacts</h1>
+						<h1 class="page_title text-white mb-0">Contactanos</h1>
 					</div>
 				</div>
 				<div class="breadcrumb_nav clearfix" data-bg-color="#F2F2F2">
 					<div class="container">
 						<ul class="ul_li clearfix">
 							<li><a href="index.html">Home</a></li>
-							<li>Contact</li>
-							<li>Contact Simple</li>
+							<li>Contacto</li>
+							<li>Comunicate con Nosotros</li>
 						</ul>
 					</div>
 				</div>
@@ -109,7 +109,8 @@ session_start();
 										</a>
 									</div>
 									<p class="mb_30">
-										Mauris dignissim condimentum viverra. Curabitur blandit eu justo id porta
+										Easy Rent Car, donde rentar un vehículo es más fácil
+										El rent car de confianza para su próximo viaje.
 									</p>
 									<div class="image_wrap">
 										<img src="assets/images/about/img_02.jpg" alt="image_not_found">
@@ -119,15 +120,15 @@ session_start();
 
 							<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
 								<div class="content_area">
-									<h3 class="item_title text-white mb_30">Contact Details:</h3>
+									<h3 class="item_title text-white mb_30">Detalles de Contacto:</h3>
 									<ul class="ul_li_block mb_30 clearfix">
 										<li>
 											<i class="fas fa-map-marker-alt"></i>
-											Unit 9, Manor Industrial Estate, Lower Wash Lane, Warrington, WA4
+											Grupo 3 - Ingenieria de Software II, 2023-2, Universidad Autonoma de Santo Domingo UASD
 										</li>
-										<li><i class="fas fa-clock"></i> WH: 8:00am - 9:30pm</li>
-										<li><i class="fas fa-phone"></i> 01967 411232</li>
-										<li><i class="fas fa-envelope"></i> rotorseml@eml.fr</li>
+										<li><i class="fas fa-clock"></i> Horas: 7:00am - 9:30pm</li>
+										<li><i class="fas fa-phone"></i> +1(809)555-5555</li>
+										<li><i class="fas fa-envelope"></i> grupo3@est.uasd.edu.do</li>
 									</ul>
 									<form action="#">
 										<div class="form_item mb-0">
