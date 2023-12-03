@@ -133,6 +133,7 @@ include('./head.php');
 <?php include('./header.php'); ?>
 
 
+
 <!-- main body - start
 ================================================== -->
 <main>
@@ -250,7 +251,7 @@ include('./head.php');
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="500">
                                         <h4 class="input_title">Fecha de entrega</h4>
-                                        <input onchange="checkAvailability()" class="form-control <?php if (!empty($_POST['return_date'])) { echo "is-valid"; } ?>" type="date" name="return_date" value="<?php echo $_POST['return_date']; ?>" min="<?php echo date("Y-m-d"); ?>" <?php if (!empty($_POST['return_date'])) { echo "disabled"; } ?> required>
+                                        <input class="form-control <?php if (!empty($_POST['return_date'])) { echo "is-valid"; } ?>" type="date" name="return_date" value="<?php echo $_POST['return_date']; ?>" min="<?php echo date("Y-m-d"); ?>" <?php if (!empty($_POST['return_date'])) { echo "disabled"; } ?> required>
                                     </div>
                                 </div>
 
@@ -267,9 +268,7 @@ include('./head.php');
                                 <button type="submit" name="check_availability" id="check_availability" class="custom_btn bg_default_red text-uppercase">Verificar disponibilidad <img src="assets/images/icons/icon_01.png" alt="icon_not_found"></button>
                             </div>
 
-
                             <hr class="mt-0" data-aos="fade-up" data-aos-delay="700">
-
 
                         </form>
 

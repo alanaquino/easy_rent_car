@@ -4,7 +4,7 @@ session_start();
 // Login script
 include('controllers/login.php');
 
-//if (isset($_SESSION['id']) != "") {
+//if (isset($_SESSION['admin_id']) != "") {
 //    header("Location: account.php");
 //}
 

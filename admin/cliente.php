@@ -2,7 +2,7 @@
 
 session_start();
 
-if(isset($_SESSION['id']) =="") {
+if(isset($_SESSION['admin_id']) =="") {
     header("Location: login.php");
 }
 
@@ -33,7 +33,6 @@ if ($result->num_rows > 0) {
 } else {
     echo "falla en el query para buscar los CLIENTES";
 }
-
 
 // Get all the rentals
 $sql = "SELECT rentals.id,
@@ -239,7 +238,11 @@ function TimeAgo ($oldTime, $newTime) {
                                                     </thead>
                                                     <tbody>
 
-                                                    <?php foreach($rentals as $row){ ?>
+                                                    <?php
+                                                    // Check if $rentals is not empty before entering the loop
+                                                    if (!empty($rentals)) {
+                                                    foreach($rentals as $row){
+                                                        ?>
 
                                                         <tr>
                                                             <td><?php echo $row['id']; ?></td>
@@ -277,7 +280,13 @@ function TimeAgo ($oldTime, $newTime) {
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    <?php } ?>
+                                                        <?php
+                                                    }
+                                                    } else {
+                                                        // Display a message or take some other action if $rentals is empty
+                                                        echo '<tr><td colspan="7">No hay información de alquileres disponible.</td></tr>';
+                                                    }
+                                                    ?>
 
                                                     </tbody>
                                                 </table>

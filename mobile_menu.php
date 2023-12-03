@@ -33,9 +33,9 @@
 					</div>
 
 					<div class="booking_car_form">
-						<h3 class="title_text text-white mb-2">Book A Car</h3>
+						<h3 class="title_text text-white mb-2">Alquileres</h3>
 						<p class="mb_15">
-							¿Buscas un coche? Estás en el lugar adecuado
+							¿Buscas un auto? Estás en el lugar adecuado
 						</p>
 						<form autocomplete="off" action="cars.php">
 							<div class="form_item">

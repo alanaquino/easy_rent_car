@@ -99,32 +99,33 @@ if (isset($_POST['check_availability'])) {
     $pickup_date = $_POST['pickup_date'];
     $return_date = $_POST['return_date'];
 
-    $sql = "SELECT * FROM rentals WHERE car_id = '{$view_car_id}' AND (
-            (rental_start BETWEEN '{$pickup_date}' AND '{$return_date}')
-            OR (rental_end BETWEEN '{$pickup_date}' AND '{$return_date}')
-            OR (rental_start  <= '{$pickup_date}' AND rental_end >= '{$return_date}'))";
+    // Convertir las fechas a objetos DateTime para facilitar la comparación
+    $pickupDateTime = new DateTime($pickup_date);
+    $returnDateTime = new DateTime($return_date);
 
-    $result = $connection->query($sql);
-
-    if($result->num_rows > 0) {
-        $availability_status = "not_available";
-    } else {
-        $availability_status = "available";
-    }
-
-
-    if ($availability_status == 'not_available') {
+    // Verificar si la fecha de entrega es anterior o igual a la fecha de recogida
+    if ($returnDateTime <= $pickupDateTime) {
         $availability_allert = "<div class='alert alert-danger' role='alert'>
-                                         Vehículo no disponible para la fecha seleccionada. Por favor, seleccione otra fecha
-                                      </div>";
-        // header("Location: verificar_disponibilidad.php?id=".$view_car_id);
-
+                                    La fecha de entrega debe ser posterior a la fecha de recogida. <br>Por favor, seleccione otra fecha.
+                                </div>";
     } else {
-        $availability_allert = "<div class='alert alert-success' role='alert'>
-                                         Vehículo disponible para la fecha seleccionada. ¡Procede a reservar!
-                                      </div>";
-    }
+        $sql = "SELECT * FROM rentals WHERE car_id = '{$view_car_id}' AND (
+                (rental_start BETWEEN '{$pickup_date}' AND '{$return_date}')
+                OR (rental_end BETWEEN '{$pickup_date}' AND '{$return_date}')
+                OR (rental_start  <= '{$pickup_date}' AND rental_end >= '{$return_date}'))";
 
+        $result = $connection->query($sql);
+
+        if ($result->num_rows > 0) {
+            $availability_allert = "<div class='alert alert-danger' role='alert'>
+                                         Vehículo no disponible para la fecha seleccionada. <br>Por favor, seleccione otra fecha.
+                                      </div>";
+        } else {
+            $availability_allert = "<div class='alert alert-success' role='alert'>
+                                         Vehículo disponible para la fecha seleccionada. <br>¡Procede a reservar!
+                                      </div>";
+        }
+    }
 }
 
 
@@ -303,7 +304,14 @@ include('./head.php');
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="500">
                                         <h4 class="input_title">Fecha de entrega</h4>
-                                        <input class="form-control <?php if ($availability_status == 'available') { echo 'is-valid'; } ?>" type="date" name="res_return_date" value="<?php echo $_POST['return_date']; ?>" min="<?php echo date("Y-m-d"); ?>" required>
+                                        <input class="form-control <?php
+                                        if ($availability_status == 'available') {
+                                            echo 'is-valid';
+                                        }
+                                        elseif ($returnDateTime <= $pickupDateTime) {
+                                            echo 'is-invalid';
+                                        }
+                                        ?>" type="date" name="res_return_date" value="<?php echo $_POST['return_date']; ?>" min="<?php echo date("Y-m-d"); ?>" required>
                                     </div>
                                 </div>
 
