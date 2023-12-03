@@ -100,7 +100,7 @@ session_start();
 								<div class="item_icon">
 									<i class="far fa-shield-alt"></i>
 								</div>
-								<h3 class="item_title">Secured Payment Guarantee</h3>
+								<h3 class="item_title">Secured Payment Guaranteeeeeed</h3>
 								<p class="mb-0">
 									Vestibulum at ultrices elit. Maecenas faucibus vulputate vestibulum
 								</p>
