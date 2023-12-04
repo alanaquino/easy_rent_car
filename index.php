@@ -1,12 +1,11 @@
 <?php
+// Inicia la sesión de PHP
 session_start();
 
-
-// Database connection
+// Incluye el archivo de conexión a la base de datos
 include('config/db.php');
-// Hola, Soy Miguel
-// Somos duros!
-//Find all cars in the database
+
+// Consulta SQL para obtener información sobre los vehículos
 $sql = "SELECT 
             cars.id,
             vehicle_type,
@@ -29,36 +28,39 @@ $sql = "SELECT
         FROM cars
         INNER JOIN car_details
             ON cars.id = car_details.car_id
-		INNER JOIN car_locations
+        INNER JOIN car_locations
             ON cars.id = car_locations.car_id
         INNER JOIN locations
             ON car_locations.location_id = locations.id
         LIMIT 6";
 $result = $connection->query($sql);
 
+// Verifica si hay resultados en la consulta
 if ($result->num_rows > 0) {
-	// output data of each row
-	$cars = array();
-	while($row = $result->fetch_array()) {
-		$cars[] = $row;
-	}
+    // Almacena los datos de cada fila en un array llamado $cars
+    $cars = array();
+    while ($row = $result->fetch_array()) {
+        $cars[] = $row;
+    }
 } else {
-	echo "falla en el query para buscar los vehículos";
+    // Muestra un mensaje de error si no hay resultados en la consulta
+    echo "falla en el query para buscar los vehículos";
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
 
-<!-- Head -->
-<?php 
-	$title = "Easy Rent Car ";
-	include('./head.php'); 
+<!-- Cabecera -->
+<?php
+// Establece el título de la página
+$title = "Easy Rent Car ";
+// Incluye el archivo head.php, que probablemente contiene las etiquetas <head> de HTML
+include('./head.php');
 ?>
 
 
-	<body>
+
+<body>
 
 
 		<!-- backtotop - start -->

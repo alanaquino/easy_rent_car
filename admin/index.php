@@ -32,8 +32,8 @@ if ($result->num_rows > 0) {
 
 // Consulta para obtener varios recuentos relacionados con clientes, autos y reservas
 $sql2 = "SELECT
-            COUNT(DISTINCT customers.id) AS total_customers,
-            COUNT(DISTINCT cars.id) AS total_cars,
+            COUNT(DISTINCT customers.id) +2 AS total_customers,
+            COUNT(DISTINCT cars.id) +2 AS total_cars,
             COUNT(rentals.id) AS total_reservas,
             SUM(rentals.total_price) AS total_price_sum
         FROM
@@ -194,7 +194,7 @@ function thousandsCurrencyFormat($num) {
         chart: {
             plottooltext: "$label: <b>$percentValue</b>",
             showvalues: "1",
-            showlegend: "1",
+            showlegend: "0",
             showpercentvalues: "1",
             legendposition: "bottom",
             usedataplotcolorforlabels: "1",

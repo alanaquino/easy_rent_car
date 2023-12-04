@@ -138,43 +138,6 @@ session_start();
 							</div>
 						</div>
 
-						<!-- <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="service_primary text-center" data-aos="fade-up" data-aos-delay="100">
-								<div class="item_icon">
-									<i class="fas fa-briefcase"></i>
-								</div>
-								<h3 class="item_title">Corporate and Business Services</h3>
-								<p class="mb-0">
-									Vestibulum at ultrices elit. Maecenas faucibus vulputate vestibulum
-								</p>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="service_primary text-center" data-aos="fade-up" data-aos-delay="300">
-								<div class="item_icon">
-									<i class="fas fa-user-plus"></i>
-								</div>
-								<h3 class="item_title">Car Sharing Options</h3>
-								<p class="mb-0">
-									Vestibulum at ultrices elit. Maecenas faucibus vulputate vestibulum
-								</p>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="service_primary text-center" data-aos="fade-up" data-aos-delay="500">
-								<div class="item_icon">
-									<i class="fas fa-gem"></i>
-								</div>
-								<h3 class="item_title">Limousine and Chauffeur Hire</h3>
-								<p class="mb-0">
-									Vestibulum at ultrices elit. Maecenas faucibus vulputate vestibulum
-								</p>
-							</div>
-						</div>
-					</div> -->
-
 				</div>
 			</section>
 			<!-- service_section - end

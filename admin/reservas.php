@@ -198,7 +198,7 @@ function TimeAgo ($oldTime, $newTime) {
 
                                     <div class="d-grid gap-2">
                                         <a class="btn btn-primary btn-sm" href="reserva.php?id=<?php echo $row['id']; ?>" role="button">Ver</a>
-                                        <a class="btn btn-warning btn-sm" href="editar_reserva.php?id=<?php echo $row['id']; ?>" role="button">Editar</a>
+                                        <button type="button" class="btn btn-warning btn-sm " data-bs-toggle="modal" data-bs-target="#updateModal<?php echo $row['id']; ?>">Actualizar</button>
                                         <?php if ($row['status'] != "Reserva cancelada"): ?>
                                             <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#payModal<?php echo $row['id']; ?>">Pagar</button>
                                         <?php endif; ?>

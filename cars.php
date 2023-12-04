@@ -1,32 +1,31 @@
 <?php
+// Inicia la sesión de PHP
 session_start();
 
-// Database connection
+// Incluye el archivo de conexión a la base de datos
 include('config/db.php');
 
-
-// Retrieve filter values from POST data
+// Recupera los valores de filtro de datos POST
 $search_vehicle_type = $_GET['vehicle_type'] ?? '';
 $search_location = $_GET['location'] ?? '';
 $search_pickup_date = $_GET['pickup_date'] ?? '';
 $search_return_date = $_GET['return_date'] ?? '';
 $search_brand = $_GET['brand'] ?? '';
 $search_passengers = $_GET['passengers'] ?? '';
-
 $search_price_range = $_GET['price_range'] ?? '';
 
 $min_price = 0;
 $max_price = 0;
 
+// Procesa el rango de precios si está presente
 if (!empty($search_price_range)) {
-    // Extract the price range from the GET parameter
+    // Extrae el rango de precios del parámetro GET
     $price_range_values = explode(' - ', str_replace('$', '', $search_price_range));
     $min_price = intval($price_range_values[0]);
     $max_price = intval($price_range_values[1]);
 }
 
-
-//Find all cars in the database
+// Consulta SQL para obtener información sobre los vehículos
 $sql = "SELECT 
             cars.id,
             vehicle_type,
@@ -54,6 +53,7 @@ $sql = "SELECT
             ON car_locations.location_id = locations.id
         WHERE 1=1";
 
+// Agrega condiciones para cada filtro proporcionado por el usuario
 if (!empty($search_location)) {
     $sql .= " AND locations.name = '$search_location'";
 }
@@ -69,11 +69,13 @@ if (!empty($search_year)) {
 if (!empty($search_passengers)) {
     $sql .= " AND car_details.passengers = '$search_passengers'";
 }
-// Add condition for price range
+
+// Agrega condiciones para el rango de precios
 if ($min_price > 0 && $max_price > 0) {
     $sql .= " AND cars.daily_price BETWEEN $min_price AND $max_price";
 }
-// Add condition for price range
+
+// Agrega condiciones para las fechas de recogida y devolución
 if (!empty($search_pickup_date) && !empty($search_return_date)) {
     $sql .= " AND cars.id NOT IN (  SELECT car_id 
                                     FROM rentals 
@@ -85,27 +87,28 @@ if (!empty($search_pickup_date) && !empty($search_return_date)) {
                                 )";
 }
 
-
+// Ejecuta la consulta
 $result = $connection->query($sql);
 
+// Maneja errores en la ejecución de la consulta
 if ($result === false) {
-    // Handle the error here, such as logging it or showing an error message
+    // Maneja el error aquí, como registrarlo o mostrar un mensaje de error
     echo "Error executing query: " . $connection->error;
 } else {
     if ($result->num_rows > 0) {
-        // output data of each row
+        // Almacena los datos de cada fila en un array
         $data = array();
         while($row = $result->fetch_array()) {
             $data[] = $row;
         }
     } else {
-        // No rows returned
+        // No hay filas devueltas
         $mensaje = "No hay información de alquileres disponible con esos filtros.";
     }
 }
-
-
 ?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 

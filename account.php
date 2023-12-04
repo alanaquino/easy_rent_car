@@ -1,17 +1,20 @@
 <?php
-	
-	session_start();
-	
-	if(isset($_SESSION['id']) =="") {
-		header("Location: login.php");
-	}
+// Inicia la sesión de PHP
+session_start();
 
-	// Database connection
-	include('config/db.php');
+// Verifica si el usuario ha iniciado sesión
+if (isset($_SESSION['id']) == "") {
+    // Si no ha iniciado sesión, redirige a la página de inicio de sesión (login.php)
+    header("Location: login.php");
+}
 
+// Incluye el archivo de conexión a la base de datos
+include('config/db.php');
+
+// Obtiene el ID del cliente de la sesión actual
 $customer_id = $_SESSION['id'];
 
-// Get all the rentals
+// Consulta SQL para obtener información del cliente
 $sql = "SELECT 	firstname,
 				lastname,
 				email,
@@ -22,24 +25,28 @@ $sql = "SELECT 	firstname,
 			FROM customers
 			WHERE customers.id = '{$customer_id}'";
 
+// Ejecuta la consulta
 $result = $connection->query($sql);
 
+// Verifica si hay resultados en la consulta
 if ($result->num_rows > 0) {
-	// output data of each row
-	while($row = $result->fetch_assoc()) {
-		$firstname		=$row["firstname"];
-		$lastname		=$row["lastname"];
-		$email			=$row["email"];
-		$phone			=$row["phone"];
-		$nacionalidad	=$row["nacionalidad"];
-		$licencia_id	=$row["licencia_id"];
-		$address		=$row["address"];
-	}
+    // Recorre cada fila de resultados
+    while ($row = $result->fetch_assoc()) {
+        // Asigna los valores de la fila a variables
+        $firstname      = $row["firstname"];
+        $lastname       = $row["lastname"];
+        $email          = $row["email"];
+        $phone          = $row["phone"];
+        $nacionalidad   = $row["nacionalidad"];
+        $licencia_id    = $row["licencia_id"];
+        $address        = $row["address"];
+    }
 } else {
-	echo "falla en el query para buscar los datos del usuario";
+    // Si no hay resultados, muestra un mensaje de error
+    echo "falla en el query para buscar los datos del usuario";
 }
-
 ?>
+
 
 
 <!DOCTYPE html>

@@ -1,17 +1,19 @@
 <?php
-
+// Inicia la sesión para manejar datos de sesión
 session_start();
 
-if(!isset($_SESSION['email'])){ //if login in session is not set
+// Verifica si la variable de sesión 'email' está seteada, si no redirige a la página de login
+if (!isset($_SESSION['email'])) {
     header("Location: login.php");
 }
 
-// Database connection
+// Se incluye la conexión a la base de datos desde el archivo 'db.php'
 include('config/db.php');
 
-// Waits for the given Car ID
+// Obtiene el ID del coche seleccionado del formulario anterior
 $view_car_id = $_POST['val_car_selected'];
 
+// Consulta para obtener información detallada del coche seleccionado
 $sql = "SELECT 
             cars.brand, 
             cars.model, 
@@ -30,40 +32,40 @@ $sql = "SELECT
             locations.name,
             locations.address
         FROM cars
-        INNER JOIN car_details
-            ON cars.id = car_details.car_id
-        INNER JOIN car_locations
-            ON cars.id = car_locations.car_id
-        INNER JOIN locations
-            ON car_locations.location_id = locations.id
+        INNER JOIN car_details ON cars.id = car_details.car_id
+        INNER JOIN car_locations ON cars.id = car_locations.car_id
+        INNER JOIN locations ON car_locations.location_id = locations.id
         WHERE cars.id = '{$view_car_id}'";
 $result = $connection->query($sql);
 
+// Verifica si hay resultados en la consulta y asigna valores a variables
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        $brand=$row["brand"];
-        $model=$row["model"];
-        $level=$row["level"];
-        $year=$row["year"];
-        $type=$row["type"];
-        $foto_principal=$row["foto_principal"];
-        $daily_price=$row["daily_price"];
-        $passengers=$row["passengers"];
-        $suitcase=$row["suitcase"];
-        $doors=$row["doors"];
-        $engine=$row["engine"];
-        $fuel_type=$row["fuel_type"];
-        $options=$row["options"];
-        $location_name=$row["name"];
+        // Asigna los valores obtenidos a variables
+        $brand = $row["brand"];
+        $model = $row["model"];
+        $level = $row["level"];
+        $year = $row["year"];
+        $type = $row["type"];
+        $foto_principal = $row["foto_principal"];
+        $daily_price = $row["daily_price"];
+        $passengers = $row["passengers"];
+        $suitcase = $row["suitcase"];
+        $doors = $row["doors"];
+        $engine = $row["engine"];
+        $fuel_type = $row["fuel_type"];
+        $options = $row["options"];
+        $location_name = $row["name"];
     }
 } else {
     echo "falla en el query para buscar los datos del vehículo";
 }
 
+// Obtiene el ID del cliente desde la sesión
 $id_client = $_SESSION['id'];
 
-
+// Consulta para obtener información del cliente actual
 $sql = "SELECT 
             customers.firstname,
             customers.lastname, 
@@ -77,26 +79,27 @@ $sql = "SELECT
 
 $result4 = $connection->query($sql);
 
+// Verifica si hay resultados en la consulta y asigna valores a variables del cliente
 if ($result4->num_rows > 0) {
-    // output data of each row
     while($row = $result4->fetch_assoc()) {
-        $firstname     = $row['firstname'];
-        $lastname      = $row['lastname'];
-        $email         = $row['email'];
-        $phone         = $row['phone'];
-        $nacionalidad  = $row['nacionalidad'];
-        $licencia_id   = $row['licencia_id'];
-        $address       = $row['address'];
+        $firstname = $row['firstname'];
+        $lastname = $row['lastname'];
+        $email = $row['email'];
+        $phone = $row['phone'];
+        $nacionalidad = $row['nacionalidad'];
+        $licencia_id = $row['licencia_id'];
+        $address = $row['address'];
     }
 } else {
     echo "falla en el query para buscar los datos del cliente";
 }
 
+// Consulta para obtener información sobre servicios extra
 $sql = "SELECT * FROM `extra_services` ORDER BY obligatorio DESC,  tipo ASC";
 $result3 = $connection->query($sql);
 
+// Verifica si hay resultados en la consulta y almacena los servicios extra en un arreglo
 if ($result3->num_rows > 0) {
-    // output data of each row
     $extra_services = array();
     while($row = $result3->fetch_array()) {
         $extra_services[] = $row;
@@ -105,11 +108,12 @@ if ($result3->num_rows > 0) {
     echo "falla en el query para buscar extra_services";
 }
 
+// Consulta para obtener información de todas las ubicaciones
 $sql = "SELECT * FROM locations";
 $result2 = $connection->query($sql);
 
+// Verifica si hay resultados en la consulta y almacena las ubicaciones en un arreglo
 if ($result2->num_rows > 0) {
-    // output data of each row
     $locations_name = array();
     while($row = $result2->fetch_array()) {
         $locations_name[] = $row;
@@ -118,12 +122,14 @@ if ($result2->num_rows > 0) {
     echo "falla en el query para buscar las ubicaciones";
 }
 
+// Cierra la conexión a la base de datos
 $connection->close();
+
 
 // Get day from string in spanish PHP
 setlocale(LC_ALL,"es_ES");
 
-//Creating Function
+// Función para calcular el tiempo transcurrido
 function TimeAgo ($oldTime, $newTime) {
     $timeCalc = strtotime($newTime) - strtotime($oldTime);
     if ($timeCalc >= (60*60*24*30*12*2)){
@@ -151,7 +157,7 @@ function TimeAgo ($oldTime, $newTime) {
     }
     return $timeCalc;
 }
-
+// Calcula la diferencia de tiempo entre dos fechas
 function dateDiff($rental_start, $rental_end)
 {
     $date1_ts = strtotime($rental_start);

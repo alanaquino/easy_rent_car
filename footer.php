@@ -9,8 +9,8 @@
 							<div class="footer_about text-center" data-aos="fade-up" data-aos-delay="100">
 							
 								<div class="form_item mb-15">
-									<form action="#">
-										<input id="footer_search" type="search" name="search" placeholder="Search">
+									<form action="cars.php">
+										<input id="footer_search" type="search" name="brand" placeholder="Buscar...">
 										<label for="footer_search" class="input_icon"><i class="fal fa-search"></i></label>
 									</form>
 								</div>

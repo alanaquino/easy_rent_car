@@ -9,11 +9,10 @@ if(isset($_SESSION['id']) =="") {
 // Database connection
 include('config/db.php');
 
-
-
-// Waits for the given Car ID
+// Obtiene el ID de la reserva desde la variable $_REQUEST
 $view_rental_id = $_REQUEST['id'];
 
+// Consulta para obtener información detallada de la reserva y datos relacionados
 $sql = "SELECT rentals.id,
                rentals.created_at, 
                customers.firstname,
@@ -49,6 +48,7 @@ $sql = "SELECT rentals.id,
         WHERE rentals.id = '{$view_rental_id}'";
 $result = $connection->query($sql);
 
+// Verifica si hay resultados en la consulta y asigna valores a variables
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
@@ -82,12 +82,14 @@ if ($result->num_rows > 0) {
     echo "falla en el query para buscar la reserva";
 }
 
+// Consulta para obtener información de pagos relacionados con la reserva
 $sql = "SELECT id, tipo_pago, monto_pago, fecha_pago
         FROM rental_pagos
         WHERE rental_id = '{$view_rental_id}'";
 
 $result = $connection->query($sql);
 
+// Verifica si hay resultados en la consulta y asigna valores a variables de pagos
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
@@ -100,6 +102,7 @@ if ($result->num_rows > 0) {
     $error_msg2 = "No se ha registrado ningun pago para esta reserva";
 }
 
+// Consulta para obtener información sobre servicios extra asociados con la reserva
 $sql = "SELECT extra_services.detalles,
                extra_services.precio
         FROM rental_extra_services
@@ -120,8 +123,9 @@ if ($result2->num_rows > 0) {
     $error_msg = "No se han agregado extra services en esta reserva";
 }
 
-
-//Creating Function
+// Cierra la conexión a la base de datos
+$connection->close();
+// Función para calcular el tiempo transcurrido
 function TimeAgo ($oldTime, $newTime) {
     $timeCalc = strtotime($newTime) - strtotime($oldTime);
     if ($timeCalc >= (60*60*24*30*12*2)){
@@ -149,7 +153,7 @@ function TimeAgo ($oldTime, $newTime) {
     }
     return $timeCalc;
 }
-
+// Calcula la diferencia de tiempo entre dos fechas
 function dateDiff($rental_start, $rental_end)
 {
     $date1_ts = strtotime($rental_start);

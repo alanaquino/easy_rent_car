@@ -1,15 +1,16 @@
 <?php
-
+// Inicia la sesión de PHP
 session_start();
 
-// Database connection
+// Incluye el archivo de conexión a la base de datos
 include('config/db.php');
 
-// Waits for the given Car ID
+// Espera el ID del coche proporcionado en la solicitud (GET o POST)
 $view_car_id = $_REQUEST['id'];
 
+// Consulta SQL para obtener información detallada sobre el vehículo con el ID proporcionado
 $sql = "SELECT 
-    		cars.id,
+            cars.id,
             cars.brand, 
             cars.model, 
             cars.level, 
@@ -27,31 +28,35 @@ $sql = "SELECT
         INNER JOIN car_details
             ON cars.id = car_details.car_id
         WHERE cars.id = '{$view_car_id}'";
+
+// Ejecuta la consulta
 $result = $connection->query($sql);
 
+// Verifica si hay resultados en la consulta
 if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-		$id=$row["id"];
-        $brand=$row["brand"];
-        $model=$row["model"];
-        $level=$row["level"];
-        $year=$row["year"];
-        $type=$row["type"];
-        $foto_principal=$row["foto_principal"];
-        $daily_price=$row["daily_price"];
-        $passengers=$row["passengers"];
-        $suitcase=$row["suitcase"];
-        $doors=$row["doors"];
-        $engine=$row["engine"];
-        $fuel_type=$row["fuel_type"];
-        $options=$row["options"];
+    // Recorre cada fila de resultados
+    while ($row = $result->fetch_assoc()) {
+        $id = $row["id"];
+        $brand = $row["brand"];
+        $model = $row["model"];
+        $level = $row["level"];
+        $year = $row["year"];
+        $type = $row["type"];
+        $foto_principal = $row["foto_principal"];
+        $daily_price = $row["daily_price"];
+        $passengers = $row["passengers"];
+        $suitcase = $row["suitcase"];
+        $doors = $row["doors"];
+        $engine = $row["engine"];
+        $fuel_type = $row["fuel_type"];
+        $options = $row["options"];
     }
 } else {
+    // Si no hay resultados, muestra un mensaje de error
     echo "falla en el query para buscar los datos";
 }
-
 ?>
+
 
 
 <!DOCTYPE html>

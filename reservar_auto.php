@@ -1,19 +1,20 @@
 <?php
-
+// Inicia la sesión de PHP
 session_start();
 
-if(!isset($_SESSION['email'])){ //if login in session is not set
+// Verifica si no hay una sesión activa (usuario no ha iniciado sesión)
+if (!isset($_SESSION['email'])) {
+    // Redirecciona al usuario a la página de inicio de sesión
     header("Location: login.php");
 }
 
-// Database connection
+// Incluye el archivo de conexión a la base de datos
 include('config/db.php');
 
-// Waits for the given Car ID
+// Obtiene el ID del coche de la solicitud
 $view_car_id = $_REQUEST['id'];
 
-global $availability_allert;
-
+// Consulta SQL para obtener información detallada sobre el vehículo seleccionado
 $sql = "SELECT 
             cars.brand, 
             cars.model, 
@@ -41,60 +42,64 @@ $sql = "SELECT
         WHERE cars.id = '{$view_car_id}'";
 $result = $connection->query($sql);
 
+// Verifica si hay resultados en la consulta
 if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        $brand=$row["brand"];
-        $model=$row["model"];
-        $level=$row["level"];
-        $year=$row["year"];
-        $type=$row["type"];
-        $foto_principal=$row["foto_principal"];
-        $daily_price=$row["daily_price"];
-        $passengers=$row["passengers"];
-        $suitcase=$row["suitcase"];
-        $doors=$row["doors"];
-        $engine=$row["engine"];
-        $fuel_type=$row["fuel_type"];
-        $options=$row["options"];
-        $location_id=$row["location_id"];
-        $location_name=$row["name"];
+    // Almacena los datos del vehículo en variables
+    while ($row = $result->fetch_assoc()) {
+        $brand = $row["brand"];
+        $model = $row["model"];
+        $level = $row["level"];
+        $year = $row["year"];
+        $type = $row["type"];
+        $foto_principal = $row["foto_principal"];
+        $daily_price = $row["daily_price"];
+        $passengers = $row["passengers"];
+        $suitcase = $row["suitcase"];
+        $doors = $row["doors"];
+        $engine = $row["engine"];
+        $fuel_type = $row["fuel_type"];
+        $options = $row["options"];
+        $location_id = $row["location_id"];
+        $location_name = $row["name"];
     }
 } else {
     echo "falla en el query para buscar los datos";
 }
 
-
+// Consulta SQL para obtener todas las ubicaciones
 $sql = "SELECT * FROM locations";
 $result2 = $connection->query($sql);
 
+// Verifica si hay resultados en la consulta
 if ($result2->num_rows > 0) {
-    // output data of each row
+    // Almacena los datos de ubicaciones en un array
     $locations_name = array();
-    while($row = $result2->fetch_array()) {
+    while ($row = $result2->fetch_array()) {
         $locations_name[] = $row;
     }
 } else {
     echo "falla en el query para buscar las ubicaciones";
 }
 
-$sql = "SELECT * FROM `extra_services` ORDER BY obligatorio DESC,  tipo ASC";
+// Consulta SQL para obtener todos los servicios adicionales
+$sql = "SELECT * FROM `extra_services` ORDER BY obligatorio DESC, tipo ASC";
 $result3 = $connection->query($sql);
 
+// Verifica si hay resultados en la consulta
 if ($result3->num_rows > 0) {
-    // output data of each row
+    // Almacena los datos de servicios adicionales en un array
     $extra_services = array();
-    while($row = $result3->fetch_array()) {
+    while ($row = $result3->fetch_array()) {
         $extra_services[] = $row;
     }
 } else {
     echo "falla en el query para buscar extra_services";
 }
 
-
+// Variable para almacenar el mensaje de disponibilidad
 $availability_allert = "";
 
-// Check if the car is available
+// Verifica si se ha enviado el formulario de verificación de disponibilidad
 if (isset($_POST['check_availability'])) {
     $pickup_date = $_POST['pickup_date'];
     $return_date = $_POST['return_date'];
@@ -103,12 +108,13 @@ if (isset($_POST['check_availability'])) {
     $pickupDateTime = new DateTime($pickup_date);
     $returnDateTime = new DateTime($return_date);
 
-    // Verificar si la fecha de entrega es anterior o igual a la fecha de recogida
+    // Verifica si la fecha de entrega es anterior o igual a la fecha de recogida
     if ($returnDateTime <= $pickupDateTime) {
         $availability_allert = "<div class='alert alert-danger' role='alert'>
                                     La fecha de entrega debe ser posterior a la fecha de recogida. <br>Por favor, seleccione otra fecha.
                                 </div>";
     } else {
+        // Consulta SQL para verificar la disponibilidad del coche en las fechas seleccionadas
         $sql = "SELECT * FROM rentals WHERE car_id = '{$view_car_id}' AND (
                 (rental_start BETWEEN '{$pickup_date}' AND '{$return_date}')
                 OR (rental_end BETWEEN '{$pickup_date}' AND '{$return_date}')
@@ -116,6 +122,7 @@ if (isset($_POST['check_availability'])) {
 
         $result = $connection->query($sql);
 
+        // Verifica si hay resultados en la consulta
         if ($result->num_rows > 0) {
             $availability_allert = "<div class='alert alert-danger' role='alert'>
                                          Vehículo no disponible para la fecha seleccionada. <br>Por favor, seleccione otra fecha.
@@ -128,11 +135,10 @@ if (isset($_POST['check_availability'])) {
     }
 }
 
-
+// Cierra la conexión a la base de datos
 $connection->close();
-
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -304,7 +310,9 @@ include('./head.php');
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="500">
                                         <h4 class="input_title">Fecha de entrega</h4>
+                                        <!-- Input para la fecha de entrega -->
                                         <input class="form-control <?php
+                                        // Aplica clases de validación según el estado de disponibilidad
                                         if ($availability_status == 'available') {
                                             echo 'is-valid';
                                         }
@@ -314,6 +322,7 @@ include('./head.php');
                                         ?>" type="date" name="res_return_date" value="<?php echo $_POST['return_date']; ?>" min="<?php echo date("Y-m-d"); ?>" required>
                                     </div>
                                 </div>
+
 
                                 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                                     <div class="form_item" data-aos="fade-up" data-aos-delay="600">
@@ -331,18 +340,22 @@ include('./head.php');
 
                             <hr class="mt-0" data-aos="fade-up" data-aos-delay="700">
 
-                            <div class="<?php if ($availability_status == 'available') { echo ""; } else { echo "d-none"; } ?>">
+                            <div class="<?php echo ($availability_status == 'available') ? '' : 'd-none'; ?>">
+                                <!-- Contenido de la etiqueta div -->
+                            </div>
 
-                                <div class="reservation_offer_checkbox">
+                            <div class="reservation_offer_checkbox">
+                                    <!-- Título de la sección -->
                                     <h4 class="input_title" data-aos="fade-up" data-aos-delay="800">Elija opciones adicionales</h4>
                                     <div class="row">
                                         <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12" data-aos="fade-up" data-aos-delay="900">
 
-                                            <?php if(!empty($extra_services)): ?>
-                                                <?php foreach($extra_services as $row): ?>
+                                            <?php if (!empty($extra_services)): ?>
+                                                <?php foreach ($extra_services as $row): ?>
+                                                    <!-- Checkbox para cada opción adicional -->
                                                     <div class="checkbox_input">
                                                         <label for="extra_srv_<?php echo $row['id']; ?>">
-                                                            <input type="checkbox" id="extra_srv_<?php echo $row['id']; ?>" name="res_extra_srv[]" <?php if($row['obligatorio'] == 1){ echo "checked";}; ?> value="<?php echo $row['id'].'|'.$row['detalles'].'|'.$row['precio']; ?>">
+                                                            <input type="checkbox" id="extra_srv_<?php echo $row['id']; ?>" name="res_extra_srv[]" <?php if ($row['obligatorio'] == 1) { echo "checked"; }; ?> value="<?php echo $row['id'] . '|' . $row['detalles'] . '|' . $row['precio']; ?>">
                                                             <?php echo $row['detalles']; ?>
                                                             <?php echo $row['precio']; ?>/día
                                                         </label>
@@ -351,14 +364,15 @@ include('./head.php');
                                             <?php endif; ?>
 
                                         </div>
-
                                     </div>
                                 </div>
+                            </div>
 
 
 
 
-                                <div class="reservation_customer_details">
+
+                            <div class="reservation_customer_details">
 
                                     <div data-aos="fade-up" data-aos-delay="100">
                                         <a class="terms_condition" href="#!"><i class="fas fa-info-circle mr-1"></i> Debe tener al menos 18 años para alquilar este vehículo</a>

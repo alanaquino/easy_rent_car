@@ -1,19 +1,22 @@
 <?php
-
+// Inicia la sesión para manejar datos de sesión
 session_start();
 
-if(!isset($_SESSION['email'])){ //if login in session is not set
+// Verifica si la variable de sesión 'email' no está seteada, redirige a la página de login
+if (!isset($_SESSION['email'])) {
     header("Location: login.php");
 }
 
-// Database connection
+// Incluye la conexión a la base de datos desde el archivo 'db.php'
 include('config/db.php');
 
-// Waits for the given Car ID
+// Obtiene el ID del coche desde la variable $_REQUEST
 $view_car_id = $_REQUEST['id'];
 
+// Variable global para el estado de disponibilidad (no está claro dónde se usa)
 global $availability_allert;
 
+// Consulta para obtener información detallada del coche seleccionado
 $sql = "SELECT 
             cars.brand, 
             cars.model, 
@@ -32,56 +35,56 @@ $sql = "SELECT
             locations.name,
             locations.address
         FROM cars
-        INNER JOIN car_details
-            ON cars.id = car_details.car_id
-        INNER JOIN car_locations
-            ON cars.id = car_locations.car_id
-        INNER JOIN locations
-            ON car_locations.location_id = locations.id
+        INNER JOIN car_details ON cars.id = car_details.car_id
+        INNER JOIN car_locations ON cars.id = car_locations.car_id
+        INNER JOIN locations ON car_locations.location_id = locations.id
         WHERE cars.id = '{$view_car_id}'";
 $result = $connection->query($sql);
 
+// Verifica si hay resultados en la consulta y asigna valores a variables
 if ($result->num_rows > 0) {
-    // output data of each row
     while($row = $result->fetch_assoc()) {
-        $brand=$row["brand"];
-        $model=$row["model"];
-        $level=$row["level"];
-        $year=$row["year"];
-        $type=$row["type"];
-        $foto_principal=$row["foto_principal"];
-        $daily_price=$row["daily_price"];
-        $passengers=$row["passengers"];
-        $suitcase=$row["suitcase"];
-        $doors=$row["doors"];
-        $engine=$row["engine"];
-        $fuel_type=$row["fuel_type"];
-        $options=$row["options"];
-        $location_id=$row["location_id"];
-        $location_name=$row["name"];
+        // Asigna los valores obtenidos a variables
+        $brand = $row["brand"];
+        $model = $row["model"];
+        $level = $row["level"];
+        $year = $row["year"];
+        $type = $row["type"];
+        $foto_principal = $row["foto_principal"];
+        $daily_price = $row["daily_price"];
+        $passengers = $row["passengers"];
+        $suitcase = $row["suitcase"];
+        $doors = $row["doors"];
+        $engine = $row["engine"];
+        $fuel_type = $row["fuel_type"];
+        $options = $row["options"];
+        $location_id = $row["location_id"];
+        $location_name = $row["name"];
     }
 } else {
     echo "falla en el query para buscar los datos";
 }
 
-
+// Consulta para obtener información de todas las ubicaciones
 $sql = "SELECT * FROM locations";
 $result2 = $connection->query($sql);
 
+// Verifica si hay resultados en la consulta y almacena las ubicaciones en un arreglo
 if ($result2->num_rows > 0) {
-    // output data of each row
     $locations_name = array();
     while($row = $result2->fetch_array()) {
+        // Almacena los valores obtenidos en un arreglo
         $locations_name[] = $row;
     }
 } else {
     echo "falla en el query para buscar las ubicaciones";
 }
 
-
+// Cierra la conexión a la base de datos
 $connection->close();
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">

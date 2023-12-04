@@ -2,19 +2,21 @@
 
 session_start();
 
+// Verifica si la sesión no está establecida y redirige a la página de inicio de sesión
 if(isset($_SESSION['id']) =="") {
     header("Location: login.php");
 }
 
-// Database connection
+// Conexión a la base de datos
 include('config/db.php');
 
+// Asigna el id del cliente a una variable
 $customer_id_s = $_SESSION['id'];
-
 
 $submit_allert = "";
 
 
+// Verifica si se ha enviado el formulario de reserva
 if(isset($_POST['submit_form'])) {
 
     // Get the form data
@@ -73,7 +75,7 @@ if(isset($_POST['submit_form'])) {
     }
 }
 
-// Get all the rentals
+// Consulta todas las reservas del usuario
 $sql = "SELECT rentals.id,
 				   rentals.created_at, 
 				   customers.id as id_cliente,
@@ -111,7 +113,7 @@ if ($result10->num_rows > 0) {
     echo "falla en el query para buscar los datos";
 }
 
-// Get all the upcoming rentals
+// Consulta las próximas reservas del usuario
 $sql = "SELECT rentals.id,
 					   rentals.created_at, 
 					   customers.id as id_cliente,
@@ -153,11 +155,11 @@ if ($result11->num_rows > 0) {
     $upc_reservations = "Aún no tiene reservas próximas";
 }
 
-// Close the database connection
+// Cierre de la conexión a la base de datos
 $connection->close();
 
 
-//Creating Function
+//Crea una funcion para calcular el tiempo transcurrido
 function TimeAgo ($oldTime, $newTime) {
     $timeCalc = strtotime($newTime) - strtotime($oldTime);
     if ($timeCalc >= (60*60*24*30*12*2)){
@@ -358,17 +360,7 @@ include('./head.php');
                                                 <div class="d-grid gap-2">
                                                     <a class="btn btn-primary btn-sm btn-block" href="ver_reserva.php?id=<?php echo $row['id']; ?>" role="button">Ver</a>
 
-                                                    <?php if ($row['status'] == "Reservado via web") { ?>
 
-                                                        <?php if ($row['status'] != "Reserva cancelada"): ?>
-                                                            <!-- Button trigger modal -->
-                                                            <br>
-                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal<?php echo $row['id']; ?>">
-                                                                Cancelar
-                                                            </button>
-                                                        <?php endif; ?>
-
-                                                    <?php } ?>
 
                                                 </div>
                                             </td>

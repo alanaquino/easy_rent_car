@@ -51,7 +51,7 @@
 										</div>
 										<ul class="ul_li_block clearfix">
 											<li><a href="account.php"><i class="fal fa-user-circle"></i> Perfil</a></li>
-											<li><a href="settings.php"><i class="fal fa-user-cog"></i> Ajustes</a></li>
+											<li><a href="account.php"><i class="fal fa-user-cog"></i> Ajustes</a></li>
 											<li><a href="logout.php"><i class="fal fa-sign-out"></i> Salir</a></li>
 										</ul>
 									</div>
@@ -67,21 +67,18 @@
 									
 									<?php }	?>	
 								</li>
-								
-								<script>
-								if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-								  // true for mobile device
-								  document.write("<li class='mobile_sidebar_btn'>	<button type='button' class='mobile_sidebar_btn'><i class='fal fa-align-right'></i></button></li>");
-								}
-								</script> 
 
-								
-								
-								
-								
-								
-								
-							</ul>
+                                <script>
+                                    // Verifica si el agente de usuario indica que el dispositivo es un dispositivo móvil
+                                    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                                        // Si es un dispositivo móvil, agrega un botón al documento HTML
+                                        document.write("<li class='mobile_sidebar_btn'><button type='button' class='mobile_sidebar_btn'><i class='fal fa-align-right'></i></button></li>");
+                                    }
+                                </script>
+
+
+
+                            </ul>
 						</div>
 
 						<div class="col-lg-6 col-md-12">
@@ -114,9 +111,9 @@
 			<div id="collapse_search_body" class="collapse_search_body collapse">
 				<div class="search_body">
 					<div class="container">
-						<form action="#">
+						<form action="cars.php">
 							<div class="form_item">
-								<input type="search" name="search" placeholder="Buscar...">
+								<input type="search" name="brand" id="brand" placeholder="Buscar...">
 								<button type="submit"><i class="fal fa-search"></i></button>
 							</div>
 						</form>

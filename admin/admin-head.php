@@ -58,7 +58,7 @@
                     <div class="collapse" id="collapseReserva" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="reservas.php">Ver reservas</a>
-                            <a class="nav-link" href="hacer_reserva.php">Hacer reserva</a>
+
                         </nav>
                     </div>
                     <a class="nav-link collapsed" href="vehiculos.php" data-bs-toggle="collapse" data-bs-target="#collapseVehiculos" aria-expanded="false" aria-controls="collapseLayouts">

@@ -95,7 +95,7 @@ if ($result->num_rows > 0) {
                                 <td>
                                     <div class="d-grid gap-2">
                                         <a class="btn btn-primary btn-sm" href="vehiculo.php?id=<?php echo $row['id']; ?>" role="button">Ver</a>
-                                        <a class="btn btn-warning btn-sm" href="editar_vehiculo.php?id=<?php echo $row['id']; ?>" role="button">Editar</a>
+
                                     </div>
                                 </td>
                             </tr>

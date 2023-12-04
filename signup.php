@@ -2,8 +2,6 @@
 
 include('./controllers/register.php');
 
-
-
 ?>
 
 <!DOCTYPE html>
